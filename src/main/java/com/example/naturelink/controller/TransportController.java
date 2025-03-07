@@ -3,11 +3,14 @@ package com.example.naturelink.controller;
 import com.example.naturelink.entity.Transport;
 import com.example.naturelink.service.ITransportService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Map;
+
 
 @RestController
 @RequestMapping("/transport")
@@ -17,15 +20,20 @@ public class TransportController {
     ITransportService transportService;
 
     @GetMapping
-    public List<Transport> getAllTransports() {
-        return transportService.getAllTransports();
+    public ResponseEntity<List<Transport>> getAllTransports() {
+        List<Transport> transports = transportService.getAllTransports();
+        return ResponseEntity.ok(transports); // 200 OK
     }
 
+
     @GetMapping("/{id}")
-    public ResponseEntity<Transport> getTransportById(@PathVariable Integer id) {
+    public ResponseEntity<?> getTransportById(@PathVariable Integer id) {
         Optional<Transport> transport = transportService.getTransportById(id);
-        return transport.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        return transport.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body((Transport) Map.of("message", "Transport not found"))); // Fix: Use Map for JSON response
     }
+
 
     @PostMapping("/add")
     public Transport addTransport(@RequestBody Transport transport) {
