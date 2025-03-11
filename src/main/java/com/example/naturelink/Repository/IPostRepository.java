@@ -1,4 +1,4 @@
-package com.example.naturelink.repository;
+package com.example.naturelink.Repository;
 
 import com.example.naturelink.Entity.Post;
 import org.springframework.data.jpa.repository.JpaRepository;

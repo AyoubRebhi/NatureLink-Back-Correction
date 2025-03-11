@@ -1,7 +1,7 @@
 package com.example.naturelink.Service;
 
 import com.example.naturelink.Entity.Food;
-import com.example.naturelink.repository.FoodRepository;
+import com.example.naturelink.Repository.FoodRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

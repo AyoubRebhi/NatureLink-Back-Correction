@@ -2,8 +2,8 @@ package com.example.naturelink.Service;
 
 import com.example.naturelink.Entity.Post;
 import com.example.naturelink.Entity.User;
-import com.example.naturelink.repository.IPostRepository;
-import com.example.naturelink.repository.IUserRepository;
+import com.example.naturelink.Repository.IPostRepository;
+import com.example.naturelink.Repository.IUserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -2,6 +2,7 @@ package com.example.naturelink.Controller;
 
 import com.example.naturelink.Entity.Comment;
 import com.example.naturelink.Service.CommentService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,9 +11,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/comments")
 public class CommentController {
+    private final CommentService commentService;
 
-
-    private CommentService commentService;
+    // Constructor injection
+    @Autowired
+    public CommentController(CommentService commentService) {
+        this.commentService = commentService;
+    }
 
     // Créer un commentaire
     @PostMapping
