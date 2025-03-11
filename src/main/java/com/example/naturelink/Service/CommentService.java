@@ -1,4 +1,5 @@
 package com.example.naturelink.Service;
+
 import com.example.naturelink.Entity.Comment;
 import com.example.naturelink.Entity.Post;
 import com.example.naturelink.Entity.User;
@@ -8,6 +9,7 @@ import com.example.naturelink.repository.IUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
