@@ -1,15 +1,22 @@
 package com.example.naturelink.service;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import com.example.naturelink.entity.Transport;
 import com.example.naturelink.repository.ITransportRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
 public class TransportService implements ITransportService{
     private final ITransportRepository transportRepository;
+    @Autowired
+    private Cloudinary cloudinary;
 
     public TransportService(ITransportRepository transportRepository) {
         this.transportRepository = transportRepository;
@@ -45,5 +52,16 @@ public class TransportService implements ITransportService{
     @Override
     public void deleteTransport(Integer id) {
         transportRepository.deleteById(id);
+    }
+
+    @Override
+    public Transport addTransportWithImage(Transport transport, MultipartFile imageFile) {
+        try {
+            Map uploadResult = cloudinary.uploader().upload(imageFile.getBytes(), ObjectUtils.emptyMap());
+            transport.setImgUrl((String) uploadResult.get("secure_url"));
+            return transportRepository.save(transport);
+        } catch (Exception e) {
+            throw new RuntimeException("Image upload failed", e);
+        }
     }
 }

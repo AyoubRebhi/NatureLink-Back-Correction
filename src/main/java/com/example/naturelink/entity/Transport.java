@@ -19,6 +19,8 @@ public class Transport {
     private Integer capacity;
     private Float pricePerKm;
     private Boolean available;
+    private String imgUrl; // New field for Cloudinary image URL
+
     public String getType() {
         return type;
     }
@@ -48,5 +50,12 @@ public class Transport {
 
     public void setAvailable(Boolean available) {
         this.available = available;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
     }
 }

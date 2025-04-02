@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,10 +14,10 @@ import java.util.Map;
 
 
 @RestController
+@CrossOrigin("*")
 @RequestMapping("/transport")
 public class TransportController {
     @Autowired
-
     ITransportService transportService;
 
     @GetMapping
@@ -55,4 +56,12 @@ public class TransportController {
         transportService.deleteTransport(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PostMapping(value = "/add-image", consumes = {"multipart/form-data"})
+    public ResponseEntity<Transport> addTransportWithImage(
+            @RequestPart("transport") Transport transport,
+            @RequestPart("image") MultipartFile imageFile) {
+        return ResponseEntity.ok(transportService.addTransportWithImage(transport, imageFile));
+    }
+
 }
