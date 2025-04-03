@@ -21,6 +21,14 @@ public class Transport {
     private Boolean available;
     private String imgUrl; // New field for Cloudinary image URL
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public String getType() {
         return type;
     }

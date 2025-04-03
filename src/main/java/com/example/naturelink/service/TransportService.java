@@ -64,4 +64,25 @@ public class TransportService implements ITransportService{
             throw new RuntimeException("Image upload failed", e);
         }
     }
+    @Override
+    public Transport updateTransportWithImage(Integer id, Transport transportDetails, MultipartFile imageFile) {
+        return transportRepository.findById(id).map(transport -> {
+            transport.setType(transportDetails.getType());
+            transport.setCapacity(transportDetails.getCapacity());
+            transport.setPricePerKm(transportDetails.getPricePerKm());
+            transport.setAvailable(transportDetails.getAvailable());
+
+            try {
+                if (imageFile != null && !imageFile.isEmpty()) {
+                    Map uploadResult = cloudinary.uploader().upload(imageFile.getBytes(), ObjectUtils.emptyMap());
+                    transport.setImgUrl((String) uploadResult.get("secure_url"));
+                }
+            } catch (Exception e) {
+                throw new RuntimeException("Image upload failed", e);
+            }
+
+            return transportRepository.save(transport);
+        }).orElseThrow(() -> new RuntimeException("Transport not found"));
+    }
+
 }

@@ -64,4 +64,18 @@ public class TransportController {
         return ResponseEntity.ok(transportService.addTransportWithImage(transport, imageFile));
     }
 
+    @PutMapping(value = "/update-image/{id}", consumes = {"multipart/form-data"})
+    public ResponseEntity<Transport> updateTransportWithImage(
+            @PathVariable Integer id,
+            @RequestPart("transport") Transport transport,
+            @RequestPart(value = "image", required = false) MultipartFile imageFile) {
+        try {
+            Transport updated = transportService.updateTransportWithImage(id, transport, imageFile);
+            return ResponseEntity.ok(updated);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
+
 }
