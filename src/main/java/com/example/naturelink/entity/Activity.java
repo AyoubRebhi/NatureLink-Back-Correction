@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -25,6 +26,16 @@ public class Activity {
     private String difficultyLevel;
     @ElementCollection
     private List<String> requiredEquipment;
+    @ElementCollection
+    private List<String> imageUrls = new ArrayList<>();
+    public List<String> getImageUrls() {
+        return imageUrls;
+    }
+
+    public void setImageUrls(List<String> imageUrls) {
+        this.imageUrls = imageUrls;
+    }
+
 
     public Integer getId() {
         return id;
