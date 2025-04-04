@@ -7,6 +7,7 @@ import com.example.naturelink.repository.IActivityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,7 @@ public class ActivityService implements IActivityService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Activity> getAllActivities() {
         return activityRepository.findAll();
     }
@@ -72,5 +74,39 @@ public class ActivityService implements IActivityService {
         activity.setImageUrls(uploadedImageUrls);
         return activityRepository.save(activity);
     }
+    public Activity updateActivityWithImages(Integer id, Activity activityDetails, List<MultipartFile> imageFiles) {
+        return activityRepository.findById(id).map(activity -> {
+            activity.setName(activityDetails.getName());
+            activity.setDescription(activityDetails.getDescription());
+            activity.setProviderId(activityDetails.getProviderId());
+            activity.setLocation(activityDetails.getLocation());
+            activity.setDuration(activityDetails.getDuration());
+            activity.setPrice(activityDetails.getPrice());
+            activity.setMaxParticipants(activityDetails.getMaxParticipants());
+            activity.setDifficultyLevel(activityDetails.getDifficultyLevel());
+            activity.setRequiredEquipment(activityDetails.getRequiredEquipment());
+
+            // 🔁 Preserve existing image URLs (passed from frontend)
+            List<String> existingImageUrls = activityDetails.getImageUrls() != null
+                    ? new ArrayList<>(activityDetails.getImageUrls())
+                    : new ArrayList<>();
+
+            // ➕ Upload new images if any and add to the list
+            if (imageFiles != null && !imageFiles.isEmpty()) {
+                for (MultipartFile file : imageFiles) {
+                    try {
+                        Map uploadResult = cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap());
+                        existingImageUrls.add((String) uploadResult.get("secure_url"));
+                    } catch (Exception e) {
+                        throw new RuntimeException("Failed to upload image", e);
+                    }
+                }
+            }
+
+            activity.setImageUrls(existingImageUrls);
+            return activityRepository.save(activity);
+        }).orElseThrow(() -> new RuntimeException("Activity not found"));
+    }
+
 
 }

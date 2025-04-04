@@ -24,10 +24,10 @@ public class Activity {
     private float price;
     private Integer maxParticipants;
     private String difficultyLevel;
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private List<String> requiredEquipment;
-    @ElementCollection
-    private List<String> imageUrls = new ArrayList<>();
+    @ElementCollection(fetch = FetchType.EAGER) // 👈 Force eager fetch
+    private List<String> imageUrls;
     public List<String> getImageUrls() {
         return imageUrls;
     }

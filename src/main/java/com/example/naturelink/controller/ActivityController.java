@@ -85,4 +85,18 @@ public class ActivityController {
                     .body(null);
         }
     }
+    @PutMapping(value = "/update-images/{id}", consumes = {"multipart/form-data"})
+    public ResponseEntity<Activity> updateActivityWithImages(
+            @PathVariable Integer id,
+            @RequestPart("activity") Activity activity,
+            @RequestPart(value = "images", required = false) List<MultipartFile> imageFiles) {
+
+        try {
+            Activity updated = activityServiceImpl.updateActivityWithImages(id, activity, imageFiles);
+            return ResponseEntity.ok(updated);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
 }
