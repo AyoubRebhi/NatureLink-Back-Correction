@@ -10,6 +10,7 @@ import java.util.List;
 @Getter
 @Data
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Post {
@@ -17,7 +18,10 @@ public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String content;
+    private String ImageUrl;
+
     private LocalDateTime dateCreated ;
 
     @ManyToOne

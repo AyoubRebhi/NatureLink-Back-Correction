@@ -3,7 +3,9 @@ package com.example.naturelink.Controller;
 import com.example.naturelink.Entity.Food;
 import com.example.naturelink.Service.FoodService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -23,15 +25,23 @@ public class FoodController {
         return foodService.getFoodById(id);
     }
 
-    @GetMapping("/destination/{destination}")
-    public List<Food> getFoodsByDestination(@PathVariable String destination) {
-        return foodService.getFoodsByDestination(destination);
+    @GetMapping("/byDestination/{destinationId}")
+    public List<Food> getFoodsByDestination(@PathVariable Long destinationId) {
+        return foodService.getFoodsByDestination(destinationId);
     }
 
-    @PostMapping
-    public Food addFood(@RequestBody Food food) {
-        return foodService.addFood(food);
+    @PostMapping(consumes = {"multipart/form-data"})
+    public ResponseEntity<Food> addFoodWithImage(
+            @RequestParam("name") String name,
+            @RequestParam("description") String description,
+            @RequestParam("season") String season,
+            @RequestParam("destinationId") Long destinationId,
+            @RequestParam(value = "image", required = false) MultipartFile image) {
+
+        Food food = foodService.addFoodWithImage(name, description, season, destinationId, image);
+        return ResponseEntity.ok(food);
     }
+
 
     @DeleteMapping("/{id}")
     public void deleteFood(@PathVariable Long id) {

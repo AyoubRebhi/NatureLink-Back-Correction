@@ -5,5 +5,7 @@ import java.util.List;
 
 public interface iClothingRepository extends JpaRepository<Clothing, Long> {
     List<Clothing> findByDestinationId(Long destinationId);
+
+    List<Clothing> findBySeason(String season);
 }
 
