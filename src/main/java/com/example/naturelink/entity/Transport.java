@@ -20,7 +20,9 @@ public class Transport {
     private Float pricePerKm;
     private Boolean available;
     private String imgUrl; // New field for Cloudinary image URL
-
+    private String description; // ✅ New field for promotional description
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
     public Integer getId() {
         return id;
     }

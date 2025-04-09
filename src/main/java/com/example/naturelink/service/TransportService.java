@@ -45,6 +45,7 @@ public class TransportService implements ITransportService{
             transport.setCapacity(transportDetails.getCapacity());
             transport.setPricePerKm(transportDetails.getPricePerKm());
             transport.setAvailable(transportDetails.getAvailable());
+            transport.setDescription(transportDetails.getDescription());
             return transportRepository.save(transport);
         }).orElseThrow(() -> new RuntimeException("Transport not found"));
     }
@@ -71,6 +72,7 @@ public class TransportService implements ITransportService{
             transport.setCapacity(transportDetails.getCapacity());
             transport.setPricePerKm(transportDetails.getPricePerKm());
             transport.setAvailable(transportDetails.getAvailable());
+            transport.setDescription(transportDetails.getDescription());
 
             try {
                 if (imageFile != null && !imageFile.isEmpty()) {
