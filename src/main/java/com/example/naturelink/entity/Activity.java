@@ -28,8 +28,28 @@ public class Activity {
     private List<String> requiredEquipment;
     @ElementCollection(fetch = FetchType.EAGER) // 👈 Force eager fetch
     private List<String> imageUrls;
+    // 🔥 New Fields for AI Matching
+    private String type; // e.g., Adventure, Relaxation, Cultural
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<String> mood; // e.g., ["adventurous", "nature", "explore"]
     public List<String> getImageUrls() {
         return imageUrls;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public List<String> getMood() {
+        return mood;
+    }
+
+    public void setMood(List<String> mood) {
+        this.mood = mood;
     }
 
     public void setImageUrls(List<String> imageUrls) {
