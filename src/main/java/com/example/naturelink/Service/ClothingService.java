@@ -81,4 +81,8 @@ public class ClothingService {
 
         return clothingRepository.save(clothing);
     }
+    public void deleteClothing(Long id) {
+        clothingRepository.deleteById(id);
+    }
+
 }

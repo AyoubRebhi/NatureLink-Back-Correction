@@ -43,4 +43,9 @@ public class ClothingController {
     public Clothing addClothing(@RequestBody Clothing clothing) {
         return clothingService.addClothing(clothing);
     }
+    @DeleteMapping("/{id}")
+    public void deleteclothing(@PathVariable Long id) {
+        clothingService.deleteClothing(id);
+    }
+
 }

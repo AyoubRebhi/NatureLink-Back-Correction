@@ -41,7 +41,7 @@ public class PostService {
                 Files.copy(image.getInputStream(), this.rootLocation.resolve(filename));
                 imageUrl = "/uploads/" + filename;
             } catch (IOException e) {
-           }
+            }
         }
 
         Post post = Post.builder()
