@@ -23,6 +23,9 @@ public class Visit {
     @JoinColumn(name = "guide_id")
     private TourGuide guide;
 
+    //@ManyToOne
+    //@JoinColumn(name = "user_id")
+//private User user;
 
     public Visit() {
     }

@@ -31,8 +31,10 @@ public class Restaurant {
 
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Menu> menus;
+    //@ManyToOne
+    //@JoinColumn(name = "user_id")
+    //private User user;
 
-    // Getter and Setter for 'id'
     public Long getId() {
         return id;
     }
@@ -41,7 +43,7 @@ public class Restaurant {
         this.id = id;
     }
 
-    // Getter and Setter for 'nom'
+
     public String getNom() {
         return nom;
     }
@@ -50,7 +52,7 @@ public class Restaurant {
         this.nom = nom;
     }
 
-    // Getter and Setter for 'description'
+
     public String getDescription() {
         return description;
     }
@@ -59,7 +61,7 @@ public class Restaurant {
         this.description = description;
     }
 
-    // Getter and Setter for 'localisation'
+
     public String getLocalisation() {
         return localisation;
     }
@@ -68,7 +70,7 @@ public class Restaurant {
         this.localisation = localisation;
     }
 
-    // Getter and Setter for 'typeCuisine'
+
     public String getTypeCuisine() {
         return typeCuisine;
     }
@@ -77,7 +79,7 @@ public class Restaurant {
         this.typeCuisine = typeCuisine;
     }
 
-    // Getter and Setter for 'horairesOuverture'
+
     public String getHorairesOuverture() {
         return horairesOuverture;
     }
@@ -86,7 +88,7 @@ public class Restaurant {
         this.horairesOuverture = horairesOuverture;
     }
 
-    // Getter and Setter for 'image'
+
     public String getImage() {
         return image;
     }
@@ -95,7 +97,7 @@ public class Restaurant {
         this.image = image;
     }
 
-    // Getter and Setter for 'menus'
+
     public List<Menu> getMenus() {
         return menus;
     }
@@ -104,7 +106,7 @@ public class Restaurant {
         this.menus = menus;
     }
 
-    // Constructor
+
     public Restaurant() {
     }
 

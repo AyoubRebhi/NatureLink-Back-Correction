@@ -21,21 +21,21 @@ public class MenuController {
         this.menuService = menuService;
     }
 
-    // Create a new menu
+
     @PostMapping
     public ResponseEntity<Menu> createMenu(@RequestBody Menu menu) {
         Menu createdMenu = menuService.createMenu(menu);
         return new ResponseEntity<>(createdMenu, HttpStatus.CREATED);
     }
 
-    // Get all menus
+
     @GetMapping
     public ResponseEntity<List<Menu>> getAllMenus() {
         List<Menu> menus = menuService.getAllMenus();
         return new ResponseEntity<>(menus, HttpStatus.OK);
     }
 
-    // Get a menu by ID
+
     @GetMapping("/{id}")
     public ResponseEntity<Menu> getMenuById(@PathVariable Long id) {
         Optional<Menu> menu = menuService.getMenuById(id);
@@ -43,7 +43,7 @@ public class MenuController {
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    // Update an existing menu
+
     @PutMapping("/{id}")
     public ResponseEntity<Menu> updateMenu(@PathVariable Long id, @RequestBody Menu menuDetails) {
         Optional<Menu> updatedMenu = menuService.updateMenu(id, menuDetails);
@@ -51,7 +51,7 @@ public class MenuController {
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    // Delete a menu
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteMenu(@PathVariable Long id) {
         boolean isDeleted = menuService.deleteMenu(id);

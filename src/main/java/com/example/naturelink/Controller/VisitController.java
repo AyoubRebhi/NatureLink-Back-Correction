@@ -37,7 +37,7 @@ public class VisitController {
         return ResponseEntity.ok(createdVisit);
     }
 
-    // Mettre à jour une visite existante
+
     @PutMapping("/{id}")
     public ResponseEntity<Visit> updateVisit(@PathVariable Integer id, @RequestBody Visit visit) {
         visit.setId(id); // Assurez-vous que l'ID correspond à celui passé dans l'URL
