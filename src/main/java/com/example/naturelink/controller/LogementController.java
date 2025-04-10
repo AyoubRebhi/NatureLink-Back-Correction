@@ -1,11 +1,15 @@
 package com.example.naturelink.controller;
 
+import com.example.naturelink.dto.LogementRequestDTO;
 import com.example.naturelink.entity.Logement;
 import com.example.naturelink.service.LogementService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,16 +35,29 @@ public class LogementController {
 
     // Add a new logement
     @PostMapping
-    public Logement addLogement(@RequestBody Logement logement) {
-        return logementService.addLogement(logement);
+    public Logement addLogement(@RequestBody LogementRequestDTO dto) {
+        return logementService.addLogement(dto);
     }
 
-    // Update an existing logement
     @PutMapping("/{id}")
-    public ResponseEntity<Logement> updateLogement(@PathVariable Integer id, @RequestBody Logement logementDetails) {
+    public ResponseEntity<Logement> updateLogement(
+            @PathVariable Integer id,
+            @Valid @RequestBody Logement logementDetails) {
         Logement updatedLogement = logementService.updateLogement(id, logementDetails);
         return ResponseEntity.ok(updatedLogement);
     }
+
+    //check availability by date
+    @GetMapping("/{id}/available")
+    public ResponseEntity<Boolean> isLogementAvailable(
+            @PathVariable Integer id,
+            @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
+
+        boolean isAvailable = logementService.isLogementAvailable(id, startDate, endDate);
+        return ResponseEntity.ok(isAvailable);
+    }
+
 
     // Delete a logement
     @DeleteMapping("/{id}")

@@ -1,14 +1,13 @@
 package com.example.naturelink.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.EnumType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Logement {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -17,18 +16,37 @@ public class Logement {
     private String description;
     private String location;
 
-    @Enumerated(EnumType.STRING)
-    private EquipementType equipment;
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @JoinTable(
+            name = "logement_equipements",
+            joinColumns = @JoinColumn(name = "logement_id"),
+            inverseJoinColumns = @JoinColumn(name = "equipement_id")
+    )
+    private List<Equipement> equipements = new ArrayList<>();
 
-    private Float price;
+    private Double price;
     private String image;
     private Integer proprietarield;
-
     private String phone;
     private String email;
     private String socialMedia;
 
-    // Getters and Setters
+    // New One-to-Many relationship: Logement has many Units
+    @OneToMany(mappedBy = "logement", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Unit> units;
+    @OneToMany(mappedBy = "logement", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Disponibility> disponibilities = new ArrayList<>();
+
+    public List<Disponibility> getDisponibilities() {
+        return disponibilities;
+    }
+
+    public void setDisponibilities(List<Disponibility> disponibilities) {
+        this.disponibilities = disponibilities;
+    }
+    // Getters and Setters for all fields, including the new ones
+
     public Integer getId() {
         return id;
     }
@@ -61,19 +79,19 @@ public class Logement {
         this.location = location;
     }
 
-    public EquipementType getEquipment() {
-        return equipment;
+    public List<Equipement> getEquipements() {
+        return equipements;
     }
 
-    public void setEquipment(EquipementType equipment) {
-        this.equipment = equipment;
+    public void setEquipements(List<Equipement> equipements) {
+        this.equipements = equipements;
     }
 
-    public Float getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(Float price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
@@ -115,5 +133,13 @@ public class Logement {
 
     public void setSocialMedia(String socialMedia) {
         this.socialMedia = socialMedia;
+    }
+
+    public List<Unit> getUnits() {
+        return units;
+    }
+
+    public void setUnits(List<Unit> units) {
+        this.units = units;
     }
 }
