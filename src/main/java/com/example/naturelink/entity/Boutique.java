@@ -3,19 +3,30 @@ package com.example.naturelink.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
+
+@Data
 @Entity
+
 public class Boutique {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private int id;
     private String nom;
     private String email;
     private String adresse;
     private String telephone;
+
+
+    @Lob
+    @Column(columnDefinition = "LONGTEXT")
     private String image;
+
 
     @OneToMany(mappedBy = "boutique", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 

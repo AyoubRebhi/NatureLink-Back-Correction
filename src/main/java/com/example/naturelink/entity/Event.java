@@ -18,6 +18,20 @@ public class Event {
     private String date;
     private int nbrplace;
 
+    @Lob
+    @Column(columnDefinition = "LONGTEXT")
+    private String image;
+
+
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     public String getFounder() {
         return founder;
     }

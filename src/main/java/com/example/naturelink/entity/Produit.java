@@ -3,7 +3,9 @@ package com.example.naturelink.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.Data;
 
+@Data
 @Entity
 public class Produit {
     @Id
@@ -12,6 +14,19 @@ public class Produit {
     private String nom;
 private int cost;
 private int offre;
+
+    @Lob
+    @Column(columnDefinition = "LONGTEXT")
+    private String image;
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     @ManyToOne
     @JoinColumn(name = "boutique_id")
     @JsonBackReference

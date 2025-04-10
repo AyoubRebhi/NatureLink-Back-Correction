@@ -50,13 +50,14 @@ public class EventController {
     updatedEvent.setFounder(event.getFounder());
     updatedEvent.setNbrplace(event.getNbrplace());
     updatedEvent.setTitle(event.getTitle());
+    updatedEvent.setImage(event.getImage());
         Event event1 = eventService.updateEvent(updatedEvent);
 return ResponseEntity.ok(event1);
     }
 
 
 
-    @DeleteMapping("/All/{id}")
+    @DeleteMapping("/All/delete/{id}")
     public ResponseEntity<Event> deleteEvent(@PathVariable int id) {
         Event event = eventService.getEventById(id);
         if (event == null) {
