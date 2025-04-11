@@ -26,6 +26,9 @@ public class PostService {
 
     // Créer un post
 
+
+
+
     private final Path rootLocation = Paths.get("uploads");
 
     public Post createPost(String content, MultipartFile image, Long userId) {
@@ -66,6 +69,8 @@ public class PostService {
 
     // Supprimer un post
     public void deletePost(Long id) {
-        postRepository.deleteById(id);
-    }
+        // Option 1: Suppression via cascade (automatique avec JPA)
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Post not found"));
+        postRepository.delete(post);}
 }

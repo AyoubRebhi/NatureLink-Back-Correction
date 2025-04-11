@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,6 +22,9 @@ import java.util.UUID;
 public class FoodService {
     @Autowired
     private FoodRepository foodRepository;
+    @Autowired
+    private IDestinationRepository DestinationRepository;
+
     @Autowired
     private WeatherService weatherService;
     @Autowired
@@ -39,10 +43,8 @@ public class FoodService {
     }
 
     public List<Food> getFoodsByDestination(Long destinationId) {
-        // Récupère la destination et sa ville
-        Destination destination = foodRepository.findById(destinationId)
-                .map(Food::getDestination)
-                .orElse(null);
+        // Récupère la destination
+        Destination destination = destinationRepository.findById(destinationId).orElse(null);
 
         if (destination == null) {
             return List.of();  // Retourner une liste vide si destination non trouvée
@@ -51,8 +53,8 @@ public class FoodService {
         // Récupère la saison à partir de la ville de la destination
         String season = weatherService.getCurrentSeason(destination.getNom());
 
-        // Filtrer les plats par saison
-        return foodRepository.findBySeason(season);
+        // Récupère les plats par saison ET par destinationId
+        return foodRepository.findBySeasonAndDestinationId(season, destinationId);
     }
 
 
@@ -98,4 +100,60 @@ public class FoodService {
     public void deleteFood(Long id) {
         foodRepository.deleteById(id);
     }
+
+    public Food updateFood(Long id, String nom, String description, String season,
+                           Long destinationId, MultipartFile file) {
+
+        // 1. Trouver l'aliment existant
+        Food existingFood = foodRepository.findById(id).orElse(null);
+        if (existingFood == null) {
+            return null;
+        }
+
+        // 2. Trouver la destination
+        Destination destination = destinationRepository.findById(destinationId).orElse(null);
+        if (destination == null) {
+            return null;
+        }
+
+        // 3. Mettre à jour les champs de base
+        existingFood.setNom(nom);
+        existingFood.setDescription(description);
+        existingFood.setSeason(season);
+        existingFood.setDestination(destination);
+
+        // 4. Gestion de l'image
+        if (file != null && !file.isEmpty()) {
+            try {
+                // Créer le répertoire s'il n'existe pas
+                if (!Files.exists(rootLocation)) {
+                    Files.createDirectories(rootLocation);
+                }
+
+                // Supprimer l'ancienne image si elle existe
+                if (existingFood.getImageUrl() != null) {
+                    Path oldImagePath = Paths.get("." + existingFood.getImageUrl());
+                    Files.deleteIfExists(oldImagePath);
+                }
+
+                // Générer un nouveau nom de fichier unique
+                String filename = UUID.randomUUID() + "_" + file.getOriginalFilename();
+                Path destinationFile = rootLocation.resolve(filename);
+
+                // Copier le nouveau fichier
+                Files.copy(file.getInputStream(), destinationFile, StandardCopyOption.REPLACE_EXISTING);
+
+                // Mettre à jour l'URL de l'image
+                existingFood.setImageUrl("/uploads/" + filename);
+
+            } catch (IOException e) {
+                // Log l'erreur mais continuer sans mettre à jour l'image
+                System.err.println("Erreur lors de la mise à jour de l'image: " + e.getMessage());
+            }
+        }
+
+        // 5. Sauvegarder les modifications
+        return foodRepository.save(existingFood);
+    }
+
 }

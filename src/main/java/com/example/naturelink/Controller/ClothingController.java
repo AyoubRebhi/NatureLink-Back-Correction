@@ -2,7 +2,8 @@ package com.example.naturelink.Controller;
 
 import com.example.naturelink.Entity.Clothing;
 import com.example.naturelink.Service.ClothingService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -11,13 +12,19 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/clothing")
+@RequiredArgsConstructor
 public class ClothingController {
-    @Autowired
-    private ClothingService clothingService;
+    private final ClothingService clothingService;
 
     @GetMapping
     public List<Clothing> getAllClothingItems() {
         return clothingService.getAllClothingItems();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Clothing> getClothingById(@PathVariable Long id) {
+        Clothing clothing = clothingService.getClothingById(id);
+        return ResponseEntity.ok(clothing);
     }
 
     @GetMapping("/destination/{destinationId}")
@@ -25,8 +32,7 @@ public class ClothingController {
         return clothingService.getClothingsByDestination(destinationId);
     }
 
-    // Nouvelle méthode pour ajouter avec image
-    @PostMapping(consumes = {"multipart/form-data"})
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Clothing> addClothingWithImage(
             @RequestParam("name") String name,
             @RequestParam("description") String description,
@@ -38,14 +44,21 @@ public class ClothingController {
         return ResponseEntity.ok(clothing);
     }
 
-    // Garder l'ancienne méthode pour la compatibilité
-    @PostMapping("/json")
-    public Clothing addClothing(@RequestBody Clothing clothing) {
-        return clothingService.addClothing(clothing);
-    }
-    @DeleteMapping("/{id}")
-    public void deleteclothing(@PathVariable Long id) {
-        clothingService.deleteClothing(id);
+    @PutMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Clothing> updateClothing(
+            @PathVariable Long id,
+            @RequestParam("name") String name,
+            @RequestParam("description") String description,
+            @RequestParam("season") String season,
+            @RequestParam("destinationId") Long destinationId,
+            @RequestParam(value = "file", required = false) MultipartFile file) {
+
+        Clothing updatedClothing = clothingService.updateClothing(id, name, description, season, destinationId, file);
+        return ResponseEntity.ok(updatedClothing);
     }
 
+    @DeleteMapping("/{id}")
+    public void deleteClothing(@PathVariable Long id) {
+        clothingService.deleteClothing(id);
+    }
 }

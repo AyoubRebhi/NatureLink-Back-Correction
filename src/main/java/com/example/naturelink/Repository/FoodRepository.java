@@ -10,6 +10,8 @@ import java.util.List;
 public interface FoodRepository extends JpaRepository<Food, Long> {
     List<Food> findByDestinationNom(String destination);
     List<Food> findBySeason(String season);
+    List<Food> findBySeasonAndDestinationId(String season, Long destinationId);
+
 
 }
 

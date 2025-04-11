@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.UUID;
 
@@ -34,16 +35,17 @@ public class ClothingService {
     }
 
     public List<Clothing> getClothingsByDestination(Long destinationId) {
-        Destination destination = clothingRepository.findById(destinationId)
-                .map(Clothing::getDestination)
-                .orElse(null);
+        Destination destination = destinationRepository.findById(destinationId).orElse(null);
 
         if (destination == null) {
-            return List.of();
+            return List.of();  // Retourner une liste vide si destination non trouvée
         }
 
+        // Récupère la saison à partir de la ville de la destination
         String season = weatherService.getCurrentSeason(destination.getNom());
-        return clothingRepository.findBySeason(season);
+
+        // Récupère les plats par saison ET par destinationId
+        return clothingRepository.findBySeasonAndDestinationId(season, destinationId);
     }
 
     public Clothing addClothing(Clothing clothing) {
@@ -84,5 +86,104 @@ public class ClothingService {
     public void deleteClothing(Long id) {
         clothingRepository.deleteById(id);
     }
+    public Clothing updateClothingWithImage(Long id, String name, String description,
+                                            String season, Long destinationId,
+                                            MultipartFile image) {
+        return clothingRepository.findById(id)
+                .map(existingClothing -> {
+                    // Update basic fields
+                    existingClothing.setName(name);
+                    existingClothing.setDescription(description);
+                    existingClothing.setSeason(season);
 
+                    // Update destination if needed
+                    if (destinationId != null) {
+                        Destination destination = destinationRepository.findById(destinationId)
+                                .orElseThrow(() -> new RuntimeException("Destination not found"));
+                        existingClothing.setDestination(destination);
+                    }
+
+                    // Handle image update if provided
+                    if (image != null && !image.isEmpty()) {
+                        try {
+                            // Delete old image if exists
+                            if (existingClothing.getImageUrl() != null) {
+                                String oldFilename = existingClothing.getImageUrl().replace("/uploads/", "");
+                                Path oldFile = rootLocation.resolve(oldFilename);
+                                Files.deleteIfExists(oldFile);
+                            }
+
+                            // Save new image
+                            String filename = UUID.randomUUID() + "_" + image.getOriginalFilename();
+                            Files.copy(image.getInputStream(), this.rootLocation.resolve(filename));
+                            existingClothing.setImageUrl("/uploads/" + filename);
+                        } catch (IOException e) {
+                            throw new RuntimeException("Failed to update image: " + e.getMessage());
+                        }
+                    }
+
+                    return clothingRepository.save(existingClothing);
+                })
+                .orElseThrow(() -> new RuntimeException("Clothing not found with id: " + id));
+    }
+    public Clothing getClothingById(Long id) {
+        return clothingRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Clothing not found with id: " + id));
+    }
+
+
+
+    public Clothing updateClothing(Long id, String name, String description, String season,
+                                   Long destinationId, MultipartFile file) {
+        Clothing existingClothing = clothingRepository.findById(id).orElse(null);
+        if (existingClothing == null) {
+            return null;
+        }
+
+        Destination destination = destinationRepository.findById(destinationId).orElse(null);
+        if (destination == null) {
+            return null;
+        }
+
+        // Sauvegarder l'ancienne URL
+        String oldImageUrl = existingClothing.getImageUrl();
+
+        // Mettre à jour les champs
+        existingClothing.setName(name);
+        existingClothing.setDescription(description);
+        existingClothing.setSeason(season);
+        existingClothing.setDestination(destination);
+
+        // Gestion de l'image
+
+        if (file != null && !file.isEmpty()) {
+            try {
+                // Créer le répertoire s'il n'existe pas
+                if (!Files.exists(rootLocation)) {
+                    Files.createDirectories(rootLocation);
+                }
+
+                // Supprimer l'ancienne image si elle existe
+                if (existingClothing.getImageUrl() != null) {
+                    Path oldImagePath = Paths.get("." + existingClothing.getImageUrl());
+                    Files.deleteIfExists(oldImagePath);
+                }
+
+                // Générer un nouveau nom de fichier unique
+                String filename = UUID.randomUUID() + "_" + file.getOriginalFilename();
+                Path destinationFile = rootLocation.resolve(filename);
+
+                // Copier le nouveau fichier
+                Files.copy(file.getInputStream(), destinationFile, StandardCopyOption.REPLACE_EXISTING);
+
+                // Mettre à jour l'URL de l'image
+                existingClothing.setImageUrl("/uploads/" + filename);
+            } catch (IOException e) {
+                existingClothing.setImageUrl(oldImageUrl);
+                System.err.println("Failed to update image: " + e.getMessage());
+            }
+        }
+
+        return clothingRepository.save(existingClothing);
+    }
 }
