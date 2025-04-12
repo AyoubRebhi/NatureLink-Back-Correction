@@ -2,6 +2,7 @@ package com.example.naturelink.controller;
 
 import com.example.naturelink.entity.Activity;
 import com.example.naturelink.service.ActivityService;
+import com.example.naturelink.service.GroqService;
 import com.example.naturelink.service.IActivityService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,10 +21,21 @@ public class ActivityController {
     private final IActivityService activityService;
     private final com.example.naturelink.service.ActivityService activityServiceImpl;
 
-
-    public ActivityController(IActivityService activityService, ActivityService activityServiceImpl) {
+    private final com.example.naturelink.service.GroqService groqService;
+    public ActivityController(IActivityService activityService, ActivityService activityServiceImpl, GroqService groqService) {
         this.activityService = activityService;
         this.activityServiceImpl = activityServiceImpl;
+        this.groqService = groqService;
+    }
+    @PostMapping("/generate")
+    public ResponseEntity<String> generateActivity(@RequestBody Map<String, String> promptParams) {
+        try {
+            String response = groqService.generateActivityWithPrompt(promptParams);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Failed to generate activity: " + e.getMessage());
+        }
     }
 
     // Get all activities

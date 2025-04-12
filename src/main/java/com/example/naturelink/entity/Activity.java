@@ -32,6 +32,17 @@ public class Activity {
     private String type; // e.g., Adventure, Relaxation, Cultural
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> mood; // e.g., ["adventurous", "nature", "explore"]
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<String> tags;
+
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<String> tags) {
+        this.tags = tags;
+    }
+
     public List<String> getImageUrls() {
         return imageUrls;
     }

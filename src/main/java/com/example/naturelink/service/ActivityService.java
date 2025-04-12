@@ -55,6 +55,7 @@ public class ActivityService implements IActivityService {
             activity.setRequiredEquipment(activityDetails.getRequiredEquipment());
             activity.setMood(activityDetails.getMood());
             activity.setType(activityDetails.getType());
+            activity.setTags(activityDetails.getTags());
             return activityRepository.save(activity);
         }).orElseThrow(() -> new RuntimeException("Activity not found"));
     }
@@ -89,6 +90,7 @@ public class ActivityService implements IActivityService {
             activity.setRequiredEquipment(activityDetails.getRequiredEquipment());
             activity.setMood(activityDetails.getMood());
             activity.setType(activityDetails.getType());
+            activity.setTags(activityDetails.getTags());
 
             // 🔁 Preserve existing image URLs (passed from frontend)
             List<String> existingImageUrls = activityDetails.getImageUrls() != null
