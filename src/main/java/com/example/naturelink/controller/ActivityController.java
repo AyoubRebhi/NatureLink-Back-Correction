@@ -4,14 +4,20 @@ import com.example.naturelink.entity.Activity;
 import com.example.naturelink.service.ActivityService;
 import com.example.naturelink.service.GroqService;
 import com.example.naturelink.service.IActivityService;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import com.example.naturelink.dto.ActivityDTO;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 
 @RestController
 @CrossOrigin("*") // Optional: allow frontend access
@@ -96,4 +102,44 @@ public class ActivityController {
         }
     }
 
+    //Recommandation controller
+    @PostMapping("/recommend")
+    public ResponseEntity<?> recommendActivities(@RequestBody Map<String, String> userInput) {
+        List<Activity> allActivities = activityService.getAllActivities();
+
+        // 🔁 Convert to DTOs for AI microservice
+        List<ActivityDTO> dtoList = allActivities.stream().map(activity -> {
+            ActivityDTO dto = new ActivityDTO();
+            dto.setName(activity.getName());
+            dto.setDescription(activity.getDescription());
+            dto.setLocation(activity.getLocation());
+            dto.setDuration(activity.getDuration());
+            dto.setPrice(activity.getPrice());
+            dto.setMaxParticipants(activity.getMaxParticipants());
+            dto.setDifficultyLevel(activity.getDifficultyLevel());
+            dto.setType(activity.getType());
+            dto.setMood(activity.getMood());
+            dto.setTags(activity.getTags());
+            dto.setRequiredEquipment(activity.getRequiredEquipment());
+            return dto;
+        }).collect(Collectors.toList());
+
+        // 🌐 Call Python recommender
+        try {
+            WebClient client = WebClient.create("http://localhost:5005");
+            return client.post()
+                    .uri("/recommend")
+                    .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                    .bodyValue(Map.of(
+                            "mood_input", userInput.get("mood_input"),
+                            "activities", dtoList
+                    ))
+                    .retrieve()
+                    .toEntity(String.class)
+                    .block();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Recommendation engine error: " + e.getMessage());
+        }
+    }
 }
