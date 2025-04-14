@@ -55,23 +55,8 @@ public class ActivityController {
     }
 
     // Add new activity
-    @PostMapping("/add")
-    public ResponseEntity<Activity> addActivity(@RequestBody Activity activity) {
-        Activity savedActivity = activityService.addActivity(activity);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedActivity);
-    }
 
     // Update an activity
-    @PutMapping("/{id}")
-    public ResponseEntity<?> updateActivity(@PathVariable Integer id, @RequestBody Activity activityDetails) {
-        try {
-            Activity updatedActivity = activityService.updateActivity(id, activityDetails);
-            return ResponseEntity.ok(updatedActivity);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("{\"message\": \"Activity not found\"}");
-        }
-    }
 
     // Delete an activity
     @DeleteMapping("/{id}")
