@@ -16,130 +16,84 @@ public class Logement {
     private String description;
     private String location;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @Enumerated(EnumType.STRING)
+    private LogementType type;
+
+    private Double price;
+    private Integer proprietarield;
+    private String phone;
+    private String email;
+    private String socialMedia;
+    private Integer capacity; // The new attribute
+
+    // House specific
+    private Integer singleRooms;
+    private Integer doubleRooms;
+    @ElementCollection
+    private List<String> images = new ArrayList<>();
+
+    public List<String> getImages() {
+        return images;
+    }
+
+    public void setImages(List<String> images) {
+        this.images = images;
+    }
+
+    // Change this to use the Equipement enum
+    @ManyToMany
     @JoinTable(
             name = "logement_equipements",
             joinColumns = @JoinColumn(name = "logement_id"),
             inverseJoinColumns = @JoinColumn(name = "equipement_id")
     )
     private List<Equipement> equipements = new ArrayList<>();
+    // Getters and Setters
 
-    private Double price;
-    private String image;
-    private Integer proprietarield;
-    private String phone;
-    private String email;
-    private String socialMedia;
+    public Integer getId() { return id; }
+    public void setId(Integer id) { this.id = id; }
 
-    // New One-to-Many relationship: Logement has many Units
-    @OneToMany(mappedBy = "logement", fetch = FetchType.LAZY)
-    @JsonIgnore
-    private List<Unit> units;
-    @OneToMany(mappedBy = "logement", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Disponibility> disponibilities = new ArrayList<>();
+    public String getTitre() { return titre; }
+    public void setTitre(String titre) { this.titre = titre; }
 
-    public List<Disponibility> getDisponibilities() {
-        return disponibilities;
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
+
+    public Integer getCapacity() {
+        return capacity;
     }
 
-    public void setDisponibilities(List<Disponibility> disponibilities) {
-        this.disponibilities = disponibilities;
-    }
-    // Getters and Setters for all fields, including the new ones
-
-    public Integer getId() {
-        return id;
+    public void setCapacity(Integer capacity) {
+        this.capacity = capacity;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    public String getLocation() { return location; }
+    public void setLocation(String location) { this.location = location; }
 
-    public String getTitre() {
-        return titre;
-    }
+    public LogementType getType() { return type; }
+    public void setType(LogementType type) { this.type = type; }
 
-    public void setTitre(String titre) {
-        this.titre = titre;
-    }
+    public Double getPrice() { return price; }
+    public void setPrice(Double price) { this.price = price; }
 
-    public String getDescription() {
-        return description;
-    }
+    public Integer getProprietarield() { return proprietarield; }
+    public void setProprietarield(Integer proprietarield) { this.proprietarield = proprietarield; }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+    public String getPhone() { return phone; }
+    public void setPhone(String phone) { this.phone = phone; }
 
-    public String getLocation() {
-        return location;
-    }
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
 
-    public void setLocation(String location) {
-        this.location = location;
-    }
+    public String getSocialMedia() { return socialMedia; }
+    public void setSocialMedia(String socialMedia) { this.socialMedia = socialMedia; }
 
-    public List<Equipement> getEquipements() {
-        return equipements;
-    }
+    public Integer getSingleRooms() { return singleRooms; }
+    public void setSingleRooms(Integer singleRooms) { this.singleRooms = singleRooms; }
 
-    public void setEquipements(List<Equipement> equipements) {
-        this.equipements = equipements;
-    }
+    public Integer getDoubleRooms() { return doubleRooms; }
+    public void setDoubleRooms(Integer doubleRooms) { this.doubleRooms = doubleRooms; }
 
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public Integer getProprietarield() {
-        return proprietarield;
-    }
-
-    public void setProprietarield(Integer proprietarield) {
-        this.proprietarield = proprietarield;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getSocialMedia() {
-        return socialMedia;
-    }
-
-    public void setSocialMedia(String socialMedia) {
-        this.socialMedia = socialMedia;
-    }
-
-    public List<Unit> getUnits() {
-        return units;
-    }
-
-    public void setUnits(List<Unit> units) {
-        this.units = units;
-    }
+    public List<Equipement> getEquipements() { return equipements; }
+    public void setEquipements(List<Equipement> equipements) { this.equipements = equipements; }
 }

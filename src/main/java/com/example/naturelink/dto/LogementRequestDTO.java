@@ -1,27 +1,39 @@
 package com.example.naturelink.dto;
 
-import jakarta.validation.constraints.NotBlank;
+import com.example.naturelink.entity.LogementType;
+
 import java.util.List;
 
 public class LogementRequestDTO {
 
-    @NotBlank
     private String titre;
-
-    @NotBlank
     private String description;
-
-    private String location; // Add location field
-    private double price;
+    private String location;
+    private LogementType type;  // Enum for type
+    private Double price;
     private String image;
     private Integer proprietarield;
     private String phone;
     private String email;
     private String socialMedia;
+    private Integer capacity; // The new attribute
+
+    private Integer singleRooms;
+    private Integer doubleRooms;
     private List<Integer> equipementIds;
     private List<String> newEquipements;
+    private List<String> images; // List of image URLs or paths
 
-    // Getters and Setters
+    // Getters and setters for all fields
+
+    public List<String> getImages() {
+        return images;
+    }
+
+    public void setImages(List<String> images) {
+        this.images = images;
+    }
+
     public String getTitre() {
         return titre;
     }
@@ -37,6 +49,14 @@ public class LogementRequestDTO {
     public void setDescription(String description) {
         this.description = description;
     }
+    public Integer getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(Integer capacity) {
+        this.capacity = capacity;
+    }
+
 
     public String getLocation() {
         return location;
@@ -46,11 +66,19 @@ public class LogementRequestDTO {
         this.location = location;
     }
 
-    public double getPrice() {
+    public LogementType getType() {
+        return type;
+    }
+
+    public void setType(LogementType type) {
+        this.type = type;
+    }
+
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
@@ -92,6 +120,22 @@ public class LogementRequestDTO {
 
     public void setSocialMedia(String socialMedia) {
         this.socialMedia = socialMedia;
+    }
+
+    public Integer getSingleRooms() {
+        return singleRooms;
+    }
+
+    public void setSingleRooms(Integer singleRooms) {
+        this.singleRooms = singleRooms;
+    }
+
+    public Integer getDoubleRooms() {
+        return doubleRooms;
+    }
+
+    public void setDoubleRooms(Integer doubleRooms) {
+        this.doubleRooms = doubleRooms;
     }
 
     public List<Integer> getEquipementIds() {

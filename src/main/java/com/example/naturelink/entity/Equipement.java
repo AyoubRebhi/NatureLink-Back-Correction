@@ -1,7 +1,6 @@
 package com.example.naturelink.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 
 @Entity
 public class Equipement {
@@ -10,10 +9,11 @@ public class Equipement {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotBlank(message = "Le nom de l'équipement est obligatoire")
-    private String nom;
+    private String name;
+    private String description;
 
-    // Getters and setters
+    // Getters and Setters
+
     public Integer getId() {
         return id;
     }
@@ -22,11 +22,19 @@ public class Equipement {
         this.id = id;
     }
 
-    public String getNom() {
-        return nom;
+    public String getName() {
+        return name;
     }
 
-    public void setNom(String nom) {
-        this.nom = nom;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

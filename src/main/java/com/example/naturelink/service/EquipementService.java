@@ -22,11 +22,23 @@ public class EquipementService {
         return equipementRepository.findById(id);
     }
 
-    public Equipement addEquipement(Equipement equipement) {
+    public Equipement createEquipement(Equipement equipement) {
+        return equipementRepository.save(equipement);
+    }
+
+    public Equipement updateEquipement(Integer id, Equipement equipementDetails) {
+        Equipement equipement = equipementRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Equipement not found"));
+
+        equipement.setName(equipementDetails.getName());
+        equipement.setDescription(equipementDetails.getDescription());
+
         return equipementRepository.save(equipement);
     }
 
     public void deleteEquipement(Integer id) {
-        equipementRepository.deleteById(id);
+        Equipement equipement = equipementRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Equipement not found"));
+        equipementRepository.delete(equipement);
     }
 }

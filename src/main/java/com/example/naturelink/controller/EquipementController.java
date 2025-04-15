@@ -2,15 +2,16 @@ package com.example.naturelink.controller;
 
 import com.example.naturelink.entity.Equipement;
 import com.example.naturelink.service.EquipementService;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/equipements")
+@RequestMapping("/equipements")
 public class EquipementController {
 
     @Autowired
@@ -22,18 +23,26 @@ public class EquipementController {
     }
 
     @GetMapping("/{id}")
-    public Optional<Equipement> getEquipementById(@PathVariable Integer id) {
-        return equipementService.getEquipementById(id);
+    public ResponseEntity<Equipement> getEquipementById(@PathVariable Integer id) {
+        Optional<Equipement> equipement = equipementService.getEquipementById(id);
+        return equipement.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public Equipement createEquipement(@Valid @RequestBody Equipement equipement) {
-        return equipementService.addEquipement(equipement);
+    public ResponseEntity<Equipement> createEquipement(@RequestBody Equipement equipement) {
+        Equipement createdEquipement = equipementService.createEquipement(equipement);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdEquipement);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<Equipement> updateEquipement(@PathVariable Integer id, @RequestBody Equipement equipementDetails) {
+        Equipement updatedEquipement = equipementService.updateEquipement(id, equipementDetails);
+        return ResponseEntity.ok(updatedEquipement);
+    }
 
     @DeleteMapping("/{id}")
-    public void deleteEquipement(@PathVariable Integer id) {
+    public ResponseEntity<Void> deleteEquipement(@PathVariable Integer id) {
         equipementService.deleteEquipement(id);
+        return ResponseEntity.noContent().build();
     }
 }
