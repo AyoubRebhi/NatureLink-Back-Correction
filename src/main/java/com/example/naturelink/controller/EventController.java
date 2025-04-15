@@ -2,8 +2,12 @@ package com.example.naturelink.controller;
 
 import com.example.naturelink.entity.Event;
 import com.example.naturelink.service.EventService;
+import com.example.naturelink.service.ExportPDFService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +20,20 @@ import java.util.List;
 @CrossOrigin("*")
 public class EventController {
     private final EventService eventService;
+    private final ExportPDFService exportPDFService;
+
+
+    @GetMapping("/export/pdf")
+    public ResponseEntity<InputStreamResource> exportAllEventsToPdf() {
+        var events = eventService.getAllEvents();
+        var pdf = exportPDFService.exportEventsToPdf(events);
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=events.pdf")
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(new InputStreamResource(pdf));
+    }
+
 
     @PostMapping("/add")
     public Event createEvent(@RequestBody Event event) {return eventService.createEvent(event);
