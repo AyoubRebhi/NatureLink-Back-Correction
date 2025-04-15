@@ -31,7 +31,7 @@ public class ReactionController {
 
         Post post = postRepository.findById(request.getPostId())
                 .orElseThrow(() -> new RuntimeException("Post not found"));
-        User user = userRepository.findById(request.getUserId())
+        User user = userRepository.findById(Math.toIntExact(request.getUserId()))
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         Optional<Reaction> existingReaction = reactionRepository.findByPostAndUser(post, user);

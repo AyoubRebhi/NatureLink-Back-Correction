@@ -25,7 +25,7 @@ public class CommentService {
 
 
     // Créer un commentaire
-    public Comment createComment(Comment comment, Long postId, Long userId) {
+    public Comment createComment(Comment comment, Long postId, Integer userId) {
         Post post = postRepository.findById(postId).orElseThrow(() -> new RuntimeException("Post not found"));
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
 

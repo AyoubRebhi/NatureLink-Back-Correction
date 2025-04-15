@@ -1,17 +1,12 @@
 package com.example.naturelink.Entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 
-// CarbonFootprint.java
 @Entity
 @Data
-
 public class CarbonFootprint {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,5 +17,12 @@ public class CarbonFootprint {
     private double carbonFootprint; // en kg CO2
     private LocalDateTime date;
 
-    // Getters et Setters
+    private String departurePoint;
+    private String arrivalPoint;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    // Constructeurs, getters et setters sont générés par Lombok @Data
 }

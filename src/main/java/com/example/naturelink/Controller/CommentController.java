@@ -23,7 +23,7 @@ public class CommentController {
     @PostMapping
     public ResponseEntity<Comment> createComment(@RequestBody Comment comment,
                                                  @RequestParam Long postId,
-                                                 @RequestParam Long userId) {
+                                                 @RequestParam Integer userId) {
         Comment createdComment = commentService.createComment(comment, postId, userId);
         return ResponseEntity.ok(createdComment);
     }

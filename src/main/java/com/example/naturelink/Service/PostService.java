@@ -31,7 +31,7 @@ public class PostService {
 
     private final Path rootLocation = Paths.get("uploads");
 
-    public Post createPost(String content, MultipartFile image, Long userId) {
+    public Post createPost(String content, MultipartFile image, Integer userId) {
         String imageUrl = null;
 
         if (image != null && !image.isEmpty()) {

@@ -9,11 +9,11 @@ public interface IUserService {
 
     List<User> getAllUsers();
 
-    Optional<User> getUserById(Long id);
+    Optional<User> getUserById(Integer id);
 
     User addUser(User user);
 
-    User updateUser(Long id, User user);
+    User updateUser(Integer id, User user);
 
-    void deleteUser(Long id);
+    void deleteUser(Integer id);
 }

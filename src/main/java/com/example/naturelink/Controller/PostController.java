@@ -29,7 +29,7 @@ public class PostController {
     @PostMapping(consumes = {"multipart/form-data"})
     public ResponseEntity<Post> createPost(
             @RequestParam("content") String content,
-            @RequestParam("userId") Long userId,
+            @RequestParam("userId") Integer userId,
             @RequestParam(value = "image", required = false) MultipartFile image) {
 
         Post post = postService.createPost(content, image, userId);

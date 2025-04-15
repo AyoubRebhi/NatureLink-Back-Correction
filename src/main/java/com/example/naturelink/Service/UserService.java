@@ -20,7 +20,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public Optional<User> getUserById(Long id) {
+    public Optional<User> getUserById(Integer id) {
         return userRepository.findById(id);
     }
 
@@ -30,7 +30,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public User updateUser(Long id, User user) {
+    public User updateUser(Integer id, User user) {
         if (userRepository.existsById(id)) {
             user.setId(id);
             return userRepository.save(user);
@@ -39,7 +39,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public void deleteUser(Long id) {
+    public void deleteUser(Integer id) {
         userRepository.deleteById(id);
     }
 }
