@@ -1,6 +1,9 @@
-package Controller;
-import Entity.TourGuide;
-import Service.TourGuideService;
+package com.example.naturelink.Controller;
+
+import com.example.naturelink.Entity.TourGuide;
+import com.example.naturelink.Service.TourGuideService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -8,37 +11,38 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/tourGuides")
+@RequestMapping("/api/tourguides")
 public class TourGuideController {
-    private final TourGuideService tourGuideService;
 
-    public TourGuideController(TourGuideService tourGuideService) {
-        this.tourGuideService = tourGuideService;
-    }
+    @Autowired
+    private TourGuideService tourGuideService;
 
 
     @PostMapping
-    public ResponseEntity<TourGuide> addTourGuide(@RequestBody TourGuide tourGuide) {
-        TourGuide createdGuide = tourGuideService.addTourGuide(tourGuide);
-        return ResponseEntity.ok(createdGuide);
+    public ResponseEntity<TourGuide> createTourGuide(@RequestBody TourGuide tourGuide) {
+        TourGuide savedGuide = tourGuideService.createTourGuide(tourGuide);
+        return new ResponseEntity<>(savedGuide, HttpStatus.CREATED);
     }
 
 
     @GetMapping
-    public ResponseEntity<List<TourGuide>> getAllTourGuides() {
-        return ResponseEntity.ok(tourGuideService.getAllTourGuides());
+    public List<TourGuide> getAllTourGuides() {
+        return tourGuideService.getAllTourGuides();
     }
 
 
     @GetMapping("/{id}")
     public ResponseEntity<TourGuide> getTourGuideById(@PathVariable Integer id) {
-        Optional<TourGuide> tourGuide = tourGuideService.getTourGuideById(id);
-        return tourGuide.map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+        Optional<TourGuide> guide = tourGuideService.getTourGuideById(id);
+        return guide.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
 
-
+    @PutMapping("/{id}")
+    public ResponseEntity<TourGuide> updateTourGuide(@PathVariable Integer id, @RequestBody TourGuide tourGuide) {
+        TourGuide updatedGuide = tourGuideService.updateTourGuide(id, tourGuide);
+        return ResponseEntity.ok(updatedGuide);
+    }
 
 
     @DeleteMapping("/{id}")

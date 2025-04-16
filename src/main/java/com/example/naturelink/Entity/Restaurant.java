@@ -1,18 +1,10 @@
-package Entity;
+package com.example.naturelink.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 import java.util.List;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "restaurant")
 public class Restaurant {
 
@@ -27,8 +19,73 @@ public class Restaurant {
     private String horairesOuverture;
     private String image;
 
-
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Menu> menus;
 
+    // Getters and setters
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getLocalisation() {
+        return localisation;
+    }
+
+    public void setLocalisation(String localisation) {
+        this.localisation = localisation;
+    }
+
+    public String getTypeCuisine() {
+        return typeCuisine;
+    }
+
+    public void setTypeCuisine(String typeCuisine) {
+        this.typeCuisine = typeCuisine;
+    }
+
+    public String getHorairesOuverture() {
+        return horairesOuverture;
+    }
+
+    public void setHorairesOuverture(String horairesOuverture) {
+        this.horairesOuverture = horairesOuverture;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public List<Menu> getMenus() {
+        return menus;
+    }
+
+    public void setMenus(List<Menu> menus) {
+        this.menus = menus;
+    }
 }

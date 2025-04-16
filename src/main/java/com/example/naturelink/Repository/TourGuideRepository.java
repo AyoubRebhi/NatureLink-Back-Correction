@@ -1,6 +1,6 @@
-package Repository;
+package com.example.naturelink.Repository;
 
-import Entity.TourGuide;
+import com.example.naturelink.Entity.TourGuide;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
