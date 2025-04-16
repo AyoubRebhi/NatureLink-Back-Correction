@@ -5,6 +5,7 @@ import com.example.naturelink.Entity.Equipement;
 import com.example.naturelink.Entity.Logement;
 import com.example.naturelink.Repository.ILogementRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -23,6 +24,10 @@ public class LogementService implements ILogementService {
 
     @Autowired
     private EquipementService equipementService;
+
+    @Autowired
+    private SimpMessagingTemplate messagingTemplate;
+
 
     @Override
     public List<Logement> getAllLogements() {
@@ -178,7 +183,6 @@ public class LogementService implements ILogementService {
             throw new RuntimeException("Error removing image from the server", e);
         }
     }
-
 
 
 }

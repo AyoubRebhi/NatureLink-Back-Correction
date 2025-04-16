@@ -12,6 +12,7 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -35,6 +36,8 @@ public class LogementController {
     @Autowired
     private EquipementService equipementService;
 
+    @Autowired
+    private SimpMessagingTemplate messagingTemplate;
 
 
     @GetMapping
@@ -51,6 +54,7 @@ public class LogementController {
     @PostMapping
     public ResponseEntity<Logement> createLogement(@RequestBody LogementRequestDTO logementDTO) {
         Logement createdLogement = logementService.addLogement(logementDTO);
+        messagingTemplate.convertAndSend("/topic/logements", createdLogement);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdLogement);
     }
 
@@ -122,6 +126,7 @@ public class LogementController {
             logement.setEquipements(equipements);
 
             Logement savedLogement = logementService.createLogement(logement);
+            messagingTemplate.convertAndSend("/topic/logements", savedLogement);
             return ResponseEntity.status(HttpStatus.CREATED).body(savedLogement);
 
         } catch (Exception e) {
@@ -256,6 +261,7 @@ public class LogementController {
 
             // Save the updated logement
             Logement updatedLogement = logementService.updateLogement(id, existingLogement);
+
             return ResponseEntity.ok(updatedLogement);
 
         } catch (Exception e) {

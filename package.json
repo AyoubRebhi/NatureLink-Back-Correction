@@ -1,5 +1,7 @@
 {
   "dependencies": {
-    "cors": "^2.8.5"
+    "@nestjs/websockets": "^11.0.20",
+    "cors": "^2.8.5",
+    "socket.io": "^4.8.1"
   }
 }
