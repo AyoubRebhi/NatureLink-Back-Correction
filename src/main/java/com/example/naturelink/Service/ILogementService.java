@@ -1,7 +1,7 @@
-package com.example.naturelink.service;
+package com.example.naturelink.Service;
 
 import com.example.naturelink.dto.LogementRequestDTO;
-import com.example.naturelink.entity.Logement;
+import com.example.naturelink.Entity.Logement;
 
 import java.util.List;
 import java.util.Optional;

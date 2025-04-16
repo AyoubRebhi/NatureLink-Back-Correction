@@ -1,11 +1,11 @@
-package com.example.naturelink.controller;
+package com.example.naturelink.Controller;
 
 import com.example.naturelink.dto.LogementRequestDTO;
-import com.example.naturelink.entity.Equipement;
-import com.example.naturelink.entity.Logement;
-import com.example.naturelink.entity.LogementType;
-import com.example.naturelink.service.EquipementService;
-import com.example.naturelink.service.LogementService;
+import com.example.naturelink.Entity.Equipement;
+import com.example.naturelink.Entity.Logement;
+import com.example.naturelink.Entity.LogementType;
+import com.example.naturelink.Service.EquipementService;
+import com.example.naturelink.Service.LogementService;
 import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
@@ -141,7 +141,7 @@ public class LogementController {
         Path filePath = Paths.get(uploadDir + fileName);
         Files.write(filePath, imageFile.getBytes());  // Save the file
 
-        return fileName;  // Return the file name to be stored in the Logement entity
+        return fileName;  // Return the file name to be stored in the Logement Entity
     }
     @GetMapping("/uploads/{filename}")
     public ResponseEntity<Resource> getImage(@PathVariable String filename) {

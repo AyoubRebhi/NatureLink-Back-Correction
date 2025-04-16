@@ -1,6 +1,6 @@
 package com.example.naturelink.dto;
 
-import com.example.naturelink.entity.LogementType;
+import com.example.naturelink.Entity.LogementType;
 
 import java.util.List;
 

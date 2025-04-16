@@ -1,7 +1,7 @@
-package com.example.naturelink.service;
+package com.example.naturelink.Service;
 
-import com.example.naturelink.entity.Equipement;
-import com.example.naturelink.repository.IEquipementRepository;
+import com.example.naturelink.Entity.Equipement;
+import com.example.naturelink.Repository.IEquipementRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,6 +1,6 @@
-package com.example.naturelink.service;
+package com.example.naturelink.Service;
 
-import com.example.naturelink.entity.Equipement;
+import com.example.naturelink.Entity.Equipement;
 
 import java.util.List;
 import java.util.Optional;
