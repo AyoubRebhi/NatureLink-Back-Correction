@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")  // Allow CORS for this controller
 @RequestMapping("/users")
 public class UserController {
 
