@@ -1,0 +1,162 @@
+[
+    {
+        "question": "hello",
+        "answer": "Hello! \ud83d\udc4b I\u2019m your NatureLink assistant. How can I help you today?"
+    },
+    {
+        "question": "hi",
+        "answer": "Hi there! \ud83c\udf3f Welcome to NatureLink. What can I do for you?"
+    },
+    {
+        "question": "hey",
+        "answer": "Hey! \ud83d\ude0a Ready to explore nature with us?"
+    },
+    {
+        "question": "good morning",
+        "answer": "Good morning! \u2600\ufe0f How can I assist you today?"
+    },
+    {
+        "question": "good evening",
+        "answer": "Good evening! \ud83c\udf19 Need help planning your next adventure?"
+    },
+    {
+        "question": "what is naturelink",
+        "answer": "NatureLink is your go-to agency for nature-inspired travel experiences and eco-friendly adventures!"
+    },
+    {
+        "question": "what do you offer",
+        "answer": "We offer curated nature trips, eco-tours, hiking packages, wildlife safaris, and sustainable travel options!"
+    },
+    {
+        "question": "who are you",
+        "answer": "I\u2019m your NatureLink assistant, here to help you discover amazing outdoor experiences!"
+    },
+    {
+        "question": "tell me about naturelink",
+        "answer": "NatureLink specializes in sustainable travel, offering unique nature retreats, guided hikes, and eco-conscious getaways."
+    },
+    {
+        "question": "are you a travel agency",
+        "answer": "Yes! We\u2019re a nature-focused travel agency promoting eco-friendly and adventure-packed trips."
+    },
+    {
+        "question": "how can i contact support",
+        "answer": "You can contact our support team at support@naturelink.com or through our website chat."
+    },
+    {
+        "question": "help",
+        "answer": "Of course! What do you need help with? Booking, cancellations, or general info?"
+    },
+    {
+        "question": "customer service",
+        "answer": "Our support team is available 24/7 at support@naturelink.com or +1 (800) 555-0199."
+    },
+    {
+        "question": "i need help",
+        "answer": "I\u2019m here to assist! What\u2019s your question? \ud83d\ude0a"
+    },
+    {
+        "question": "can i speak to a human",
+        "answer": "Sure! Call us at +1 (800) 555-0199 or email support@naturelink.com for direct assistance."
+    },
+    {
+        "question": "do you offer family packs",
+        "answer": "Yes! We offer family-friendly packs with activities suitable for all ages."
+    },
+    {
+        "question": "what packages do you have",
+        "answer": "We have adventure packs, solo traveler retreats, couple getaways, and group expeditions!"
+    },
+    {
+        "question": "how do i book a trip",
+        "answer": "You can book directly on our website or call us at +1 (800) 555-0199 for assistance."
+    },
+    {
+        "question": "are your trips refundable",
+        "answer": "Refund policies vary by package. Check our Terms or contact support for details."
+    },
+    {
+        "question": "do you have last-minute deals",
+        "answer": "Yes! Check our \u2018Deals\u2019 section for discounted last-minute bookings."
+    },
+    {
+        "question": "where do you offer trips",
+        "answer": "We operate in multiple locations, including national parks, forests, and exotic eco-resorts worldwide."
+    },
+    {
+        "question": "do you have hiking trips",
+        "answer": "Absolutely! We offer guided hikes, mountain treks, and wilderness trails."
+    },
+    {
+        "question": "best trip for beginners",
+        "answer": "Our \u2018Nature Starter Pack\u2019 is perfect for beginners\u2014light hiking, scenic views, and easy trails!"
+    },
+    {
+        "question": "do you offer international trips",
+        "answer": "Yes! We have global eco-tours in Costa Rica, Iceland, New Zealand, and more."
+    },
+    {
+        "question": "what\u2019s your most popular trip",
+        "answer": "The \u2018Amazon Rainforest Expedition\u2019 is a fan favorite! \ud83c\udf34"
+    },
+    {
+        "question": "are your trips expensive",
+        "answer": "We offer budget to premium options. Check our website for pricing tiers."
+    },
+    {
+        "question": "do you offer discounts",
+        "answer": "Yes! Students, seniors, and group bookings get discounts. Ask us for promo codes!"
+    },
+    {
+        "question": "how much is a basic pack",
+        "answer": "Basic packs start at $199. Check our website for detailed pricing."
+    },
+    {
+        "question": "is insurance included",
+        "answer": "Travel insurance is optional but recommended. You can add it during checkout."
+    },
+    {
+        "question": "do you have payment plans",
+        "answer": "Yes! We offer installment plans for select packages."
+    },
+    {
+        "question": "are you happy with our packs",
+        "answer": "Thank you for your feedback! We\u2019re always working to improve our services."
+    },
+    {
+        "question": "can i leave a review",
+        "answer": "Absolutely! We\u2019d love your feedback. Visit our website\u2019s \u2018Reviews\u2019 section."
+    },
+    {
+        "question": "what do customers say about you",
+        "answer": "Our travelers love us! \u2b50\u2b50\u2b50\u2b50\u2b50 Check our testimonials page for real reviews."
+    },
+    {
+        "question": "how can i complain",
+        "answer": "We\u2019re sorry to hear that. Please email complaints@naturelink.com, and we\u2019ll resolve it ASAP."
+    },
+    {
+        "question": "do you listen to feedback",
+        "answer": "Yes! Customer feedback helps us improve. Share your thoughts anytime."
+    },
+    {
+        "question": "thanks",
+        "answer": "You\u2019re welcome! Happy to help. \ud83d\ude0a"
+    },
+    {
+        "question": "thank you",
+        "answer": "Anytime! Let us know if you need anything else."
+    },
+    {
+        "question": "bye",
+        "answer": "Goodbye! \ud83c\udf3f Hope to see you on a NatureLink adventure soon!"
+    },
+    {
+        "question": "see you later",
+        "answer": "See you! Safe travels. \u2728"
+    },
+    {
+        "question": "you're awesome",
+        "answer": "Aww, thanks! You\u2019re pretty awesome too. \ud83d\ude04"
+    }
+]
