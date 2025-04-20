@@ -17,14 +17,13 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/monuments")
 public class MonumentController {
 
-    private static final String UPLOAD_DIR = "monument-uploads/";
+    private static final String UPLOAD_DIR = "monument-Uploads/";
 
     @Autowired
     private IMonumentService monumentService;
@@ -36,10 +35,10 @@ public class MonumentController {
             @RequestParam("localisation") String localisation,
             @RequestParam("horairesOuverture") String horairesOuverture,
             @RequestParam("prixEntree") float prixEntree,
-            @RequestParam("image") MultipartFile imageFile) {
+            @RequestParam(value = "image", required = false) MultipartFile imageFile,
+            @RequestParam(value = "modelInput", required = false) MultipartFile modelInputFile) {
 
         try {
-            // Créer le monument avec l'image
             Monument monument = new Monument();
             monument.setNom(nom);
             monument.setDescription(description);
@@ -47,7 +46,12 @@ public class MonumentController {
             monument.setHorairesOuverture(horairesOuverture);
             monument.setPrixEntree(prixEntree);
 
-            Monument savedMonument = monumentService.createMonumentWithImage(monument, imageFile);
+            Monument savedMonument;
+            if (modelInputFile != null && !modelInputFile.isEmpty()) {
+                savedMonument = monumentService.createMonumentWith3DModel(monument, imageFile, modelInputFile);
+            } else {
+                savedMonument = monumentService.createMonumentWithImage(monument, imageFile);
+            }
             return ResponseEntity.ok(savedMonument);
 
         } catch (IOException e) {
@@ -95,62 +99,17 @@ public class MonumentController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteMonument(@PathVariable Integer id) {
         try {
-            System.out.println("Suppression du monument avec ID: " + id);
-
-            // Vérifier si le monument existe
             Optional<Monument> monumentOpt = monumentService.getMonumentById(id);
             if (monumentOpt.isEmpty()) {
-                System.out.println("Monument non trouvé");
                 return ResponseEntity.notFound().build();
             }
-
-            Monument monument = monumentOpt.get();
-            String imagePathStr = monument.getImage();
-
-            // Supprimer l'image seulement si c'est un chemin local (pas une URL)
-            if (imagePathStr != null) {
-                if (isLocalFilePath(imagePathStr)) {
-                    try {
-                        Path imagePath = Paths.get(UPLOAD_DIR).resolve(imagePathStr).normalize();
-                        // Vérification de sécurité pour éviter les attaques de traversal path
-                        if (!imagePath.startsWith(Paths.get(UPLOAD_DIR).normalize())) {
-                            System.err.println("Tentative d'accès à un chemin non autorisé: " + imagePath);
-                        } else {
-                            Files.deleteIfExists(imagePath);
-                            System.out.println("Image du monument supprimée : " + imagePath);
-                        }
-                    } catch (IOException e) {
-                        System.err.println("Erreur lors de la suppression de l'image : " + e.getMessage());
-                        // Continuer quand même avec la suppression du monument
-                    }
-                } else {
-                    System.out.println("Image externe (URL), pas de suppression locale nécessaire: " + imagePathStr);
-                }
-            }
-
-            // Supprimer les données du monument
             monumentService.deleteMonument(id);
-            System.out.println("Suppression réussie du monument");
             return ResponseEntity.noContent().build();
 
         } catch (Exception e) {
-            System.err.println("Erreur lors de la suppression du monument:");
-            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-
-    // Méthode utilitaire pour vérifier si le chemin est local
-    private boolean isLocalFilePath(String path) {
-        return path != null &&
-                !path.startsWith("http://") &&
-                !path.startsWith("https://") &&
-                !path.startsWith("ftp://") &&
-                !path.startsWith("www.") &&
-                !path.contains("://");
-    }
-
-
 
     @PutMapping("/{id}/image")
     public ResponseEntity<Monument> updateMonumentWithImage(
@@ -160,7 +119,8 @@ public class MonumentController {
             @RequestParam(value = "localisation", required = false) String localisation,
             @RequestParam(value = "horairesOuverture", required = false) String horairesOuverture,
             @RequestParam(value = "prixEntree", required = false) Float prixEntree,
-            @RequestParam(value = "image", required = false) MultipartFile imageFile) {
+            @RequestParam(value = "image", required = false) MultipartFile imageFile,
+            @RequestParam(value = "modelInput", required = false) MultipartFile modelInputFile) {
 
         try {
             Monument monument = new Monument();
@@ -171,7 +131,12 @@ public class MonumentController {
             if (horairesOuverture != null) monument.setHorairesOuverture(horairesOuverture);
             if (prixEntree != null) monument.setPrixEntree(prixEntree);
 
-            Monument updatedMonument = monumentService.updateMonumentWithImage(id, monument, imageFile);
+            Monument updatedMonument;
+            if (modelInputFile != null && !modelInputFile.isEmpty()) {
+                updatedMonument = monumentService.updateMonumentWith3DModel(id, monument, modelInputFile);
+            } else {
+                updatedMonument = monumentService.updateMonumentWithImage(id, monument, imageFile);
+            }
             return ResponseEntity.ok(updatedMonument);
 
         } catch (IOException e) {
@@ -181,7 +146,6 @@ public class MonumentController {
         }
     }
 
-    // Endpoints sans gestion d'image
     @PostMapping
     public ResponseEntity<Monument> createMonument(@RequestBody Monument monument) {
         return ResponseEntity.ok(monumentService.createMonument(monument));

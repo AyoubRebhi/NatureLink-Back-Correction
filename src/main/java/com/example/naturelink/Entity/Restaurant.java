@@ -18,13 +18,19 @@ public class Restaurant {
     private String typeCuisine;
     private String horairesOuverture;
     private String image;
-
-    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore
+    @Column(nullable = false)
+    private Integer capacite;
+    @OneToMany
+    @JoinColumn(name = "restaurant_id")
     private List<Menu> menus;
 
     // Getters and setters
-
+    public void setCapacite(Integer capacite) {
+        this.capacite = capacite;
+    }
+    public Integer getCapacite() {
+        return capacite;
+    }
     public Long getId() {
         return id;
     }

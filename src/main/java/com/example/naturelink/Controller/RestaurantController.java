@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.nio.file.*;
+import java.time.LocalTime;
 import java.util.*;
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -32,33 +33,34 @@ public class RestaurantController {
             @RequestParam("localisation") String localisation,
             @RequestParam("typeCuisine") String typeCuisine,
             @RequestParam("horairesOuverture") String horairesOuverture,
+            @RequestParam("capacite") Integer capacite,
             @RequestParam("image") MultipartFile imageFile) {
 
         try {
-            // Sauvegarder l'image dans le dossier "uploads"
+            // Save image
             String filename = UUID.randomUUID() + "_" + imageFile.getOriginalFilename();
             Path imagePath = Paths.get(UPLOAD_DIR + filename);
             Files.createDirectories(imagePath.getParent());
             Files.write(imagePath, imageFile.getBytes());
 
-            // Créer un nouvel objet Restaurant
+            // Create restaurant object
             Restaurant restaurant = new Restaurant();
             restaurant.setNom(nom);
             restaurant.setDescription(description);
             restaurant.setLocalisation(localisation);
             restaurant.setTypeCuisine(typeCuisine);
             restaurant.setHorairesOuverture(horairesOuverture);
-            restaurant.setImage(filename); // On stocke le nom du fichier
+            restaurant.setCapacite(capacite);
+            restaurant.setImage(filename);
 
-            // Utilisation du service pour sauvegarder en base de données
             Restaurant savedRestaurant = restaurantService.addRestaurant(restaurant);
-
             return ResponseEntity.ok(savedRestaurant);
 
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
 
     @GetMapping
     public ResponseEntity<List<Restaurant>> getAllRestaurants() {
@@ -112,10 +114,10 @@ public class RestaurantController {
             @RequestParam(value = "localisation", required = false) String localisation,
             @RequestParam(value = "typeCuisine", required = false) String typeCuisine,
             @RequestParam(value = "horairesOuverture", required = false) String horairesOuverture,
+            @RequestParam(value = "capacite", required = false) Integer capacite,
             @RequestParam(value = "image", required = false) MultipartFile imageFile) {
 
         try {
-
             Optional<Restaurant> existingRestaurantOpt = restaurantService.getRestaurantById(id);
             if (!existingRestaurantOpt.isPresent()) {
                 return ResponseEntity.notFound().build();
@@ -123,49 +125,51 @@ public class RestaurantController {
 
             Restaurant existingRestaurant = existingRestaurantOpt.get();
 
-
-            if (nom != null) {
-                existingRestaurant.setNom(nom);
-            }
-            if (description != null) {
-                existingRestaurant.setDescription(description);
-            }
-            if (localisation != null) {
-                existingRestaurant.setLocalisation(localisation);
-            }
-            if (typeCuisine != null) {
-                existingRestaurant.setTypeCuisine(typeCuisine);
-            }
-            if (horairesOuverture != null) {
-                existingRestaurant.setHorairesOuverture(horairesOuverture);
-            }
-
+            if (nom != null) existingRestaurant.setNom(nom);
+            if (description != null) existingRestaurant.setDescription(description);
+            if (localisation != null) existingRestaurant.setLocalisation(localisation);
+            if (typeCuisine != null) existingRestaurant.setTypeCuisine(typeCuisine);
+            if (horairesOuverture != null) existingRestaurant.setHorairesOuverture(horairesOuverture);
+            if (capacite != null) existingRestaurant.setCapacite(capacite);
 
             if (imageFile != null && !imageFile.isEmpty()) {
-
+                // Delete old image if exists
                 if (existingRestaurant.getImage() != null) {
-                    try {
-                        Path oldImagePath = Paths.get(UPLOAD_DIR + existingRestaurant.getImage());
-                        Files.deleteIfExists(oldImagePath);
-                    } catch (IOException e) {
-                        // Log l'erreur mais ne pas bloquer la mise à jour
-                        System.err.println("Erreur lors de la suppression de l'ancienne image: " + e.getMessage());
-                    }
+                    Path oldImagePath = Paths.get(UPLOAD_DIR + existingRestaurant.getImage());
+                    Files.deleteIfExists(oldImagePath);
                 }
 
-                // Sauvegarder la nouvelle image
+                // Save new image
                 String filename = UUID.randomUUID() + "_" + imageFile.getOriginalFilename();
                 Path imagePath = Paths.get(UPLOAD_DIR + filename);
                 Files.createDirectories(imagePath.getParent());
                 Files.write(imagePath, imageFile.getBytes());
                 existingRestaurant.setImage(filename);
             }
-            Restaurant updatedRestaurant = restaurantService.updateRestaurant(id, existingRestaurant, imageFile);
 
+            Restaurant updatedRestaurant = restaurantService.updateRestaurant(id, existingRestaurant, imageFile);
             return ResponseEntity.ok(updatedRestaurant);
 
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+    @GetMapping("/open-now")
+    public ResponseEntity<List<Restaurant>> getRestaurantsOpenNow() {
+        LocalTime now = LocalTime.now();
+        List<Restaurant> openRestaurants = restaurantService.getOpenRestaurantsBetween(now, now);
+        return ResponseEntity.ok(openRestaurants);
+    }
+
+    @GetMapping("/open-between")
+    public ResponseEntity<List<Restaurant>> getRestaurantsOpenBetween(
+            @RequestParam String start,
+            @RequestParam String end) {
+        try {
+            LocalTime startTime = LocalTime.parse(start);
+            LocalTime endTime = LocalTime.parse(end);
+            List<Restaurant> filteredRestaurants = restaurantService.getOpenRestaurantsBetween(startTime, endTime);
+            return ResponseEntity.ok(filteredRestaurants);
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }

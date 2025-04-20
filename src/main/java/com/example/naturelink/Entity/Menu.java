@@ -2,9 +2,6 @@ package com.example.naturelink.Entity;
 
 import jakarta.persistence.*;
 
-import java.util.HashSet;
-import java.util.Set;
-
 @Entity
 @Table(name = "menu")
 public class Menu {
@@ -13,18 +10,21 @@ public class Menu {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String plats;
+
+    @Column(name = "prix_moyen", nullable = false)
     private float prixMoyen;
-    private String image;
+
+    @Column(name = "ingredients_details")
     private String ingredientsDetails;
-    @ManyToOne
-    @JoinColumn(name = "restaurant_id", nullable = false)
-    private Restaurant restaurant;
 
-    public Menu() {
-    }
+    private String image;
 
-    // Getters et Setters
+    @Column(name = "restaurant_id")
+    private Long restaurantId;
+
+    // Getters and Setters
     public Long getId() {
         return id;
     }
@@ -49,14 +49,6 @@ public class Menu {
         this.prixMoyen = prixMoyen;
     }
 
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
     public String getIngredientsDetails() {
         return ingredientsDetails;
     }
@@ -65,11 +57,19 @@ public class Menu {
         this.ingredientsDetails = ingredientsDetails;
     }
 
-    public Restaurant getRestaurant() {
-        return restaurant;
+    public String getImage() {
+        return image;
     }
 
-    public void setRestaurant(Restaurant restaurant) {
-        this.restaurant = restaurant;
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public Long getRestaurantId() {
+        return restaurantId;
+    }
+
+    public void setRestaurantId(Long restaurantId) {
+        this.restaurantId = restaurantId;
     }
 }

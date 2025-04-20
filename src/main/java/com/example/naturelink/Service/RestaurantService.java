@@ -8,9 +8,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.nio.file.*;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class RestaurantService implements IRestaurantService {
@@ -79,4 +81,39 @@ public class RestaurantService implements IRestaurantService {
         }
         return false;
     }
+
+    @Override
+    public List<Restaurant> getOpenRestaurantsBetween(LocalTime startTime, LocalTime endTime) {
+        return restaurantRepository.findAll().stream()
+                .filter(restaurant -> isRestaurantOpen(restaurant, startTime, endTime))
+                .collect(Collectors.toList());
+    }
+
+    private boolean isRestaurantOpen(Restaurant restaurant, LocalTime startTime, LocalTime endTime) {
+        try {
+            // Validate horairesOuverture format
+            if (restaurant.getHorairesOuverture() == null || !restaurant.getHorairesOuverture().matches("\\d{2}:\\d{2}-\\d{2}:\\d{2}")) {
+                return false;
+            }
+
+            String[] horaires = restaurant.getHorairesOuverture().split("-");
+            LocalTime openTime = LocalTime.parse(horaires[0].trim());
+            LocalTime closeTime = LocalTime.parse(horaires[1].trim());
+
+            // Handle overnight restaurants (closeTime before or at midnight)
+            if (closeTime.isBefore(openTime) || closeTime.equals(LocalTime.MIDNIGHT)) {
+                // Restaurant is open if time is after openTime OR before closeTime
+                return (!startTime.isBefore(openTime) || startTime.isAfter(closeTime)) &&
+                        (!endTime.isBefore(openTime) || endTime.isAfter(closeTime));
+            } else {
+                // Normal case: openTime to closeTime
+                return !startTime.isBefore(openTime) && !endTime.isAfter(closeTime);
+            }
+        } catch (Exception e) {
+            System.err.println("Erreur lors du traitement des horaires pour le restaurant " + restaurant.getNom() + ": " + e.getMessage());
+            return false;
+        }
+    }
+
 }
+

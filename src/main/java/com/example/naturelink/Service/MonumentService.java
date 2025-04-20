@@ -20,21 +20,33 @@ import java.util.UUID;
 @Service
 public class MonumentService implements IMonumentService {
 
-    private static final String UPLOAD_DIR = "monument-uploads/";
+    private static final String UPLOAD_DIR = "monument-Uploads/";
 
     private final MonumentRepository monumentRepository;
     private final VisitRepository visitRepository;
+
 
     @Autowired
     public MonumentService(MonumentRepository monumentRepository, VisitRepository visitRepository) {
         this.monumentRepository = monumentRepository;
         this.visitRepository = visitRepository;
+
     }
 
     @Override
     public Monument createMonument(Monument monument) {
         return monumentRepository.save(monument);
     }
+
+    @Override
+    public Monument createMonumentWithImage(Monument monument, MultipartFile imageFile) throws IOException {
+        if (imageFile != null && !imageFile.isEmpty()) {
+            String filename = saveImage(imageFile);
+            monument.setImage(filename);
+        }
+        return monumentRepository.save(monument);
+    }
+
 
     @Override
     public Monument updateMonument(Monument monument) {
@@ -45,14 +57,32 @@ public class MonumentService implements IMonumentService {
     }
 
     @Override
+    public Monument updateMonumentWithImage(Integer id, Monument monument, MultipartFile imageFile) throws IOException {
+        Optional<Monument> existingMonument = monumentRepository.findById(id);
+        if (existingMonument.isPresent()) {
+            if (imageFile != null && !imageFile.isEmpty()) {
+                if (existingMonument.get().getImage() != null) {
+                    deleteImage(existingMonument.get().getImage());
+                }
+                String filename = saveImage(imageFile);
+                monument.setImage(filename);
+            } else {
+                monument.setImage(existingMonument.get().getImage());
+            }
+            monument.setId(id);
+            return monumentRepository.save(monument);
+        }
+        throw new EntityNotFoundException("Monument with id " + id + " not found");
+    }
+
+
+
+    @Override
     @Transactional
     public void deleteMonument(Integer id) {
         Optional<Monument> monument = monumentRepository.findById(id);
         if (monument.isPresent()) {
-            // Supprimer les visites liées
             visitRepository.deleteAllByMonumentId(id);
-
-            // Supprimer l'image associée si elle existe
             if (monument.get().getImage() != null) {
                 try {
                     Path imagePath = Paths.get(UPLOAD_DIR + monument.get().getImage());
@@ -62,7 +92,6 @@ public class MonumentService implements IMonumentService {
                 }
             }
 
-            // Supprimer le monument
             monumentRepository.deleteById(id);
         } else {
             throw new EntityNotFoundException("Monument with id " + id + " not found");
@@ -77,37 +106,6 @@ public class MonumentService implements IMonumentService {
     @Override
     public Optional<Monument> getMonumentById(Integer id) {
         return monumentRepository.findById(id);
-    }
-
-    @Override
-    public Monument createMonumentWithImage(Monument monument, MultipartFile imageFile) throws IOException {
-        if (imageFile != null && !imageFile.isEmpty()) {
-            String filename = saveImage(imageFile);
-            monument.setImage(filename);
-        }
-        return monumentRepository.save(monument);
-    }
-
-    @Override
-    public Monument updateMonumentWithImage(Integer id, Monument monument, MultipartFile imageFile) throws IOException {
-        Optional<Monument> existingMonument = monumentRepository.findById(id);
-        if (existingMonument.isPresent()) {
-            // Supprimer l'ancienne image si elle existe et qu'une nouvelle image est fournie
-            if (imageFile != null && !imageFile.isEmpty()) {
-                if (existingMonument.get().getImage() != null) {
-                    deleteImage(existingMonument.get().getImage());
-                }
-                String filename = saveImage(imageFile);
-                monument.setImage(filename);
-            } else {
-                // Conserver l'image existante si aucune nouvelle image n'est fournie
-                monument.setImage(existingMonument.get().getImage());
-            }
-
-            monument.setId(id);
-            return monumentRepository.save(monument);
-        }
-        throw new EntityNotFoundException("Monument with id " + id + " not found");
     }
 
     private String saveImage(MultipartFile image) throws IOException {

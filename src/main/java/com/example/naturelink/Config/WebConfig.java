@@ -11,7 +11,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:4200") // Changez en fonction de l'URL de votre frontend
+                .allowedOrigins("http://localhost:4200")
                 .allowedMethods("*")
                 .allowedHeaders("*")
                 .exposedHeaders("Content-Disposition")
@@ -20,8 +20,11 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/images/**") // URL accessible pour les images
-                .addResourceLocations("file:./uploads/") // Dossier local où les images sont stockées
-                .setCachePeriod(3600); // Cache les images pour 1 heure
+        registry.addResourceHandler("/api/menus/uploads/**")
+                .addResourceLocations("file:./Uploads/menus/")
+                .setCachePeriod(3600);
+        registry.addResourceHandler("/uploads/**")
+                .addResourceLocations("file:./Uploads/")
+                .setCachePeriod(3600);
     }
 }

@@ -22,16 +22,22 @@ public class Monument {
     private float prixEntree;
     private String image;
 
+    // Champs pour le modèle 3D
+    private String model3DUrl; // URL du modèle 3D (ex. hébergé sur S3 ou local)
+    private String model3DFormat; // Format du modèle (ex. GLTF, OBJ)
+    private String model3DStatus; // Statut (ex. "ready", "processing", "failed")
+
     @OneToMany(mappedBy = "monument")
     @JsonManagedReference(value = "monument-visit")
     private List<Visit> visits;
-
 
     // Constructeur par défaut
     public Monument() {}
 
     // Constructeur complet
-    public Monument(Integer id, String nom, String description, String localisation, String horairesOuverture, float prixEntree, String image, List<Visit> visite) {
+    public Monument(Integer id, String nom, String description, String localisation, String horairesOuverture,
+                    float prixEntree, String image, String model3DUrl, String model3DFormat, String model3DStatus,
+                    List<Visit> visits) {
         this.id = id;
         this.nom = nom;
         this.description = description;
@@ -39,9 +45,11 @@ public class Monument {
         this.horairesOuverture = horairesOuverture;
         this.prixEntree = prixEntree;
         this.image = image;
-
+        this.model3DUrl = model3DUrl;
+        this.model3DFormat = model3DFormat;
+        this.model3DStatus = model3DStatus;
+        this.visits = visits;
     }
-
 
     // Getters et Setters
     public Integer getId() {
@@ -100,6 +108,35 @@ public class Monument {
         this.image = image;
     }
 
+    public String getModel3DUrl() {
+        return model3DUrl;
+    }
 
+    public void setModel3DUrl(String model3DUrl) {
+        this.model3DUrl = model3DUrl;
+    }
 
+    public String getModel3DFormat() {
+        return model3DFormat;
+    }
+
+    public void setModel3DFormat(String model3DFormat) {
+        this.model3DFormat = model3DFormat;
+    }
+
+    public String getModel3DStatus() {
+        return model3DStatus;
+    }
+
+    public void setModel3DStatus(String model3DStatus) {
+        this.model3DStatus = model3DStatus;
+    }
+
+    public List<Visit> getVisits() {
+        return visits;
+    }
+
+    public void setVisits(List<Visit> visits) {
+        this.visits = visits;
+    }
 }
