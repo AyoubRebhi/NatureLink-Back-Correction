@@ -41,6 +41,10 @@ public class User implements UserDetails {
     }
     private boolean blocked;
     private String profilePic;
+    private boolean enabled = false;
+    @Enumerated(EnumType.STRING)
+    private AccountStatus status = AccountStatus.PENDING;
+    private boolean isApproved = false;
     @Override
     public String getPassword() {
         return password;
@@ -72,7 +76,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return enabled && isApproved;  // Only enabled if approved
     }
     // Setters
     public void setUsername(String username) { this.username = username; }
@@ -88,4 +92,8 @@ public class User implements UserDetails {
     }
     public String getProfilePic() { return profilePic; }
     public void setProfilePic(String profilePic) { this.profilePic = profilePic; }
+    public void setEnabled(boolean enabled) { this.enabled = enabled; }
+    public boolean getEnabled() { return enabled; }
+    public void setIsApproved(boolean isApproved) { this.isApproved = isApproved; }
+
 }
