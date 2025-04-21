@@ -4,10 +4,13 @@ import com.example.naturelink.Entity.Activity;
 import com.example.naturelink.Service.ActivityService;
 import com.example.naturelink.Service.GroqService;
 import com.example.naturelink.Service.IActivityService;
+<<<<<<< HEAD
+=======
 import com.example.naturelink.dto.RecommendationRequest;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.core.ParameterizedTypeReference;
+>>>>>>> origin/ayoub
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -16,11 +19,15 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import com.example.naturelink.dto.ActivityDTO;
 import org.springframework.web.reactive.function.client.WebClient;
+<<<<<<< HEAD
+
+=======
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Mono;
 
 import java.time.Duration;
 import java.util.HashMap;
+>>>>>>> origin/ayoub
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -41,6 +48,8 @@ public class ActivityController {
         this.activityServiceImpl = activityServiceImpl;
         this.groqService = groqService;
     }
+<<<<<<< HEAD
+=======
     @PostMapping("/get-activity-images")
     public ResponseEntity<?> getActivityImages(@RequestBody Map<String, String> body) {
         try {
@@ -59,6 +68,7 @@ public class ActivityController {
             ));
         }
     }
+>>>>>>> origin/ayoub
     @PostMapping("/generate")
     public ResponseEntity<String> generateActivity(@RequestBody Map<String, String> promptParams) {
         try {
@@ -130,6 +140,47 @@ public class ActivityController {
 
     //Recommandation Controller
     @PostMapping("/recommend")
+<<<<<<< HEAD
+    public ResponseEntity<?> recommendActivities(@RequestBody Map<String, String> userInput) {
+        List<Activity> allActivities = activityService.getAllActivities();
+
+        // 🔁 Convert to DTOs for AI microservice
+        List<ActivityDTO> dtoList = allActivities.stream().map(activity -> {
+            ActivityDTO dto = new ActivityDTO();
+            dto.setName(activity.getName());
+            dto.setDescription(activity.getDescription());
+            dto.setLocation(activity.getLocation());
+            dto.setDuration(activity.getDuration());
+            dto.setPrice(activity.getPrice());
+            dto.setMaxParticipants(activity.getMaxParticipants());
+            dto.setDifficultyLevel(activity.getDifficultyLevel());
+            dto.setType(activity.getType());
+            dto.setMood(activity.getMood());
+            dto.setTags(activity.getTags());
+            dto.setRequiredEquipment(activity.getRequiredEquipment());
+            return dto;
+        }).collect(Collectors.toList());
+
+        // 🌐 Call Python recommender
+        try {
+            WebClient client = WebClient.create("http://localhost:5005");
+            return client.post()
+                    .uri("/recommend")
+                    .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                    .bodyValue(Map.of(
+                            "mood_input", userInput.get("mood_input"),
+                            "activities", dtoList
+                    ))
+                    .retrieve()
+                    .toEntity(String.class)
+                    .block();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Recommendation engine error: " + e.getMessage());
+        }
+    }
+}
+=======
     public ResponseEntity<?> recommendActivities(@RequestBody RecommendationRequest request) {
         try {
             // Validate input
@@ -229,3 +280,4 @@ public class ActivityController {
             ));
         }
     }}
+>>>>>>> origin/ayoub

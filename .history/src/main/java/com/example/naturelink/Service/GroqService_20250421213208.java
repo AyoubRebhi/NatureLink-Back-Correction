@@ -1,11 +1,20 @@
 package com.example.naturelink.Service;
 
+<<<<<<< HEAD
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
+
+import java.util.List;
+import java.util.Map;
+=======
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import java.util.*;
+>>>>>>> origin/ayoub
 
 @Service
 public class GroqService {
@@ -13,6 +22,12 @@ public class GroqService {
     @Value("${groq.api.key}")
     private String groqApiKey;
 
+<<<<<<< HEAD
+    private final WebClient webClient;
+
+    public GroqService(WebClient.Builder webClientBuilder) {
+        this.webClient = webClientBuilder.baseUrl("https://api.groq.com/openai/v1").build();
+=======
     @Value("${unsplash.access.key}")
     private String unsplashAccessKey;
 
@@ -23,6 +38,7 @@ public class GroqService {
         this.webClient = webClientBuilder.baseUrl("https://api.groq.com/openai/v1").build();
         this.unsplashWebClient = webClientBuilder.baseUrl("https://api.unsplash.com").build();
 
+>>>>>>> origin/ayoub
     }
 
     public String generateActivityWithPrompt(Map<String, String> params) {
@@ -81,6 +97,8 @@ public class GroqService {
                 params.getOrDefault("tags", "any")
         );
     }
+<<<<<<< HEAD
+=======
 
     // Add to your GroqService.java
     public List<String> getActivityImages(String description) {
@@ -149,4 +167,5 @@ public class GroqService {
             throw new RuntimeException("Failed to parse Unsplash response", e);
         }
     }
+>>>>>>> origin/ayoub
 }
