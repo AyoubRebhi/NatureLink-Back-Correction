@@ -2,9 +2,11 @@ package com.example.naturelink.Service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+
 import java.util.*;
 
 @Service
@@ -19,16 +21,15 @@ public class GroqService {
     private final WebClient webClient;
     private final WebClient unsplashWebClient;
 
+    @Autowired
     public GroqService(WebClient.Builder webClientBuilder) {
         this.webClient = webClientBuilder.baseUrl("https://api.groq.com/openai/v1").build();
         this.unsplashWebClient = webClientBuilder.baseUrl("https://api.unsplash.com").build();
-
     }
 
     public String generateActivityWithPrompt(Map<String, String> params) {
         String prompt = buildPromptFromParams(params);
 
-        // Prepare proper JSON structure using Map
         Map<String, Object> requestBody = Map.of(
                 "model", "llama3-70b-8192",
                 "temperature", 0.8,
@@ -82,12 +83,8 @@ public class GroqService {
         );
     }
 
-    // Add to your GroqService.java
     public List<String> getActivityImages(String description) {
-        // Step 1: Generate a search query using Groq
         String searchQuery = generateImageSearchQuery(description);
-
-        // Step 2: Fetch images from Unsplash
         return fetchUnsplashImages(searchQuery);
     }
 
@@ -111,7 +108,6 @@ public class GroqService {
                     .bodyToMono(String.class)
                     .block();
 
-            // Parse the raw query from Groq's response
             JsonNode root = new ObjectMapper().readTree(response);
             return root.path("choices").get(0).path("message").path("content").asText().trim();
         } catch (Exception e) {
@@ -124,7 +120,7 @@ public class GroqService {
                 .uri(uriBuilder -> uriBuilder
                         .path("/search/photos")
                         .queryParam("query", query)
-                        .queryParam("per_page", "3") // Get 3 images
+                        .queryParam("per_page", "3")
                         .queryParam("client_id", unsplashAccessKey)
                         .build())
                 .retrieve()

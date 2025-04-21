@@ -9,7 +9,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 @Entity
-@Table(name = "users",
+@Table(name = "user",
         uniqueConstraints = {
                 @UniqueConstraint(columnNames = "email"),
                 @UniqueConstraint(columnNames = "username")
