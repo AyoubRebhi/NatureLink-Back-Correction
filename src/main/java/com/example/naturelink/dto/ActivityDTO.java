@@ -3,6 +3,7 @@ package com.example.naturelink.dto;
 import java.util.List;
 
 public class ActivityDTO {
+    private Integer id;
     private String name;
     private String description;
     private String location;
@@ -14,6 +15,7 @@ public class ActivityDTO {
     private List<String> mood;
     private List<String> tags;
     private List<String> requiredEquipment;
+    private List<String> imageUrls;
 
     // ✅ Add Getters and Setters
 
@@ -103,5 +105,21 @@ public class ActivityDTO {
 
     public void setRequiredEquipment(List<String> requiredEquipment) {
         this.requiredEquipment = requiredEquipment;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public List<String> getImageUrls() {
+        return imageUrls;
+    }
+
+    public void setImageUrls(List<String> imageUrls) {
+        this.imageUrls = imageUrls;
     }
 }

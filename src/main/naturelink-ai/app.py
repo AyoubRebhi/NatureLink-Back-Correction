@@ -1,23 +1,45 @@
 from flask import Flask, request, jsonify
 from recommender import ActivityRecommender
 from flask_cors import CORS
-CORS(app)
+import logging
 
 app = Flask(__name__)
-recommender = ActivityRecommender()  # No longer needs CSV path since we'll receive activities
+CORS(app)
+
+# Initialize logger
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+# Initialize recommender (this will load the BERT model)
+logger.info("Loading BERT model...")
+recommender = ActivityRecommender()
+logger.info("BERT model loaded successfully")
 
 @app.route("/recommend", methods=["POST"])
 def recommend():
     try:
         data = request.get_json()
-        mood_input = data.get("mood_input", "")
+        mood_input = data.get("mood_input", "").strip()
         activity_data = data.get("activities", [])
 
-        # Call the recommender
+        if not mood_input:
+            return jsonify({"error": "Mood input is required"}), 400
+        if not activity_data:
+            return jsonify({"error": "Activity list is empty"}), 400
+
+        logger.info(f"Received recommendation request for mood: {mood_input}")
+
         recommendations = recommender.recommend_from_list(mood_input, activity_data)
-        return jsonify(recommendations)
+        return jsonify({
+            "recommendations": recommendations,
+            "status": "success"
+        })
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        logger.error(f"Error in recommendation: {str(e)}", exc_info=True)
+        return jsonify({
+            "error": "An error occurred during recommendation",
+            "details": str(e)
+        }), 500
 
 if __name__ == '__main__':
-    app.run(port=5005)
+    app.run(port=5005, debug=True)

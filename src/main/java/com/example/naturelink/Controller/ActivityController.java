@@ -7,6 +7,7 @@ import com.example.naturelink.Service.IActivityService;
 import com.example.naturelink.dto.RecommendationRequest;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -15,7 +16,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import com.example.naturelink.dto.ActivityDTO;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
+import reactor.core.publisher.Mono;
 
+import java.time.Duration;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -127,40 +132,100 @@ public class ActivityController {
     @PostMapping("/recommend")
     public ResponseEntity<?> recommendActivities(@RequestBody RecommendationRequest request) {
         try {
-            String moodInput = request.getMood_input();
-            List<ActivityDTO> dtoList = request.getActivities();
-
-            WebClient client = WebClient.builder()
-                    .baseUrl("http://localhost:5005")
-                    .build();
-
-            String responseJson = client.post()
-                    .uri("/recommend")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .bodyValue(Map.of("mood_input", moodInput, "activities", dtoList))
-                    .retrieve()
-                    .bodyToMono(String.class)
-                    .block();
-
-// Parse response
-            ObjectMapper mapper = new ObjectMapper();
-            List<Map<String, Object>> recommended = mapper.readValue(responseJson, new TypeReference<>() {});
-
-// Map original activity imageUrls by name
-            Map<String, List<String>> nameToImages = activityService.getAllActivities().stream()
-                    .collect(Collectors.toMap(Activity::getName, Activity::getImageUrls));
-
-// Inject imageUrls back
-            for (Map<String, Object> act : recommended) {
-                String name = (String) act.get("name");
-                act.put("imageUrls", nameToImages.getOrDefault(name, List.of()));
+            // Validate input
+            if (request.getMood_input() == null || request.getMood_input().trim().isEmpty()) {
+                return ResponseEntity.badRequest().body(Map.of(
+                        "error", "Mood input is required",
+                        "status", HttpStatus.BAD_REQUEST.value()
+                ));
             }
 
-            return ResponseEntity.ok(recommended);
+            if (request.getActivities() == null || request.getActivities().isEmpty()) {
+                return ResponseEntity.badRequest().body(Map.of(
+                        "error", "Activities list cannot be empty",
+                        "status", HttpStatus.BAD_REQUEST.value()
+                ));
+            }
 
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Recommendation engine error: " + e.getMessage());
+            // Prepare request for Python service
+            WebClient client = WebClient.builder()
+                    .baseUrl("http://localhost:5005")
+                    .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                    .build();
+
+            // Convert DTOs to proper format for the Python service
+            List<Map<String, Object>> activityMaps = request.getActivities().stream()
+                    .map(dto -> {
+                        Map<String, Object> map = new HashMap<>();
+                        map.put("name", dto.getName());
+                        map.put("description", dto.getDescription());
+                        map.put("type", dto.getType());
+                        map.put("mood", String.join(",", dto.getMood() != null ? dto.getMood() : List.of()));
+                        map.put("tags", String.join(",", dto.getTags() != null ? dto.getTags() : List.of()));
+                        map.put("imageUrls", dto.getImageUrls() != null ? dto.getImageUrls() : List.of());
+                        return map;
+                    })
+                    .collect(Collectors.toList());
+
+            // Call Python recommendation service with timeout
+            List<Map<String, Object>> recommended = client.post()
+                    .uri("/recommend")
+                    .bodyValue(Map.of(
+                            "mood_input", request.getMood_input(),
+                            "activities", activityMaps
+                    ))
+                    .retrieve()
+                    .onStatus(status -> status.isError(), response -> {
+                        return response.bodyToMono(String.class)
+                                .flatMap(error -> Mono.error(new RuntimeException(
+                                        "Recommendation service error: " + error
+                                )));
+                    })
+                    .bodyToMono(new ParameterizedTypeReference<List<Map<String, Object>>>() {})
+                    .timeout(Duration.ofSeconds(10)) // Add timeout
+                    .block();
+
+            // Enrich with images from database
+            Map<String, List<String>> nameToImages = activityService.getAllActivities().stream()
+                    .collect(Collectors.toMap(
+                            Activity::getName,
+                            a -> a.getImageUrls() != null ? a.getImageUrls() : List.of()
+                    ));
+
+            // Process recommendations
+            List<Map<String, Object>> enrichedRecommendations = recommended.stream()
+                    .map(rec -> {
+                        Map<String, Object> enriched = new HashMap<>(rec);
+                        String name = (String) rec.get("name");
+                        enriched.put("imageUrls", nameToImages.getOrDefault(name, List.of()));
+
+                        // Add original ID if available
+                        request.getActivities().stream()
+                                .filter(dto -> dto.getName().equals(name))
+                                .findFirst()
+                                .ifPresent(dto -> enriched.put("id", dto.getId()));
+
+                        return enriched;
+                    })
+                    .collect(Collectors.toList());
+
+            return ResponseEntity.ok(Map.of(
+                    "recommendations", enrichedRecommendations,
+                    "status", "success",
+                    "model", "BERT" // Indicate which model was used
+            ));
+
+        } catch (WebClientResponseException e) {
+            return ResponseEntity.status(e.getStatusCode()).body(Map.of(
+                    "error", "Recommendation service error",
+                    "details", e.getResponseBodyAsString(),
+                    "status", e.getStatusCode().value()
+            ));
+        } catch (RuntimeException e) {
+            return ResponseEntity.internalServerError().body(Map.of(
+                    "error", "Failed to get recommendations",
+                    "details", e.getMessage(),
+                    "status", HttpStatus.INTERNAL_SERVER_ERROR.value()
+            ));
         }
-    }
-}
+    }}
