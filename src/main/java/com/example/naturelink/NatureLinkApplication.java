@@ -11,7 +11,7 @@ import javax.crypto.SecretKey;
 
 @EnableJpaRepositories("com.example.naturelink.Repository")
 @EntityScan("com.example.naturelink.Entity")
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "com.example.naturelink")
 public class NatureLinkApplication {
 
     public static void main(String[] args) {
