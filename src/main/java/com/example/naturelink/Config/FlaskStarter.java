@@ -11,6 +11,7 @@ public class FlaskStarter {
 
     private Process nameApiProcess;
     private Process chatbotApiProcess;
+    private Process imageGenApiProcess;
 
     @PostConstruct
     public void startFlaskServers() {
@@ -27,6 +28,12 @@ public class FlaskStarter {
             chatbotApiProcess = chatbotApi.start();
             System.out.println("✅ chatbot_api.py started on port 5002");
 
+            ProcessBuilder imageGenApi = new ProcessBuilder("python", "src/main/python-ml/image_gen_api.py");
+            imageGenApi.redirectOutput(ProcessBuilder.Redirect.INHERIT);
+            imageGenApi.redirectError(ProcessBuilder.Redirect.INHERIT);
+            imageGenApiProcess = imageGenApi.start();
+            System.out.println("✅ image_gen_api.py started on port 5003");
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -36,6 +43,7 @@ public class FlaskStarter {
     public void stopFlaskServers() {
         destroyFlaskProcess(nameApiProcess, "name_api");
         destroyFlaskProcess(chatbotApiProcess, "chatbot_api");
+        destroyFlaskProcess(imageGenApiProcess, "image_gen_api");
     }
 
     private void destroyFlaskProcess(Process process, String name) {
