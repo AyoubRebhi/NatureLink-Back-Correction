@@ -64,7 +64,7 @@ public class Reservation {
     @JoinColumn(name = "transport_id")
     private Transport transpId;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @Nullable
     @JoinColumn(name = "activite_id")
     private Activity activityId;
