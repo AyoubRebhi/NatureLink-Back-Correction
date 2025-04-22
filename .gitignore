@@ -32,5 +32,5 @@ build/
 ### VS Code ###
 .vscode/
 
-!**/src/main/image-search-logement/env
+**/src/main/image-search-logement/env
 
