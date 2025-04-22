@@ -5,12 +5,13 @@ import com.example.naturelink.Service.EventService;
 import com.example.naturelink.Service.ExportPDFService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.InputStreamResource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -20,6 +21,7 @@ import java.util.List;
 public class EventController {
     private final EventService eventService;
     private final ExportPDFService exportPDFService;
+    private final RestTemplate restTemplate;
 
 
     @GetMapping("/export/pdf")
@@ -83,5 +85,28 @@ return ResponseEntity.ok(event1);
         }
         eventService.deleteEventById(id);
         return ResponseEntity.ok().build();
+    }
+
+
+    @CrossOrigin(origins = "http://localhost:4200")
+    @PostMapping("/recommend")
+    public ResponseEntity<?> recommendEvents(@RequestBody Map<String, Object> payload) {
+        // Flask endpoint URL for event recommendations
+        String flaskUrl = "http://localhost:5000/recommend/event";
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON); // Ensure application/json is set
+
+        HttpEntity<Map<String, Object>> requestEntity = new HttpEntity<>(payload, headers);
+
+        try {
+            return restTemplate.exchange(flaskUrl, HttpMethod.POST, requestEntity, Object.class);
+        } catch (HttpClientErrorException e) {
+            return ResponseEntity.status(e.getStatusCode()).body(e.getResponseBodyAsString());
+        }
+        // Send the data (user_input, events, top_n) to the Flask service for recommendations
+       // Map<String, Object> response = restTemplate.postForObject(flaskUrl, payload, Map.class);
+
+        // Return the response from Flask (recommended events)
+        //return ResponseEntity.ok(response);
     }
 }
