@@ -183,6 +183,10 @@ public class LogementService implements ILogementService {
             throw new RuntimeException("Error removing image from the server", e);
         }
     }
+    public Optional<Logement> getLogementByImage(String imageFilename) {
+        return logementRepository.findByImagesContaining(imageFilename);
+    }
+
 
 
 }

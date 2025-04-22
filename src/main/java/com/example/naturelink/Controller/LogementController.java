@@ -300,5 +300,38 @@ public class LogementController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
+    @GetMapping("/uploads/info/{filename}")
+    public ResponseEntity<Object> getImageAndLogementInfo(@PathVariable String filename) {
+        try {
+            // Fetch the image file
+            Path filePath = Paths.get("uploads").resolve(filename);
+            FileSystemResource resource = new FileSystemResource(filePath.toFile());
+
+            // Check if the file exists
+            if (!resource.exists()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Image not found.");
+            }
+
+            // Fetch the logement associated with the image
+            Optional<Logement> logementOpt = logementService.getLogementByImage(filename);
+
+            // Check if a logement was found
+            if (logementOpt.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Logement not found.");
+            }
+
+            Logement logement = logementOpt.get();  // Unwrap the Optional
+
+            // Prepare the response body
+            // Assuming the Logement entity contains necessary details (like you can include logement details in the response body)
+            return ResponseEntity.ok()
+                    .contentType(MediaType.IMAGE_JPEG) // Assuming JPEG images, you can adjust as necessary
+                    .body(resource);  // Send back the image file as response
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while fetching the image.");
+        }
+    }
+
 
 }
