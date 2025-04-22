@@ -14,7 +14,7 @@ import java.util.Map;
 
 
 @RestController
-@CrossOrigin("*")
+@CrossOrigin(origins = "http://localhost:4200") // Optional: for frontend testing
 @RequestMapping("/transport")
 public class TransportController {
     @Autowired

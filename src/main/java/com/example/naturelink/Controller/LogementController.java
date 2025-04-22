@@ -11,6 +11,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/logements")
+@CrossOrigin(origins = "http://localhost:4200") // Optional: for frontend testing
 public class LogementController {
 
     @Autowired
