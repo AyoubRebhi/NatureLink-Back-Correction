@@ -1,10 +1,9 @@
 package com.example.naturelink.Repository;
 
-
-import com.example.naturelink.Entity.Restaurant;
+import com.example.naturelink.Entity.TourGuide;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
+public interface TourGuideRepository extends JpaRepository<TourGuide, Integer> {
 }

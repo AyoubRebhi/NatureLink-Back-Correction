@@ -10,15 +10,21 @@ public class Menu {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String plats;
+
+    @Column(name = "prix_moyen", nullable = false)
     private float prixMoyen;
 
-    // Many-to-One relationship with Restaurant
-    @ManyToOne
-    @JoinColumn(name = "restaurant_id", nullable = false)
-    private Restaurant restaurant;
+    @Column(name = "ingredients_details")
+    private String ingredientsDetails;
 
-    // Getter and Setter for 'id'
+    private String image;
+
+    @Column(name = "restaurant_id")
+    private Long restaurantId;
+
+    // Getters and Setters
     public Long getId() {
         return id;
     }
@@ -27,7 +33,6 @@ public class Menu {
         this.id = id;
     }
 
-    // Getter and Setter for 'plats'
     public String getPlats() {
         return plats;
     }
@@ -36,7 +41,6 @@ public class Menu {
         this.plats = plats;
     }
 
-    // Getter and Setter for 'prixMoyen'
     public float getPrixMoyen() {
         return prixMoyen;
     }
@@ -45,23 +49,27 @@ public class Menu {
         this.prixMoyen = prixMoyen;
     }
 
-    // Getter and Setter for 'restaurant'
-    public Restaurant getRestaurant() {
-        return restaurant;
+    public String getIngredientsDetails() {
+        return ingredientsDetails;
     }
 
-    public void setRestaurant(Restaurant restaurant) {
-        this.restaurant = restaurant;
+    public void setIngredientsDetails(String ingredientsDetails) {
+        this.ingredientsDetails = ingredientsDetails;
     }
 
-    // Constructor, if necessary
-    public Menu() {
+    public String getImage() {
+        return image;
     }
 
-    public Menu(Long id, String plats, float prixMoyen, Restaurant restaurant) {
-        this.id = id;
-        this.plats = plats;
-        this.prixMoyen = prixMoyen;
-        this.restaurant = restaurant;
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public Long getRestaurantId() {
+        return restaurantId;
+    }
+
+    public void setRestaurantId(Long restaurantId) {
+        this.restaurantId = restaurantId;
     }
 }
