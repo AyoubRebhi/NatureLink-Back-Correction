@@ -1,12 +1,9 @@
 package com.example.naturelink.Service;
 
 import com.example.naturelink.Entity.Restaurant;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
-
 public interface IRestaurantService {
 
     List<Restaurant> getAllRestaurants();
@@ -15,9 +12,7 @@ public interface IRestaurantService {
 
     Restaurant addRestaurant(Restaurant restaurant);
 
-    Restaurant updateRestaurant(Long id, Restaurant restaurant, MultipartFile image);
+    Restaurant updateRestaurant(Long id, Restaurant restaurant);
 
-    List<Restaurant> getOpenRestaurantsBetween(LocalTime start, LocalTime end);
-
-    boolean deleteRestaurant(Long id);
+    void deleteRestaurant(Long id);
 }

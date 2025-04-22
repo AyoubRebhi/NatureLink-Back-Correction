@@ -1,6 +1,5 @@
 package com.example.naturelink.Entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.List;
 
@@ -12,25 +11,28 @@ public class Restaurant {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String nom;
-    private String description;
-    private String localisation;
-    private String typeCuisine;
-    private String horairesOuverture;
-    private String image;
     @Column(nullable = false)
-    private Integer capacite;
-    @OneToMany
-    @JoinColumn(name = "restaurant_id")
+    private String nom;
+
+    @Column(nullable = false)
+    private String description;
+
+    @Column(nullable = false)
+    private String localisation;
+
+    @Column(nullable = false)
+    private String typeCuisine;
+
+    @Column(nullable = false)
+    private String horairesOuverture;
+
+    @Column(nullable = false)
+    private String image;
+
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Menu> menus;
 
-    // Getters and setters
-    public void setCapacite(Integer capacite) {
-        this.capacite = capacite;
-    }
-    public Integer getCapacite() {
-        return capacite;
-    }
+    // Getter and Setter for 'id'
     public Long getId() {
         return id;
     }
@@ -39,6 +41,7 @@ public class Restaurant {
         this.id = id;
     }
 
+    // Getter and Setter for 'nom'
     public String getNom() {
         return nom;
     }
@@ -47,6 +50,7 @@ public class Restaurant {
         this.nom = nom;
     }
 
+    // Getter and Setter for 'description'
     public String getDescription() {
         return description;
     }
@@ -55,6 +59,7 @@ public class Restaurant {
         this.description = description;
     }
 
+    // Getter and Setter for 'localisation'
     public String getLocalisation() {
         return localisation;
     }
@@ -63,6 +68,7 @@ public class Restaurant {
         this.localisation = localisation;
     }
 
+    // Getter and Setter for 'typeCuisine'
     public String getTypeCuisine() {
         return typeCuisine;
     }
@@ -71,6 +77,7 @@ public class Restaurant {
         this.typeCuisine = typeCuisine;
     }
 
+    // Getter and Setter for 'horairesOuverture'
     public String getHorairesOuverture() {
         return horairesOuverture;
     }
@@ -79,6 +86,7 @@ public class Restaurant {
         this.horairesOuverture = horairesOuverture;
     }
 
+    // Getter and Setter for 'image'
     public String getImage() {
         return image;
     }
@@ -87,11 +95,28 @@ public class Restaurant {
         this.image = image;
     }
 
+    // Getter and Setter for 'menus'
     public List<Menu> getMenus() {
         return menus;
     }
 
     public void setMenus(List<Menu> menus) {
+        this.menus = menus;
+    }
+
+    // Constructor
+    public Restaurant() {
+    }
+
+    public Restaurant(Long id, String nom, String description, String localisation, String typeCuisine,
+                      String horairesOuverture, String image, List<Menu> menus) {
+        this.id = id;
+        this.nom = nom;
+        this.description = description;
+        this.localisation = localisation;
+        this.typeCuisine = typeCuisine;
+        this.horairesOuverture = horairesOuverture;
+        this.image = image;
         this.menus = menus;
     }
 }
