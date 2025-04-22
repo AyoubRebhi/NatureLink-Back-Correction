@@ -39,6 +39,9 @@
                             .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                             .requestMatchers("/auth/**").permitAll()
                             .requestMatchers("/uploads/**").permitAll()
+                            .requestMatchers("/reservations/**").permitAll()
+                            .requestMatchers("/static/**").permitAll()
+                            .requestMatchers("/packs/**").permitAll()        // 💥 TEMP: full access
                             .requestMatchers("/api/auth/**", "/api/users/approve").permitAll()
                             .requestMatchers("/api/users/admin/**").hasRole("ADMIN")
                             .requestMatchers("/admin/**").hasRole("ADMIN")
