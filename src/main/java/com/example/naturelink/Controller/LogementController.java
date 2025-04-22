@@ -21,11 +21,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
+@CrossOrigin(origins = "http://localhost:4200")  // Enable CORS for this controller
 @RestController
 @RequestMapping("/logements")
 public class LogementController {
@@ -45,6 +44,9 @@ public class LogementController {
         return logementService.getAllLogements();
     }
 
+
+
+
     @GetMapping("/{id}")
     public ResponseEntity<Logement> getLogementById(@PathVariable Integer id) {
         Optional<Logement> logement = logementService.getLogementById(id);
@@ -57,6 +59,11 @@ public class LogementController {
         messagingTemplate.convertAndSend("/topic/logements", createdLogement);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdLogement);
     }
+    @GetMapping("/searchByImages")
+    public List<Logement> searchLogementsByImageNames(@RequestParam List<String> imageNames) {
+        return logementService.findLogementsByImageNames(imageNames);
+    }
+
 
     @PostMapping("/upload")
     public ResponseEntity<Logement> createLogementWithImages(
@@ -300,38 +307,20 @@ public class LogementController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
-    @GetMapping("/uploads/info/{filename}")
-    public ResponseEntity<Object> getImageAndLogementInfo(@PathVariable String filename) {
-        try {
-            // Fetch the image file
-            Path filePath = Paths.get("uploads").resolve(filename);
-            FileSystemResource resource = new FileSystemResource(filePath.toFile());
+    @GetMapping("/paths/all-image-paths")
+    public List<String> getAllImagePaths() {
+        List<Logement> logements = logementService.getAllLogements();
+        List<String> allImages = new ArrayList<>();
 
-            // Check if the file exists
-            if (!resource.exists()) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Image not found.");
+        for (Logement logement : logements) {
+            if (logement.getImages() != null) {
+                for (String image : logement.getImages()) {
+                    allImages.add("uploads/" + image); // Adjust path if needed
+                }
             }
-
-            // Fetch the logement associated with the image
-            Optional<Logement> logementOpt = logementService.getLogementByImage(filename);
-
-            // Check if a logement was found
-            if (logementOpt.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Logement not found.");
-            }
-
-            Logement logement = logementOpt.get();  // Unwrap the Optional
-
-            // Prepare the response body
-            // Assuming the Logement entity contains necessary details (like you can include logement details in the response body)
-            return ResponseEntity.ok()
-                    .contentType(MediaType.IMAGE_JPEG) // Assuming JPEG images, you can adjust as necessary
-                    .body(resource);  // Send back the image file as response
-
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while fetching the image.");
         }
-    }
 
+        return allImages;
+    }
 
 }

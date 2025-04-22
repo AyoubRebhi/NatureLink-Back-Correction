@@ -5,16 +5,22 @@ from model import get_image_embedding
 from sklearn.metrics.pairwise import cosine_similarity
 
 EMBEDDING_PATH = "embeddings.json"
-IMAGE_DIR = "uploads"
-BASE_URL = "http://localhost:5000"  # Your base URL for image access
+IMAGE_DIR = "uploads"  # Make sure this is your actual image directory path
+BASE_URL = "http://localhost:8080"  # Your base URL for image access
 
 def build_embeddings():
     embeddings = []
     for filename in os.listdir(IMAGE_DIR):
+        # Use the full path to ensure that you capture the full filename (including UUID)
         path = os.path.join(IMAGE_DIR, filename)
+
+        # Ensure we're only processing image files
         if path.lower().endswith((".jpg", ".png", ".jpeg")):
             emb = get_image_embedding(path).tolist()
-            embeddings.append({"path": path, "embedding": emb})  # Full path is saved here
+            # Store the full path (including the UUID in the filename)
+            embeddings.append({"path": path, "embedding": emb})
+
+    # Save the embeddings to a JSON file
     with open(EMBEDDING_PATH, "w") as f:
         json.dump(embeddings, f)
 
@@ -32,9 +38,8 @@ def find_similar_images(uploaded_image_path, top_k=3):
 
     return [
         {
-            "image_name": os.path.basename(embeddings[i]["path"]),  # Full image name (including the unique identifier)
-            "score": round(float(similarities[i]), 4),
-            "url": f"{BASE_URL}/{embeddings[i]['path']}"  # Full URL for image access
+            "image_name": os.path.basename(embeddings[i]["path"]),  # Return the full image name with UUID
+            "score": round(float(similarities[i]), 4)
         }
         for i in top_indices
     ]

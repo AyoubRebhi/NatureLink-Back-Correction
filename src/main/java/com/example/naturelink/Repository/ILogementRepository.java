@@ -9,6 +9,6 @@ import java.util.Optional;
 
 public interface ILogementRepository extends JpaRepository<Logement, Integer> {
     List<Logement> findByProprietarield(Integer proprietarield);
-        Optional<Logement> findByImagesContaining(String imageFilename);
+    List<Logement> findByImagesIn(List<String> imageNames);
     }
 

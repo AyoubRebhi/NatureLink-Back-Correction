@@ -15,6 +15,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class LogementService implements ILogementService {
@@ -183,10 +184,27 @@ public class LogementService implements ILogementService {
             throw new RuntimeException("Error removing image from the server", e);
         }
     }
-    public Optional<Logement> getLogementByImage(String imageFilename) {
-        return logementRepository.findByImagesContaining(imageFilename);
+    public List<Logement> findLogementsByImages(List<String> imageNames) {
+        // Query the database for logements that contain any of the image names
+        return logementRepository.findByImagesIn(imageNames);
+    }
+    /**
+     * Finds all logements that have an image name matching a part of the provided image names.
+     * @param imageNames List of image names (can be partial names).
+     * @return List of logements that have at least one image matching the provided names (partial or full).
+     */
+    public List<Logement> findLogementsByImageNames(List<String> imageNames) {
+        // Fetch all logements from the repository (can optimize if needed)
+        List<Logement> allLogements = logementRepository.findAll();
+
+        // Filter logements that have an image name containing any of the provided partial image names
+        List<Logement> matchingLogements = allLogements.stream()
+                .filter(logement -> logement.getImages().stream()
+                        .anyMatch(image -> imageNames.stream().anyMatch(image::contains)))  // Match partial name
+                .collect(Collectors.toList());
+
+        return matchingLogements;
     }
 
-
-
 }
+
