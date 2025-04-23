@@ -17,7 +17,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/event")
 @RequiredArgsConstructor
-@CrossOrigin("*")
+@CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true", allowedHeaders = "*")
 public class EventController {
     private final EventService eventService;
     private final ExportPDFService exportPDFService;
@@ -88,8 +88,8 @@ return ResponseEntity.ok(event1);
     }
 
 
-    @CrossOrigin(origins = "http://localhost:4200")
-    @PostMapping("/recommend")
+    @PostMapping(value="/recommend",  consumes = MediaType.APPLICATION_JSON_VALUE,
+    produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> recommendEvents(@RequestBody Map<String, Object> payload) {
         // Flask endpoint URL for event recommendations
         String flaskUrl = "http://localhost:5000/recommend/event";
@@ -99,7 +99,8 @@ return ResponseEntity.ok(event1);
         HttpEntity<Map<String, Object>> requestEntity = new HttpEntity<>(payload, headers);
 
         try {
-            return restTemplate.exchange(flaskUrl, HttpMethod.POST, requestEntity, Object.class);
+            ResponseEntity<String> response = restTemplate.exchange(flaskUrl, HttpMethod.POST, requestEntity, String.class);
+            return ResponseEntity.ok().body(response.getBody());
         } catch (HttpClientErrorException e) {
             return ResponseEntity.status(e.getStatusCode()).body(e.getResponseBodyAsString());
         }
