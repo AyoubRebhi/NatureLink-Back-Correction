@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 import java.util.Optional;
 
-public interface ILogementRepository extends JpaRepository<Logement, Integer> {
+public interface ILogementRepository extends JpaRepository<Logement, Long> {
     List<Logement> findByProprietarield(Integer proprietarield);
     List<Logement> findByImagesIn(List<String> imageNames);
     }

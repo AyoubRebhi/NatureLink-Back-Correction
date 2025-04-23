@@ -8,6 +8,6 @@ class NatureLinkApplicationTests {
 
     @Test
     void contextLoads() {
-    }
+    }}
 
-}
+

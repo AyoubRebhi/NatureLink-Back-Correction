@@ -37,7 +37,7 @@ public class LogementService implements ILogementService {
 
     @Override
     public Optional<Logement> getLogementById(Integer id) {
-        return logementRepository.findById(id);
+        return logementRepository.findById(Long.valueOf(id));
     }
 
     @Override
@@ -97,7 +97,7 @@ public class LogementService implements ILogementService {
         return logementRepository.save(logement);
     }
     public Logement updateLogementWithImage(Integer id, Logement logementDetails) {
-        Logement logement = logementRepository.findById(id)
+        Logement logement = logementRepository.findById(Long.valueOf(id))
                 .orElseThrow(() -> new RuntimeException("Logement not found"));
 
         logement.setTitre(logementDetails.getTitre());
@@ -125,7 +125,7 @@ public class LogementService implements ILogementService {
 
     @Override
     public Logement updateLogement(Integer id, Logement logementDetails) {
-        Logement logement = logementRepository.findById(id)
+        Logement logement = logementRepository.findById(Long.valueOf(id))
                 .orElseThrow(() -> new RuntimeException("Logement not found"));
 
         logement.setTitre(logementDetails.getTitre());
@@ -151,7 +151,7 @@ public class LogementService implements ILogementService {
     }
     @Override
     public void deleteLogement(Integer id) {
-        logementRepository.deleteById(id);
+        logementRepository.deleteById(Long.valueOf(id));
     }
 
     public List<Logement> getLogementsByProprietaireId(Integer proprietaireId) {
@@ -169,7 +169,7 @@ public class LogementService implements ILogementService {
     public Logement removeImageFromLogement(Integer logementId, String imageName) {
         try {
             // Your logic to find the logement by ID and remove the image from database or associated data
-            Logement logement = logementRepository.findById(logementId).orElseThrow(() -> new RuntimeException("Logement not found"));
+            Logement logement = logementRepository.findById(Long.valueOf(logementId)).orElseThrow(() -> new RuntimeException("Logement not found"));
 
             // Remove the image from the database if necessary
             logement.getImages().remove(imageName);
