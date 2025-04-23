@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 import com.example.naturelink.Entity.CarbonFootprint;
@@ -29,7 +30,8 @@ public class CarbonFootprintController {
 
     @PostMapping
     public ResponseEntity<CarbonFootprint> createFootprint(@RequestBody CarbonFootprint footprint) {
-        footprint.setDate(LocalDateTime.now());
+        footprint.setDate(new Date()
+        );
         CarbonFootprint saved = footprintService.saveFootprint(footprint);
         return ResponseEntity.ok(saved);
     }

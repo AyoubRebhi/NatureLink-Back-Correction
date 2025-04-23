@@ -14,7 +14,7 @@ import java.util.UUID;
 @Service
 public class StorageService {
 
-    @Value("${upload.directory}")
+    @Value("${file.upload-dir}")
     private String uploadDir;
 
     public String storeImage(MultipartFile file) throws IOException {

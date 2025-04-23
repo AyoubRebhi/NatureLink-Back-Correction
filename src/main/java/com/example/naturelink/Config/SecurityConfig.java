@@ -43,21 +43,27 @@
                             .requestMatchers("/static/**").permitAll()
                             .requestMatchers("/packs/**").permitAll()
                             .requestMatchers("/activities/**").permitAll()
-                            .requestMatchers(("/transport/**")).permitAll()
+                            .requestMatchers("/transport/**").permitAll()
                             .requestMatchers("/logements/**").permitAll()
-                            .requestMatchers(("/ratings/**")).permitAll()
-                            .requestMatchers(("/restaurants/**")).permitAll()
-                            .requestMatchers(("/api/visits/**")).permitAll()
+                            .requestMatchers("/ratings/**").permitAll()
+                            .requestMatchers("/restaurants/**").permitAll()
+                            .requestMatchers("/api/foods/**").permitAll()
+                            .requestMatchers("/api/clothing/**").permitAll()
+                            .requestMatchers("/api/comments/**").permitAll()
+                            .requestMatchers("/api/likes/**").permitAll()
+                            .requestMatchers("/api/destinations").permitAll()
+                            .requestMatchers("/api/footprints/**").permitAll()
+                            .requestMatchers("/api/visits/**").permitAll()
                             .requestMatchers("/api/monuments/**").permitAll()
                             .requestMatchers("/api/tourguides").permitAll()
-                            .requestMatchers(("/api/menus/**")).permitAll()
+                            .requestMatchers("/api/menus/**").permitAll()
                             .requestMatchers("/api/auth/**", "/api/users/approve").permitAll()
+                            .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                             .requestMatchers("/api/users/admin/**").hasRole("ADMIN")
                             .requestMatchers("/admin/**").hasRole("ADMIN")
-                            .requestMatchers("/api/payments/**").authenticated()
-                            // Fix the request matcher pattern
                             .requestMatchers(HttpMethod.POST, "/api/users/{id}/upload-profile-pic").authenticated()
-                            .anyRequest().authenticated()
+                            .requestMatchers("/api/payments/**").authenticated()
+                            .anyRequest().authenticated() // ⛔ À la fin !
                     )
                     .sessionManagement(session -> session
                             .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -66,6 +72,7 @@
 
             return http.build();
         }
+
 
         @Bean
         public AuthenticationProvider authenticationProvider() {

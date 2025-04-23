@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 @Data
@@ -15,7 +16,7 @@ public class CarbonFootprint {
     private double distance; // en km
     private String transportType;
     private double carbonFootprint; // en kg CO2
-    private LocalDateTime date;
+    private Date date;
 
     private String departurePoint;
     private String arrivalPoint;

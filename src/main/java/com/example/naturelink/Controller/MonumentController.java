@@ -32,16 +32,41 @@ public class MonumentController {
     private String UPLOAD_DIR;
 
     @PostMapping
-    public ResponseEntity<Monument> createMonument(@RequestBody Monument monument) {
+    public ResponseEntity<Monument> createMonument(
+            @RequestParam("name") String name,
+            @RequestParam(value = "description", required = false) String description,
+            @RequestParam(value = "location", required = false) String location,
+            @RequestParam(value = "openingHours", required = false) String openingHours,
+            @RequestParam(value = "entranceFee", required = false) Float entranceFee,
+            @RequestParam(value = "image", required = false) MultipartFile imageFile) {
+
         try {
-            // Sauvegarde directe si pas d'image (le champ image peut être une URL ou un nom de fichier par défaut)
+            // Handle image upload
+            String filename = null;
+            if (imageFile != null && !imageFile.isEmpty()) {
+                filename = UUID.randomUUID() + "_" + imageFile.getOriginalFilename();
+                Path imagePath = Paths.get(UPLOAD_DIR, filename);
+                Files.createDirectories(imagePath.getParent());
+                Files.write(imagePath, imageFile.getBytes());
+            }
+
+            // Create Monument object
+            Monument monument = new Monument();
+            monument.setName(name);
+            monument.setDescription(description);
+            monument.setLocation(location);
+            monument.setOpeningHours(openingHours);
+            monument.setEntranceFee(entranceFee);
+            monument.setImage(filename);
+
+            // Save Monument using service
             Monument savedMonument = monumentService.addMonument(monument);
             return ResponseEntity.ok(savedMonument);
-        } catch (Exception e) {
+
+        } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-
 
     @GetMapping("/{id}")
     public ResponseEntity<Monument> getMonument(@PathVariable Integer id) {
@@ -58,18 +83,41 @@ public class MonumentController {
     @PutMapping("/{id}")
     public ResponseEntity<Monument> updateMonument(
             @PathVariable Integer id,
-            @RequestBody Monument updatedMonument) {
+            @RequestParam(value = "name", required = false) String name,
+            @RequestParam(value = "description", required = false) String description,
+            @RequestParam(value = "location", required = false) String location,
+            @RequestParam(value = "openingHours", required = false) String openingHours,
+            @RequestParam(value = "entranceFee", required = false) Float entranceFee,
+            @RequestParam(value = "image", required = false) MultipartFile imageFile) {
 
         try {
-            // Mise à jour via service (assure-toi que ce service remplace bien les champs)
+            // Handle image upload
+            String filename = null;
+            if (imageFile != null && !imageFile.isEmpty()) {
+                filename = UUID.randomUUID() + "_" + imageFile.getOriginalFilename();
+                Path imagePath = Paths.get(UPLOAD_DIR, filename);
+                Files.createDirectories(imagePath.getParent());
+                Files.write(imagePath, imageFile.getBytes());
+            }
+
+            // Create updated Monument object
+            Monument updatedMonument = new Monument();
+            updatedMonument.setName(name);
+            updatedMonument.setDescription(description);
+            updatedMonument.setLocation(location);
+            updatedMonument.setOpeningHours(openingHours);
+            updatedMonument.setEntranceFee(entranceFee);
+            updatedMonument.setImage(filename);
+
+            // Update Monument using service
             return monumentService.updateMonument(id, updatedMonument)
                     .map(ResponseEntity::ok)
                     .orElse(ResponseEntity.notFound().build());
-        } catch (Exception e) {
+
+        } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteMonument(@PathVariable Integer id) {
