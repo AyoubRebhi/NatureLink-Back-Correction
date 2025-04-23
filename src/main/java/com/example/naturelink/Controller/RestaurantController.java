@@ -25,10 +25,14 @@ public class RestaurantController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Restaurant> getRestaurantById(@PathVariable Long id) {
-        return restaurantService.getRestaurantById(id)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+        try {
+            Restaurant restaurant = restaurantService.getRestaurantWithMenus(id);
+            return ResponseEntity.ok(restaurant);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
     }
+
 
     @PostMapping
     public ResponseEntity<Restaurant> addRestaurant(@RequestBody Restaurant restaurant) {

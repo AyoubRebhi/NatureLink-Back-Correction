@@ -44,7 +44,12 @@
                             .requestMatchers("/packs/**").permitAll()
                             .requestMatchers("/activities/**").permitAll()
                             .requestMatchers(("/transport/**")).permitAll()
-                            .requestMatchers(("/ratings/**")).permitAll()// 💥 TEMP: full access
+                            .requestMatchers(("/ratings/**")).permitAll()
+                            .requestMatchers(("/restaurants/**")).permitAll()
+                            .requestMatchers(("/api/visits/**")).permitAll()
+                            .requestMatchers("/api/monuments/**").permitAll()
+                            .requestMatchers("/api/tourguides").permitAll()
+                            .requestMatchers(("/api/menus/**")).permitAll()
                             .requestMatchers("/api/auth/**", "/api/users/approve").permitAll()
                             .requestMatchers("/api/users/admin/**").hasRole("ADMIN")
                             .requestMatchers("/admin/**").hasRole("ADMIN")

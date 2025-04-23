@@ -3,6 +3,7 @@ package com.example.naturelink.Service;
 
 import com.example.naturelink.Entity.Restaurant;
 import com.example.naturelink.Repository.RestaurantRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,9 +16,10 @@ public class RestaurantService implements IRestaurantService {
     @Autowired
     private RestaurantRepository restaurantRepository;
 
+
     @Override
     public List<Restaurant> getAllRestaurants() {
-        return restaurantRepository.findAll();
+        return restaurantRepository.findAllWithMenus();
     }
 
 
@@ -47,4 +49,9 @@ public class RestaurantService implements IRestaurantService {
             restaurantRepository.deleteById(id);
         }
     }
+    @Transactional
+    public Restaurant getRestaurantWithMenus(Long id) {
+        return restaurantRepository.findByIdWithMenus(id).orElseThrow();
+    }
+
 }

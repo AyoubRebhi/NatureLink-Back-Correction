@@ -15,4 +15,6 @@ public interface IRestaurantService {
     Restaurant updateRestaurant(Long id, Restaurant restaurant);
 
     void deleteRestaurant(Long id);
+
+    Restaurant getRestaurantWithMenus(Long id);
 }
