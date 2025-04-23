@@ -44,6 +44,7 @@
                             .requestMatchers("/packs/**").permitAll()
                             .requestMatchers("/activities/**").permitAll()
                             .requestMatchers(("/transport/**")).permitAll()
+                            .requestMatchers("/logements/**").permitAll()
                             .requestMatchers(("/ratings/**")).permitAll()
                             .requestMatchers(("/restaurants/**")).permitAll()
                             .requestMatchers(("/api/visits/**")).permitAll()
