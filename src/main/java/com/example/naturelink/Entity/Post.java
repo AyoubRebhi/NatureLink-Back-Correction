@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 @Entity
 @Getter
@@ -22,7 +23,7 @@ public class Post {
     private String content;
     private String ImageUrl;
 
-    private LocalDateTime dateCreated ;
+    private Date dateCreated ;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

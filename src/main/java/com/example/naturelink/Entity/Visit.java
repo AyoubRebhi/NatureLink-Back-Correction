@@ -1,13 +1,11 @@
 package com.example.naturelink.Entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-//import lombok.Data;
-
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-//@Data
 @Entity
 @Table(name = "visit")
 public class Visit {
@@ -17,10 +15,10 @@ public class Visit {
     private Integer id;
 
     @Column(nullable = false)
-    private LocalDate date;
+    private String date;
 
     @Column(nullable = false)
-    private LocalTime time;
+    private String time;
 
     @Column(nullable = false)
     private float price;
@@ -38,6 +36,19 @@ public class Visit {
     @JsonBackReference(value = "guide-visit")
     private TourGuide guide;
 
+    // Exclude from serialization to avoid LocalTime serialization error
+    @Transient
+    @JsonIgnore
+    public LocalDate getLocalDate() {
+        return date != null ? LocalDate.parse(date) : null;
+    }
+
+    @Transient
+    @JsonIgnore
+    public LocalTime getLocalTime() {
+        return time != null ? LocalTime.parse(time) : null;
+    }
+
     public String getGuideName() {
         if (guide == null) return null;
         String firstName = guide.getFirstName() != null ? guide.getFirstName() : "";
@@ -49,6 +60,7 @@ public class Visit {
         return monument != null ? monument.getName() : null;
     }
 
+    // Getters and setters
     public Integer getId() {
         return id;
     }
@@ -57,19 +69,19 @@ public class Visit {
         this.id = id;
     }
 
-    public LocalDate getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
-    public LocalTime getTime() {
+    public String getTime() {
         return time;
     }
 
-    public void setTime(LocalTime time) {
+    public void setTime(String time) {
         this.time = time;
     }
 

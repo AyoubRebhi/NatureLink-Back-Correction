@@ -14,6 +14,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -51,7 +52,7 @@ public class PostService {
                 .content(content)
                 .ImageUrl(imageUrl)
                 .user(userId != null ? userRepository.findById(userId).orElse(null) : null)
-                .dateCreated(LocalDateTime.now())
+                .dateCreated(new Date())
                 .build();
 
         return postRepository.save(post);

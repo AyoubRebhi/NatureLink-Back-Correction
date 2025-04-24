@@ -57,6 +57,7 @@
                             .requestMatchers("/api/monuments/**").permitAll()
                             .requestMatchers("/api/tourguides").permitAll()
                             .requestMatchers("/api/menus/**").permitAll()
+                            .requestMatchers("/event/**").permitAll()
                             .requestMatchers("/api/auth/**", "/api/users/approve").permitAll()
                             .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                             .requestMatchers("/api/users/admin/**").hasRole("ADMIN")

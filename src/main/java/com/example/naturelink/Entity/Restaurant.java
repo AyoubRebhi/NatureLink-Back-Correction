@@ -20,9 +20,9 @@ public class Restaurant {
     private String image;
     @Column(nullable = false)
     private Integer capacite;
-    @OneToMany
-    @JoinColumn(name = "restaurant_id")
-    @JsonIgnore  // 👈 This prevents the infinite loop / Lazy error
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+
     private List<Menu> menus;
 
     // Getters and setters
