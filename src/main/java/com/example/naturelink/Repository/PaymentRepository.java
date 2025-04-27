@@ -12,4 +12,19 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
     List<Payment> findByUserAndStatus(User user, Payment.PaymentStatus status);
     Optional<Payment> findByIdAndUser(Long id, User user);
     List<Payment> findByUserId(Integer userId);
+
+    // Find payment by Stripe payment intent ID
+    Optional<Payment> findByStripePaymentIntentId(String paymentIntentId);
+
+    // Find all payments by user ID
+    List<Payment> findByUserId(Long userId);
+
+    // Find all payments by status
+    List<Payment> findByStatus(Payment.PaymentStatus status);
+
+    // Find payment by reservation ID
+    Optional<Payment> findByReservationId(Long reservationId);
+
+    // Check if a reservation already has a completed payment
+    boolean existsByReservationIdAndStatus(Long reservationId, Payment.PaymentStatus status);
 }

@@ -44,6 +44,7 @@
                             .requestMatchers("/packs/**").permitAll()
                             .requestMatchers("/activities/**").permitAll()
                             .requestMatchers("/transport/**").permitAll()
+                            .requestMatchers("/api/payments/**").permitAll()
                             .requestMatchers("/logements/**").permitAll()
                             .requestMatchers("/ratings/**").permitAll()
                             .requestMatchers("/restaurants/**").permitAll()
@@ -63,7 +64,7 @@
                             .requestMatchers("/api/users/admin/**").hasRole("ADMIN")
                             .requestMatchers("/admin/**").hasRole("ADMIN")
                             .requestMatchers(HttpMethod.POST, "/api/users/{id}/upload-profile-pic").authenticated()
-                            .requestMatchers("/api/payments/**").authenticated()
+                            //.requestMatchers("/api/payments/**").authenticated()
                             .anyRequest().authenticated() // ⛔ À la fin !
                     )
                     .sessionManagement(session -> session
