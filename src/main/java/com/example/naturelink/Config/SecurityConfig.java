@@ -42,6 +42,7 @@
                             .requestMatchers("/reservations/**").permitAll()
                             .requestMatchers("/static/**").permitAll()
                             .requestMatchers("/packs/**").permitAll()
+                            .requestMatchers("/logements/**").permitAll()
                             .requestMatchers("/activities/**").permitAll()
                             .requestMatchers(("/transport/**")).permitAll()
                             .requestMatchers(("/ratings/**")).permitAll()// 💥 TEMP: full access
