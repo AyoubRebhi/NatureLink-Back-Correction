@@ -1,5 +1,6 @@
 package com.example.naturelink.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +31,7 @@ public class Logement {
     private Integer doubleRooms;
     @ElementCollection
     private List<String> images = new ArrayList<>();
+    @JsonIgnore
 
     public List<String> getImages() {
         return images;
@@ -40,12 +42,14 @@ public class Logement {
     }
 
     // Change this to use the Equipement enum
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "logement_equipements",
             joinColumns = @JoinColumn(name = "logement_id"),
             inverseJoinColumns = @JoinColumn(name = "equipement_id")
     )
+
+
     private List<Equipement> equipements = new ArrayList<>();
     // Getters and Setters
 

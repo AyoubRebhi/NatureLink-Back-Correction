@@ -6,6 +6,7 @@ import java.util.List;
 public class ReservationDTO {
 
     private Long userId;
+    private Long packId; // New field for pack
 
     private Date dateDebut;
     private String clientEmail; // Added for email notifications
@@ -25,7 +26,7 @@ public class ReservationDTO {
     private String typeres;
 
     // Constructor
-    public ReservationDTO(Long userId,  Date dateDebut, Date dateFin,
+    public ReservationDTO(Long userId, Long packId ,  Date dateDebut, Date dateFin,
                           Long logementId, Long eventId, Long restaurantId,
                           Integer transportId, Integer activityId, String statut,
                           Long id, Integer numClients, Integer numRooms, List<String> clientNames) {
@@ -174,5 +175,14 @@ public class ReservationDTO {
 
     public void setClientEmail(String clientEmail) {
         this.clientEmail = clientEmail;
+    }
+
+    public Long getPackId() {
+        return packId;
+
+    }
+
+    public void setPackId(Long packId) {
+        this.packId = packId;
     }
 }

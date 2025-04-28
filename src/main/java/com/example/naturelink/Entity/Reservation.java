@@ -68,6 +68,20 @@ public class Reservation {
     @Nullable
     @JoinColumn(name = "activite_id")
     private Activity activityId;
+    @ManyToOne
+    @Nullable
+    @JoinColumn(name = "pack_id")
+    private Pack pack; // New field for pack reservation
+
+    // Existing getters and setters (unchanged)
+    // Add getter and setter for pack
+    public Pack getPack() {
+        return pack;
+    }
+
+    public void setPack(Pack pack) {
+        this.pack = pack;
+    }
 
     // Getter and Setter for numClients and numRooms
     public Integer getNumClients() {
