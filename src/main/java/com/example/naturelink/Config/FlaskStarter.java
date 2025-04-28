@@ -12,8 +12,8 @@ public class FlaskStarter {
     private Process nameApiProcess;
     private Process chatbotApiProcess;
     private Process imageGenApiProcess;
-
     private Process itineraryApiProcess;
+    private Process recommendationApiProcess; // New process for recommendation API
 
     @PostConstruct
     public void startFlaskServers() {
@@ -40,7 +40,13 @@ public class FlaskStarter {
             itineraryApi.redirectOutput(ProcessBuilder.Redirect.INHERIT);
             itineraryApi.redirectError(ProcessBuilder.Redirect.INHERIT);
             itineraryApiProcess = itineraryApi.start();
-            System.out.println("✅ travel_itinerary_api.py started on port");
+            System.out.println("✅ jiji.py started on port 5010");
+
+            ProcessBuilder recommendationApi = new ProcessBuilder("python", "src/main/python-ml/recommendation_api.py");
+            recommendationApi.redirectOutput(ProcessBuilder.Redirect.INHERIT);
+            recommendationApi.redirectError(ProcessBuilder.Redirect.INHERIT);
+            recommendationApiProcess = recommendationApi.start();
+            System.out.println("✅ recommendation_api.py started on port 5007");
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -53,6 +59,7 @@ public class FlaskStarter {
         destroyFlaskProcess(chatbotApiProcess, "chatbot_api");
         destroyFlaskProcess(imageGenApiProcess, "image_gen_api");
         destroyFlaskProcess(itineraryApiProcess, "jiji_api");
+        destroyFlaskProcess(recommendationApiProcess, "recommendation_api");
     }
 
     private void destroyFlaskProcess(Process process, String name) {
