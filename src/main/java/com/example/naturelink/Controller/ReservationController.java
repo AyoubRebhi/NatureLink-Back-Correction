@@ -60,9 +60,12 @@ public class ReservationController {
                 return ResponseEntity.badRequest().body(Map.of("status", "ERROR", "message", "User ID, start date, end date, numClients, and clientNames are required."));
             }
 
-            // Call addReservation for validation (includes FlaskClientService check)
+            // Route to appropriate reservation type
             ReservationDTO savedReservation;
-            if (reservationDTO.getLogementId() != null) {
+            if (reservationDTO.getPackId() != null) {
+                // Handle pack reservation
+                savedReservation = reservationService.addReservationByType(TypeReservation.PACK, reservationDTO);
+            } else if (reservationDTO.getLogementId() != null) {
                 savedReservation = reservationService.addReservationByType(TypeReservation.LOGEMENT, reservationDTO);
             } else if (reservationDTO.getEventId() != null) {
                 savedReservation = reservationService.addReservationByType(TypeReservation.EVENT, reservationDTO);
@@ -73,7 +76,7 @@ public class ReservationController {
             } else if (reservationDTO.getActivityId() != null) {
                 savedReservation = reservationService.addReservationByType(TypeReservation.ACTIVITE, reservationDTO);
             } else {
-                return ResponseEntity.badRequest().body(Map.of("status", "ERROR", "message", "At least one entity (logement, event, etc.) must be provided."));
+                return ResponseEntity.badRequest().body(Map.of("status", "ERROR", "message", "At least one entity (logement, event, restaurant, transport, activity, or pack) must be provided."));
             }
 
             return ResponseEntity.ok(savedReservation);

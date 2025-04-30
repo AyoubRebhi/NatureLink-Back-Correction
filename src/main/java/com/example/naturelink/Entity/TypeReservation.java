@@ -5,5 +5,6 @@ public enum TypeReservation {
     ACTIVITE,
     RESTAURANT,
     EVENT ,
-    TRANSPORT
+    TRANSPORT,
+    PACK
 }
