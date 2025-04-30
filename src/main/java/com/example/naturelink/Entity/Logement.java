@@ -29,9 +29,8 @@ public class Logement {
     // House specific
     private Integer singleRooms;
     private Integer doubleRooms;
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private List<String> images = new ArrayList<>();
-    @JsonIgnore
 
     public List<String> getImages() {
         return images;

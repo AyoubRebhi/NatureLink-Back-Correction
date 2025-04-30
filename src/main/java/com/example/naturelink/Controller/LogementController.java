@@ -205,7 +205,7 @@ public class LogementController {
             if (removedImages != null && !removedImages.isEmpty()) {
                 for (String imageName : removedImages) {
                     // Delete the image from the filesystem or database
-                    Path imagePath = Paths.get("your-image-directory", imageName);
+                    Path imagePath = Paths.get("uploads", imageName);
                     try {
                         Files.deleteIfExists(imagePath);
                         // Optionally, remove it from the logement's image list

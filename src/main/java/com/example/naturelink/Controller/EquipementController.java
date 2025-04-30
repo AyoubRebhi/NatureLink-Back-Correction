@@ -29,11 +29,11 @@ public class EquipementController {
         return equipement.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @PostMapping
-    public ResponseEntity<Equipement> createEquipement(@RequestBody Equipement equipement) {
-        Equipement createdEquipement = equipementService.createEquipement(equipement);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdEquipement);
-    }
+        @PostMapping
+        public ResponseEntity<Equipement> createEquipement(@RequestBody Equipement equipement) {
+            Equipement createdEquipement = equipementService.createEquipement(equipement);
+            return ResponseEntity.status(HttpStatus.CREATED).body(createdEquipement);
+        }
 
     @PutMapping("/{id}")
     public ResponseEntity<Equipement> updateEquipement(@PathVariable Integer id, @RequestBody Equipement equipementDetails) {
