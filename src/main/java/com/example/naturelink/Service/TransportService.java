@@ -2,8 +2,11 @@ package com.example.naturelink.Service;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import com.example.naturelink.Entity.Role;
 import com.example.naturelink.Entity.Transport;
+import com.example.naturelink.Entity.User;
 import com.example.naturelink.Repository.ITransportRepository;
+import com.example.naturelink.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,12 +20,16 @@ public class TransportService implements ITransportService{
     private final ITransportRepository transportRepository;
     @Autowired
     private Cloudinary cloudinary;
+    @Autowired
+    private UserRepository userRepository;
 
     public TransportService(ITransportRepository transportRepository) {
         this.transportRepository = transportRepository;
     }
 
-
+    public List<Transport> getTransportsByAgence(Integer agenceId) {
+        return transportRepository.findByAgenceId(agenceId);
+    }
     @Override
     public List<Transport> getAllTransports() {
         return transportRepository.findAll();
@@ -37,7 +44,6 @@ public class TransportService implements ITransportService{
     public Transport addTransport(Transport transport) {
         return transportRepository.save(transport);
     }
-
     @Override
     public Transport updateTransport(Integer id, Transport transportDetails) {
         return transportRepository.findById(Long.valueOf(id)).map(transport -> {

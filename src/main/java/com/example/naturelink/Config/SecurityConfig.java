@@ -43,6 +43,7 @@
                             .requestMatchers("/static/**").permitAll()
                             .requestMatchers("/packs/**").permitAll()
                             .requestMatchers("/activities/**").permitAll()
+                            .requestMatchers("/api/boutiques/**").permitAll()
                             .requestMatchers("/transport/**").permitAll()
                             .requestMatchers("/api/payments/**").permitAll()
                             .requestMatchers("/logements/**").permitAll()
