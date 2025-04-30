@@ -1,0 +1,494 @@
+[
+    {
+        "question": "hello",
+        "answer": "Hello! 👋 I'm your NatureLink Tunisia assistant. How can I help you explore Tunisia today?"
+    },
+    {
+        "question": "hi",
+        "answer": "Hi there! 🌿 Welcome to NatureLink Tunisia. What adventure can I help you with?"
+    },
+    {
+        "question": "hey",
+        "answer": "Hey! 😊 Ready to dive into Tunisia’s nature with NatureLink?"
+    },
+    {
+        "question": "good morning",
+        "answer": "Good morning! ☀️ How can NatureLink Tunisia make your day awesome?"
+    },
+    {
+        "question": "good evening",
+        "answer": "Good evening! 🌙 Planning a Tunisian getaway? Let’s chat!"
+    },
+    {
+        "question": "what is naturelink",
+        "answer": "NatureLink Tunisia is your go-to agency for eco-friendly adventures and unforgettable Tunisian experiences!"
+    },
+    {
+        "question": "what do you offer",
+        "answer": "We offer desert treks, coastal hikes, cultural tours, and sustainable travel across Tunisia!"
+    },
+    {
+        "question": "who are you",
+        "answer": "I'm your NatureLink Tunisia assistant, here to guide you to epic outdoor adventures!"
+    },
+    {
+        "question": "tell me about naturelink",
+        "answer": "NatureLink Tunisia specializes in sustainable travel, offering nature-filled trips and cultural experiences."
+    },
+    {
+        "question": "are you a travel agency",
+        "answer": "Yes! We’re a Tunisian agency focused on eco-friendly and adventure-packed trips."
+    },
+    {
+        "question": "how can i contact support",
+        "answer": "Reach our support team at support@naturelink.tn or via our website’s chat."
+    },
+    {
+        "question": "help",
+        "answer": "Of course! What do you need help with? Booking, cancellations, or trip ideas?"
+    },
+    {
+        "question": "customer service",
+        "answer": "Our team is available 24/7 at support@naturelink.tn or +216 71 123 456."
+    },
+    {
+        "question": "i need help",
+        "answer": "I'm here to assist! What's your question? 😊"
+    },
+    {
+        "question": "can i speak to a human",
+        "answer": "Sure! Call +216 71 123 456 or email support@naturelink.tn for direct help."
+    },
+    {
+        "question": "do you offer family packs",
+        "answer": "Yes! We have family-friendly trips with activities for all ages."
+    },
+    {
+        "question": "what packages do you have",
+        "answer": "We offer desert adventures, coastal escapes, cultural tours, and group trips!"
+    },
+    {
+        "question": "how do i book a trip",
+        "answer": "Book on www.naturelink.tn or call +216 71 123 456 for assistance."
+    },
+    {
+        "question": "are your trips refundable",
+        "answer": "Refund policies vary. Check our Terms or contact support for details."
+    },
+    {
+        "question": "do you have last-minute deals",
+        "answer": "Yes! Check our ‘Deals’ section for last-minute Tunisian adventures."
+    },
+    {
+        "question": "where do you offer trips",
+        "answer": "We cover Tunisia’s deserts, mountains, coasts, and cultural sites."
+    },
+    {
+        "question": "do you have hiking trips",
+        "answer": "Absolutely! We offer guided hikes and scenic trails across Tunisia."
+    },
+    {
+        "question": "best trip for beginners",
+        "answer": "Our ‘Coastal Explorer’ is great for beginners—easy walks with amazing views!"
+    },
+    {
+        "question": "do you offer international trips",
+        "answer": "We focus on Tunisia, delivering world-class adventures right here!"
+    },
+    {
+        "question": "what's your most popular trip",
+        "answer": "The ‘Desert Nights’ adventure is a fan favorite! 🌴"
+    },
+    {
+        "question": "are your trips expensive",
+        "answer": "We have budget to premium options. Check www.naturelink.tn for prices."
+    },
+    {
+        "question": "do you offer discounts",
+        "answer": "Yes! Discounts for students, families, and groups. Ask for promo codes!"
+    },
+    {
+        "question": "how much is a basic pack",
+        "answer": "Basic trips start at 150 TND. See our site for details."
+    },
+    {
+        "question": "is insurance included",
+        "answer": "Travel insurance is optional. Add it during booking for peace of mind."
+    },
+    {
+        "question": "do you have payment plans",
+        "answer": "Yes! Installment plans are available for select trips."
+    },
+    {
+        "question": "are you happy with our packs",
+        "answer": "Thanks for the feedback! We’re always improving our Tunisian adventures."
+    },
+    {
+        "question": "can i leave a review",
+        "answer": "We’d love that! Drop a review on www.naturelink.tn/reviews."
+    },
+    {
+        "question": "what do customers say about you",
+        "answer": "Our travelers love us! ⭐⭐⭐⭐⭐ Check testimonials on our site."
+    },
+    {
+        "question": "how can i complain",
+        "answer": "Sorry to hear that. Email complaints@naturelink.tn, and we’ll fix it fast."
+    },
+    {
+        "question": "do you listen to feedback",
+        "answer": "Totally! Your input shapes our Tunisian adventures."
+    },
+    {
+        "question": "thanks",
+        "answer": "You’re welcome! Happy to help. 😊"
+    },
+    {
+        "question": "thank you",
+        "answer": "Anytime! Hit me up for more Tunisian travel tips."
+    },
+    {
+        "question": "bye",
+        "answer": "Goodbye! 🌿 Hope to see you on a NatureLink Tunisia trip soon!"
+    },
+    {
+        "question": "see you later",
+        "answer": "See you! Safe travels. ✨"
+    },
+    {
+        "question": "you're awesome",
+        "answer": "Aww, thanks! You’re pretty awesome too. 😄"
+    },
+    {
+        "question": "what's the weather like",
+        "answer": "I can’t check live weather, but our trips are ready for Tunisia’s sun and breeze! Pack layers. ☁️"
+    },
+    {
+        "question": "are trips wheelchair accessible",
+        "answer": "Many are! Look for ♿ icons on trip pages or ask us for details."
+    },
+    {
+        "question": "what should i pack",
+        "answer": "Essentials: comfy shoes, sunscreen, water bottle. We’ll send a full list post-booking! 🏕"
+    },
+    {
+        "question": "can i bring kids",
+        "answer": "On family-friendly trips, yes! Check age limits for each trip."
+    },
+    {
+        "question": "do you have vegan meal options",
+        "answer": "Absolutely! Note vegan or other dietary needs when booking."
+    },
+    {
+        "question": "are pets allowed",
+        "answer": "Some trips are pet-friendly! Look for 🐶 icons on our site."
+    },
+    {
+        "question": "what's your cancellation policy",
+        "answer": "Most need 14-day notice for partial refunds. See Terms for details."
+    },
+    {
+        "question": "can i change my booking date",
+        "answer": "Often yes! Email support@naturelink.tn with your request."
+    },
+    {
+        "question": "do you gift certificates",
+        "answer": "Yes! Grab one on our ‘Gifts’ page for nature lovers. 🎁"
+    },
+    {
+        "question": "are guides certified",
+        "answer": "All guides are trained in first aid, ecology, and safety. You’re in good hands! ⚖️"
+    },
+    {
+        "question": "what languages do guides speak",
+        "answer": "Most speak English, French, and Arabic. Check trip listings for more."
+    },
+    {
+        "question": "how fit do i need to be",
+        "answer": "Trips range from easy strolls to tough hikes. Check difficulty ratings!"
+    },
+    {
+        "question": "are there age limits",
+        "answer": "Varies. Some trips are 18+, others welcome kids 6+. Check details."
+    },
+    {
+        "question": "can i volunteer on trips",
+        "answer": "Yes! Our ‘Eco-Volunteer’ trips combine travel with conservation. 🌿"
+    },
+    {
+        "question": "do you work with locals",
+        "answer": "We team up with Tunisian communities for authentic, sustainable vibes. 🌴"
+    },
+    {
+        "question": "are trips solo-friendly",
+        "answer": "Totally! Our ‘Solo Explorer’ trips include group activities to connect. 📍"
+    },
+    {
+        "question": "what's your covid policy",
+        "answer": "We follow local guidelines. Flexible rebooking if you test positive pre-trip. 🦠"
+    },
+    {
+        "question": "can i customize a trip",
+        "answer": "Yes! Email custom@naturelink.tn for tailored Tunisian adventures. ⚙️"
+    },
+    {
+        "question": "do you have photography tours",
+        "answer": "Yes! Our ‘Tunisian Snapshots’ trips offer prime photo ops with expert guides. 📸"
+    },
+    {
+        "question": "are there discounts for nonprofits",
+        "answer": "We offer 10% off for nonprofits. Email groups@naturelink.tn to verify. ♿"
+    },
+    {
+        "question": "what's your carbon offset program",
+        "answer": "We plant 5 trees per booking and use eco-friendly transport. Check our Sustainability page! 🌳"
+    },
+    {
+        "question": "can i extend my trip",
+        "answer": "Often! Ask about add-ons when booking or contact support. ⏳"
+    },
+    {
+        "question": "what payment methods do you accept",
+        "answer": "Credit cards, PayPal, and mobile payments. Installments for some trips. 💳"
+    },
+    {
+        "question": "are there hidden fees",
+        "answer": "Nope! All costs (permits, taxes) are upfront during booking. ✅"
+    },
+    {
+        "question": "how do i get a receipt",
+        "answer": "Emailed after payment. Lost it? Email billing@naturelink.tn. 📃"
+    },
+    {
+        "question": "can i book for a large group",
+        "answer": "Groups of 15+ get special rates! Email groups@naturelink.tn. 📅"
+    },
+    {
+        "question": "what's the group size limit",
+        "answer": "Usually 10-12 for guided trips. Private groups can be bigger—ask us! 📍"
+    },
+    {
+        "question": "do you offer corporate retreats",
+        "answer": "Yes! Team-building adventures and eco-workshops. Email corporate@naturelink.tn. 💼"
+    },
+    {
+        "question": "are there single supplements",
+        "answer": "Some trips charge extra for solo rooms. Shared rooms skip the fee. 🏡"
+    },
+    {
+        "question": "can i room with a friend",
+        "answer": "Yes! Note roommate requests at booking or email us. 👥"
+    },
+    {
+        "question": "what's the food like",
+        "answer": "Locally sourced Tunisian dishes! Dietary needs handled with notice. 🍽"
+    },
+    {
+        "question": "is alcohol included",
+        "answer": "Not usually, but some premium trips include local wine tastings. 🍺"
+    },
+    {
+        "question": "can i drink the water",
+        "answer": "Safe in cities. Remote trips provide filtered water—we’ll advise! 🚰"
+    },
+    {
+        "question": "what vaccinations do i need",
+        "answer": "Depends on your trip. Check with your doctor and who.int/travel-advice. 💉"
+    },
+    {
+        "question": "do i need a visa",
+        "answer": "Possibly! We’ll email visa info after booking. 📜"
+    },
+    {
+        "question": "what's the best season to visit",
+        "answer": "Spring and fall are ideal. Check trip pages for best months! ☀️"
+    },
+    {
+        "question": "are mosquitoes bad",
+        "answer": "In some areas, yes. We provide repellent and nets where needed. 🦟"
+    },
+    {
+        "question": "what wildlife will i see",
+        "answer": "Expect birds, small mammals, and maybe desert foxes—safely from a distance! 🐻"
+    },
+    {
+        "question": "are there dangerous animals",
+        "answer": "Guides handle rare encounters. Follow their safety tips. ⚠️"
+    },
+    {
+        "question": "can i swim on trips",
+        "answer": "Many include safe swim spots! Check for 🏊 icons in trip details."
+    },
+    {
+        "question": "what if i get injured",
+        "answer": "Guides are first-aid certified. Insurance is recommended for remote trips. 🩺"
+    },
+    {
+        "question": "do you have wi-fi",
+        "answer": "Most lodges have it, but expect limited signal in remote areas. 📡"
+    },
+    {
+        "question": "can i charge my phone",
+        "answer": "Yes, but bring a power bank for off-grid trips. 🔌"
+    },
+    {
+        "question": "what if i'm late",
+        "answer": "Contact your guide ASAP! We’ll try to accommodate, but groups may leave on time. ⏰"
+    },
+    {
+        "question": "can i meet the group early",
+        "answer": "Ask us! We can arrange pre-trip meetups in starting cities. 📅"
+    },
+    {
+        "question": "what's not included",
+        "answer": "Flights, personal gear, and tips. Check your trip’s ‘Exclusions’ list. 📋"
+    },
+    {
+        "question": "how much should i tip",
+        "answer": "10-20 TND/day for guides is typical if you’re happy. 💸"
+    },
+    {
+        "question": "are there atms",
+        "answer": "In cities, yes. Remote areas may not—bring some cash (TND). 💵"
+    },
+    {
+        "question": "what's the culture like",
+        "answer": "We’ll brief you! Respect local customs like modest dress in some areas. 👴"
+    },
+    {
+        "question": "can i haggle prices",
+        "answer": "Not with us! But guides can share tips for market bargaining. 💰"
+    },
+    {
+        "question": "what if i don't speak the language",
+        "answer": "Guides translate basics! We provide phrase sheets for greetings. 🌍"
+    },
+    {
+        "question": "are there religious restrictions",
+        "answer": "Some sites need modest dress or silence. We’ll let you know. 🕊"
+    },
+    {
+        "question": "can i bring my own gear",
+        "answer": "Yes, if it’s safe. Rentals are available too. 🏕"
+    },
+    {
+        "question": "do you rent equipment",
+        "answer": "Tents, backpacks, and more can be rented. Add them at booking! ⛺"
+    },
+    {
+        "question": "what if my gear breaks",
+        "answer": "Guides have repair kits. We’ve got backups for emergencies. 🔧"
+    },
+    {
+        "question": "are there luggage limits",
+        "answer": "Usually 1 checked bag + 1 daypack. Check your trip details. 📦"
+    },
+    {
+        "question": "can i leave luggage somewhere",
+        "answer": "Many lodges offer storage for extra bags. Ask us! 🧳"
+    },
+    {
+        "question": "what if i forget something",
+        "answer": "Guides carry basics. Use our packing list to prep! 📃"
+    },
+    {
+        "question": "can i buy supplies there",
+        "answer": "In towns, yes. Remote areas have limited shops—pack essentials! 🏬"
+    },
+    {
+        "question": "what's the emergency contact",
+        "answer": "Call +216 71 123 456 (24/7) or tell your guide immediately. 🚨"
+    },
+    {
+        "question": "are there medical facilities",
+        "answer": "Cities have hospitals; remote areas have basic clinics. Insurance is key. 🏥"
+    },
+    {
+        "question": "what if there's a storm",
+        "answer": "We monitor weather. Trips may shift for safety. ⛈"
+    },
+    {
+        "question": "can i get a refund for bad weather",
+        "answer": "Only if we cancel. We adapt plans when possible. ☁️"
+    },
+    {
+        "question": "what's the altitude like",
+        "answer": "Some trips hit 2,000m. We advise hydration and acclimatization. ⛰"
+    },
+    {
+        "question": "are there bugs",
+        "answer": "In nature, yes! We provide nets/spray where needed. 🦟"
+    },
+    {
+        "question": "is the water safe to drink",
+        "answer": "City water is usually fine. Remote trips include filtered water. 🚰"
+    },
+    {
+        "question": "can i purify my own water",
+        "answer": "Yes! Bring filters/tablets. Guides carry purification tools too. ♻️"
+    },
+    {
+        "question": "what about snakes",
+        "answer": "Rare. Guides know habitats and safety protocols. 🐍"
+    },
+    {
+        "question": "are there leeches",
+        "answer": "Not common in Tunisia. You’re good! 👍"
+    },
+    {
+        "question": "what if i'm scared of heights",
+        "answer": "Many trips avoid high cliffs. Ask for low-elevation options! 🙅"
+    },
+    {
+        "question": "can i skip a hike day",
+        "answer": "Sometimes! Chill at the lodge if needed—just tell your guide. 🏠"
+    },
+    {
+        "question": "are there restrooms",
+        "answer": "Lodges have toilets; backcountry trips use portable setups. 🚻"
+    },
+    {
+        "question": "what if i get lost",
+        "answer": "Stay put! Guides track groups and will find you. Whistle helps. 🔔"
+    },
+    {
+        "question": "can i bring a drone",
+        "answer": "Some areas ban drones. Check with us and local laws first. 📹"
+    },
+    {
+        "question": "are fires allowed",
+        "answer": "Only in designated spots. Guides handle fire safety. 🔥"
+    },
+    {
+        "question": "can i forage for food",
+        "answer": "Guides point out safe edibles—never eat unknown plants! 🌿"
+    },
+    {
+        "question": "what about bears",
+        "answer": "No bears in Tunisia! You’re safe from big critters. 😊"
+    },
+    {
+        "question": "are there mountain lions",
+        "answer": "Nope! Tunisia’s wildlife is chill—think small mammals. 🐆"
+    },
+    {
+        "question": "what if i see a moose",
+        "answer": "No moose here! You might spot deer—keep your distance. 🦌"
+    },
+    {
+        "question": "are there wolves",
+        "answer": "Super rare. You might hear jackals at night! 🐺"
+    },
+    {
+        "question": "can i pet wildlife",
+        "answer": "Never! Observe animals safely from afar. ⛔"
+    },
+    {
+        "question": "what if i'm allergic to bees",
+        "answer": "Bring your EpiPen and tell your guide. We avoid hives. 🐝"
+    },
+    {
+        "question": "are there ticks",
+        "answer": "Possible in forests. Wear treated clothes and check daily. 🕷"
+    }
+]
