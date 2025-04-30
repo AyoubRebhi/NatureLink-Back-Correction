@@ -13,6 +13,8 @@ public class FlaskStarter {
     private Process chatbotApiProcess;
     private Process imageGenApiProcess;
 
+    private Process itineraryApiProcess;
+
     @PostConstruct
     public void startFlaskServers() {
         try {
@@ -34,6 +36,12 @@ public class FlaskStarter {
             imageGenApiProcess = imageGenApi.start();
             System.out.println("✅ image_gen_api.py started on port 5003");
 
+            ProcessBuilder itineraryApi = new ProcessBuilder("python", "src/main/naturelink-ai/jiji.py");
+            itineraryApi.redirectOutput(ProcessBuilder.Redirect.INHERIT);
+            itineraryApi.redirectError(ProcessBuilder.Redirect.INHERIT);
+            itineraryApiProcess = itineraryApi.start();
+            System.out.println("✅ travel_itinerary_api.py started on port");
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -44,6 +52,7 @@ public class FlaskStarter {
         destroyFlaskProcess(nameApiProcess, "name_api");
         destroyFlaskProcess(chatbotApiProcess, "chatbot_api");
         destroyFlaskProcess(imageGenApiProcess, "image_gen_api");
+        destroyFlaskProcess(itineraryApiProcess, "jiji_api");
     }
 
     private void destroyFlaskProcess(Process process, String name) {

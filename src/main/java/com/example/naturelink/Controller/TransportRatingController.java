@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/ratings")
-@CrossOrigin("*")
+@CrossOrigin(origins = "http://localhost:4200") // Optional: for frontend testing
 public class TransportRatingController {
 
     @Autowired

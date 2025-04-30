@@ -15,7 +15,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/packs")
-@CrossOrigin(origins = "*") // Optional: for frontend testing
+@CrossOrigin(origins = "http://localhost:4200") // Optional: for frontend testing
 public class PackController {
 
     private final IPackService packService;

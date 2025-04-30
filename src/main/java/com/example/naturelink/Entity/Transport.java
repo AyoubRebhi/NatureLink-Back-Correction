@@ -21,6 +21,15 @@ public class Transport {
     private Boolean available;
     private String imgUrl; // New field for Cloudinary image URL
     private String description; // ✅ New field for promotional description
+    private Integer agenceId;  // New field
+
+    public Integer getAgenceId() {
+        return agenceId;
+    }
+
+    public void setAgenceId(Integer agenceId) {
+        this.agenceId = agenceId;
+    }
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
     public Integer getId() {

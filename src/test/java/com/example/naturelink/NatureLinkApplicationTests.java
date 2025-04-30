@@ -7,7 +7,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 class NatureLinkApplicationTests {
 
     //@Test
-    //void contextLoads() {
-    }
+  //  void contextLoads() {
+    //}
+}
 
 

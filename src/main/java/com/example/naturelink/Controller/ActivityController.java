@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 
 
 @RestController
-@CrossOrigin("*") // Optional: allow frontend access
+@CrossOrigin(origins = "http://localhost:4200") // Optional: for frontend testing
 @RequestMapping("/activities")
 public class ActivityController {
 
