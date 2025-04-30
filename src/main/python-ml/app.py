@@ -115,4 +115,4 @@ def get_recommendations():
             conn.close()
 
 if __name__ == '__main__':
-    app.run(port=5007, debug=True)
+    app.run(port=5007, debug=True, use_reloader=False)
