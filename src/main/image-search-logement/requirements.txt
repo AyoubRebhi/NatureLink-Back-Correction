@@ -1,7 +1,0 @@
-flask
-Pillow
-tqdm
-scikit-learn
-numpy
-git+https://github.com/openai/CLIP.git
-torch

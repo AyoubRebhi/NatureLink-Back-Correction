@@ -6,10 +6,13 @@ import torch
 
 class ActivityRecommender:
     def __init__(self):
-        # Load a pre-trained BERT model (using SentenceTransformers for simplicity)
-        self.model = SentenceTransformer('all-MiniLM-L6-v2')  # Lightweight but effective model
-        self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
-        self.model = self.model.to(self.device)
+            self.model = SentenceTransformer('all-MiniLM-L6-v2')
+            self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
+            self.model = self.model.to(self.device)
+            if self.device == 'cuda':
+                self.model = self.model.half()  # Use float16 on GPU
+            else:
+                self.model = self.model.to(dtype=torch.float16)
 
     def recommend_from_list(self, user_input, activity_list, top_n=3):
         # Convert to DataFrame

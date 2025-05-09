@@ -25,7 +25,6 @@ public class PackService implements IPackService {
 
     @Override
     @Transactional
-
     public List<PackDTO> getAllPacks() {
         List<Pack> packs = packRepository.findAll();
 
@@ -35,7 +34,10 @@ public class PackService implements IPackService {
             dto.setPrix(pack.getPrix());
             dto.setDescription(pack.getDescription());
             dto.setId(pack.getId());
-            dto.setUserId(Long.valueOf(pack.getUser() != null ? pack.getUser().getId() : null));
+            // Safely handle null User and null User ID
+            dto.setUserId(pack.getUser() != null && pack.getUser().getId() != null
+                    ? pack.getUser().getId().longValue()
+                    : null);
 
             dto.setLogements(pack.getLogements().stream().map(Logement::getId).map(Long::valueOf).collect(Collectors.toList()));
             dto.setTransports(pack.getTransports().stream().map(Transport::getId).map(Long::valueOf).collect(Collectors.toList()));
@@ -50,29 +52,41 @@ public class PackService implements IPackService {
             return dto;
         }).collect(Collectors.toList());
     }
-
     @Override
     @Transactional
     public PackDTO getPackById(Long id) {
+        // Validate input ID
+        if (id == null) {
+            throw new IllegalArgumentException("Pack ID cannot be null");
+        }
+
+        // Fetch pack from repository
         Pack pack = packRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Pack not found with id: " + id));
+
+        // Map to DTO
         PackDTO dto = new PackDTO();
-        dto.setId(pack.getId());
         dto.setNom(pack.getNom());
         dto.setPrix(pack.getPrix());
         dto.setDescription(pack.getDescription());
-        dto.setUserId(Long.valueOf(pack.getUser() != null ? pack.getUser().getId() : null));
+        dto.setId(pack.getId());
+        // Safely handle null User and null User ID (matching getAllPacks)
+        dto.setUserId(pack.getUser() != null && pack.getUser().getId() != null
+                ? pack.getUser().getId().longValue()
+                : null);
+
         dto.setLogements(pack.getLogements().stream().map(Logement::getId).map(Long::valueOf).collect(Collectors.toList()));
         dto.setTransports(pack.getTransports().stream().map(Transport::getId).map(Long::valueOf).collect(Collectors.toList()));
         dto.setActivities(pack.getActivities().stream().map(Activity::getId).map(Long::valueOf).collect(Collectors.toList()));
         dto.setRestaurants(pack.getRestaurants().stream().map(Restaurant::getId).map(Long::valueOf).collect(Collectors.toList()));
         dto.setEvenements(pack.getEvenements().stream().map(Event::getId).map(Long::valueOf).collect(Collectors.toList()));
 
+        // Calculate average rating for the pack
         double avgRating = ratingService.getAverageRatingForPack(pack.getId());
-        dto.setAverageRating(avgRating);
+        dto.setAverageRating(avgRating);  // Set the average rating for the pack
+
         return dto;
     }
-
         public Pack addPack(PackDTO dto) {
             if (dto == null) {
                 throw new IllegalArgumentException("PackDTO cannot be null");

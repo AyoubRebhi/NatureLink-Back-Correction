@@ -70,6 +70,7 @@ public class ActivityController {
         }
     }
 
+    
     // Get all activities
     @GetMapping
     public ResponseEntity<List<Activity>> getAllActivities() {
@@ -128,7 +129,6 @@ public class ActivityController {
         }
     }
 
-    //Recommandation Controller
     @PostMapping("/recommend")
     public ResponseEntity<?> recommendActivities(@RequestBody RecommendationRequest request) {
         try {
@@ -153,58 +153,60 @@ public class ActivityController {
                     .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                     .build();
 
-            // Convert DTOs to proper format for the Python service
+            // Convert activities to format expected by Python service
             List<Map<String, Object>> activityMaps = request.getActivities().stream()
-                    .map(dto -> {
+                    .map(activity -> {
                         Map<String, Object> map = new HashMap<>();
-                        map.put("name", dto.getName());
-                        map.put("description", dto.getDescription());
-                        map.put("type", dto.getType());
-                        map.put("mood", String.join(",", dto.getMood() != null ? dto.getMood() : List.of()));
-                        map.put("tags", String.join(",", dto.getTags() != null ? dto.getTags() : List.of()));
-                        map.put("imageUrls", dto.getImageUrls() != null ? dto.getImageUrls() : List.of());
+                        map.put("id", activity.getId());
+                        map.put("name", activity.getName());
+                        map.put("description", activity.getDescription());
+                        map.put("type", activity.getType());
+                        map.put("mood", activity.getMood() != null ? activity.getMood() : List.of());
+                        map.put("tags", activity.getTags() != null ? activity.getTags() : List.of());
+                        map.put("imageUrls", activity.getImageUrls() != null ? activity.getImageUrls() : List.of());
+                        map.put("requiredEquipment", activity.getRequiredEquipment() != null ?
+                                activity.getRequiredEquipment() : List.of());
                         return map;
                     })
                     .collect(Collectors.toList());
 
-            // Call Python recommendation service with timeout
-            List<Map<String, Object>> recommended = client.post()
+            Map<String, Object> payload = Map.of(
+                    "mood_input", request.getMood_input(),
+                    "activities", activityMaps
+            );
+
+            // Log the outgoing payload for debugging
+            ObjectMapper mapper = new ObjectMapper();
+            System.out.println("Sending to Python service: " + mapper.writeValueAsString(payload));
+
+            // Call Python recommendation service
+            Map<String, Object> pythonResponse = client.post()
                     .uri("/recommend")
-                    .bodyValue(Map.of(
-                            "mood_input", request.getMood_input(),
-                            "activities", activityMaps
-                    ))
+                    .bodyValue(payload)
                     .retrieve()
-                    .onStatus(status -> status.isError(), response -> {
-                        return response.bodyToMono(String.class)
-                                .flatMap(error -> Mono.error(new RuntimeException(
-                                        "Recommendation service error: " + error
-                                )));
-                    })
-                    .bodyToMono(new ParameterizedTypeReference<List<Map<String, Object>>>() {})
-                    .timeout(Duration.ofSeconds(10)) // Add timeout
+                    .bodyToMono(new ParameterizedTypeReference<Map<String, Object>>() {})
+                    .timeout(Duration.ofSeconds(30))
                     .block();
 
-            // Enrich with images from database
-            Map<String, List<String>> nameToImages = activityService.getAllActivities().stream()
-                    .collect(Collectors.toMap(
-                            Activity::getName,
-                            a -> a.getImageUrls() != null ? a.getImageUrls() : List.of()
-                    ));
+            // Log the incoming response for debugging
+            System.out.println("Received from Python service: " + mapper.writeValueAsString(pythonResponse));
 
-            // Process recommendations
-            List<Map<String, Object>> enrichedRecommendations = recommended.stream()
+            // Verify response structure
+            if (pythonResponse == null || !"success".equals(pythonResponse.get("status"))) {
+                String error = pythonResponse != null ?
+                        (String) pythonResponse.getOrDefault("error", "Unknown error") : "Null response";
+                throw new RuntimeException("Python service error: " + error);
+            }
+
+            // Extract recommendations
+            List<Map<String, Object>> recommendations = (List<Map<String, Object>>) pythonResponse.get("recommendations");
+            String model = (String) pythonResponse.getOrDefault("model", "BERT");
+
+            // Enrich recommendations with additional data if needed
+            List<Map<String, Object>> enrichedRecommendations = recommendations.stream()
                     .map(rec -> {
                         Map<String, Object> enriched = new HashMap<>(rec);
-                        String name = (String) rec.get("name");
-                        enriched.put("imageUrls", nameToImages.getOrDefault(name, List.of()));
-
-                        // Add original ID if available
-                        request.getActivities().stream()
-                                .filter(dto -> dto.getName().equals(name))
-                                .findFirst()
-                                .ifPresent(dto -> enriched.put("id", dto.getId()));
-
+                        // Add any additional enrichment here if needed
                         return enriched;
                     })
                     .collect(Collectors.toList());
@@ -212,20 +214,24 @@ public class ActivityController {
             return ResponseEntity.ok(Map.of(
                     "recommendations", enrichedRecommendations,
                     "status", "success",
-                    "model", "BERT" // Indicate which model was used
+                    "model", model
             ));
 
         } catch (WebClientResponseException e) {
+            System.err.println("WebClient error: " + e.getResponseBodyAsString());
             return ResponseEntity.status(e.getStatusCode()).body(Map.of(
                     "error", "Recommendation service error",
                     "details", e.getResponseBodyAsString(),
                     "status", e.getStatusCode().value()
             ));
-        } catch (RuntimeException e) {
+        } catch (Exception e) {
+            System.err.println("Recommendation error: " + e.getMessage());
+            e.printStackTrace();
             return ResponseEntity.internalServerError().body(Map.of(
                     "error", "Failed to get recommendations",
                     "details", e.getMessage(),
                     "status", HttpStatus.INTERNAL_SERVER_ERROR.value()
             ));
         }
-    }}
+    }
+  }

@@ -29,7 +29,22 @@ def recommend():
 
         logger.info(f"Received recommendation request for mood: {mood_input}")
 
-        recommendations = recommender.recommend_from_list(mood_input, activity_data)
+        # Convert the activities to the format your recommender expects
+        formatted_activities = []
+        for activity in activity_data:
+            formatted = {
+                "id": activity.get("id"),
+                "name": activity.get("name", ""),
+                "description": activity.get("description", ""),
+                "type": activity.get("type", ""),
+                "mood": activity.get("mood", []),
+                "tags": activity.get("tags", []),
+                "imageUrls": activity.get("imageUrls", []),
+                "requiredEquipment": activity.get("requiredEquipment", [])
+            }
+            formatted_activities.append(formatted)
+
+        recommendations = recommender.recommend_from_list(mood_input, formatted_activities)
         return jsonify({
             "recommendations": recommendations,
             "status": "success"
@@ -37,9 +52,8 @@ def recommend():
     except Exception as e:
         logger.error(f"Error in recommendation: {str(e)}", exc_info=True)
         return jsonify({
-            "error": "An error occurred during recommendation",
+            "error": "Failed to process recommendation",
             "details": str(e)
         }), 500
-
 if __name__ == '__main__':
     app.run(port=5005, debug=True)

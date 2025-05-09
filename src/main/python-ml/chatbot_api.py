@@ -71,7 +71,7 @@ def extract_budget(text):
 
 # Fetch live pack data
 def get_live_packs():
-    conn = pymysql.connect(host="localhost", user="root", password="0000", database="naturelink")
+    conn = pymysql.connect(host="localhost", user="root", password="1234", database="naturelink")
     df = pd.read_sql("SELECT id, nom, description, prix FROM pack", conn)
     conn.close()
     df["full_text"] = (df["nom"] + " " + df["description"]).apply(normalize)

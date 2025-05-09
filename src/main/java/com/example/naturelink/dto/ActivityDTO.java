@@ -1,7 +1,14 @@
 package com.example.naturelink.dto;
 
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonSetter;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ActivityDTO {
     private Integer id;
     private String name;
@@ -99,13 +106,29 @@ public class ActivityDTO {
         this.tags = tags;
     }
 
-    public List<String> getRequiredEquipment() {
-        return requiredEquipment;
+    @JsonSetter("requiredEquipment")
+    public void setRequiredEquipment(Object equipment) {
+        if (equipment == null) {
+            this.requiredEquipment = List.of();
+        } else if (equipment instanceof String) {
+            this.requiredEquipment = Arrays.stream(((String) equipment).split(","))
+                    .map(String::trim)
+                    .filter(s -> !s.isEmpty())
+                    .collect(Collectors.toList());
+        } else if (equipment instanceof List) {
+            // Safe type conversion
+            this.requiredEquipment = ((List<?>) equipment).stream()
+                    .map(Object::toString)
+                    .collect(Collectors.toList());
+        } else {
+            this.requiredEquipment = List.of();
+        }
     }
 
-    public void setRequiredEquipment(List<String> requiredEquipment) {
-        this.requiredEquipment = requiredEquipment;
+    public List<String> getRequiredEquipment() {
+        return requiredEquipment != null ? requiredEquipment : List.of();
     }
+
 
     public Integer getId() {
         return id;

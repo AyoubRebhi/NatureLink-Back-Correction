@@ -21,4 +21,7 @@ public interface PackRepository extends JpaRepository<Pack, Long> {
     Optional<Pack> findByIdWithTransports(@Param("id") Long id);
 
     @Query("SELECT p FROM Pack p LEFT JOIN FETCH p.activities WHERE p.id = :id")
-    Optional<Pack> findByIdWithActivities(@Param("id") Long id);}
+    Optional<Pack> findByIdWithActivities(@Param("id") Long id);
+
+}
+

@@ -16,7 +16,7 @@ HEADERS = {
 }
 
 # Correct path to Spring project's static folder
-SPRING_STATIC_PATH = r"C:\Users\Aziz\Desktop\NatureLink-Back-Aziz\static"
+SPRING_STATIC_PATH = r"C:\Users\Mr.Saxobeat\Desktop\NatureLink-Back-Correction-30-4-25\static"
 os.makedirs(SPRING_STATIC_PATH, exist_ok=True)
 
 @app.route("/generate-image", methods=["POST"])
