@@ -72,7 +72,9 @@ public class Pack {
     @JoinTable(
             name = "Pack_Evenement",
             joinColumns = @JoinColumn(name = "pack_id"),
-            inverseJoinColumns = @JoinColumn(name = "evenement_id")
+            inverseJoinColumns = @JoinColumn(name = "evenement_id",
+                    columnDefinition = "INTEGER" // Explicitly match Event.id type
+            )
     )
     private List<Event> evenements = new ArrayList<>();
 

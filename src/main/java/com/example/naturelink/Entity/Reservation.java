@@ -51,7 +51,8 @@ public class Reservation {
 
     @ManyToOne
     @Nullable
-    @JoinColumn(name = "event_id")
+    @JoinColumn(name = "event_id",
+            columnDefinition = "INTEGER")
     private Event eventId;
 
     @ManyToOne
