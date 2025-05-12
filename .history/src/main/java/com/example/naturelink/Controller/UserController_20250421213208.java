@@ -28,7 +28,7 @@ import java.util.Objects;
 import java.util.Optional;
 import org.springframework.util.StringUtils;
 
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/users")
 @RequiredArgsConstructor

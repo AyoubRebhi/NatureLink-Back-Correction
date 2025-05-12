@@ -28,7 +28,7 @@ public class EmailService {
     private static final Logger logger = LoggerFactory.getLogger(EmailService.class);
 
     private final String backendUrl = "http://localhost:9000"; // Hardcoded backend URL
-    private final String frontendUrl = "http://localhost:4200"; // Hardcoded frontend URL
+    private final String frontendUrl = "*/api"; // Hardcoded frontend URL
 
     public void sendApprovalRequestEmail(String adminEmail, String username, String role, String proofDocument, PendingUser pendingUser) {
         // Generate unique approval token
