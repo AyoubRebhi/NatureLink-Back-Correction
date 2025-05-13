@@ -17,7 +17,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/event")
 @RequiredArgsConstructor
-@CrossOrigin(allowCredentials = "true", allowedHeaders = "*")
+@CrossOrigin(allowCredentials = "false", allowedHeaders = "*")
 public class EventController {
     private final EventService eventService;
     private final ExportPDFService exportPDFService;
