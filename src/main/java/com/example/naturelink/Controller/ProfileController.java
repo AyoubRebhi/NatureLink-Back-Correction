@@ -9,7 +9,7 @@ import java.util.Map;
 
 // ProfileController.java
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+ 
 @RequestMapping("/api/profile")
 public class ProfileController {
 

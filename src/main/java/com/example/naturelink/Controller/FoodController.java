@@ -11,7 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")  // Allow CORS for this controller
+   // Allow CORS for this controller
 @RequestMapping("/api/foods")
 @RequiredArgsConstructor
 public class FoodController {

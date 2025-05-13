@@ -27,7 +27,7 @@ import java.util.Objects;
 import java.util.Optional;
 import org.springframework.util.StringUtils;
 
-@CrossOrigin(origins = "http://localhost:4200")
+ 
 @RestController
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
@@ -38,8 +38,9 @@ public class UserController {
     private final UserRepository userRepository;
     private final EmailService emailService;
 
-    private final String frontendUrl = "http://localhost:4200"; // Hardcoded frontend URL
-
+    // ✅ Use injected value instead of hardcoded URL
+    @Value("${frontend.url}")
+    private String frontendUrl;
     // Fetch all users (for admin dashboard)
     @GetMapping("/admin/all")
     @PreAuthorize("hasRole('ADMIN')")

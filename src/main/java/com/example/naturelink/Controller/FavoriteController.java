@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-@CrossOrigin(origins = "http://localhost:4200")  // Enable CORS for this controller
+   // Enable CORS for this controller
 
 @RestController
 @RequestMapping("/favorites")

@@ -22,7 +22,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/menus")
-@CrossOrigin(origins = "http://localhost:4200")
+ 
 public class MenuController {
 
     private static final Logger log = LoggerFactory.getLogger(MenuController.class);

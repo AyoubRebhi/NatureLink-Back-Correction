@@ -18,7 +18,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/monuments")
-@CrossOrigin(origins = "http://localhost:4200")
+ 
 public class MonumentController {
 
     private final IMonumentService monumentService;

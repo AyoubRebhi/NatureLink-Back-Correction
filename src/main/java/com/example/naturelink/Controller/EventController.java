@@ -17,7 +17,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/event")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true", allowedHeaders = "*")
+@CrossOrigin(allowCredentials = "true", allowedHeaders = "*")
 public class EventController {
     private final EventService eventService;
     private final ExportPDFService exportPDFService;
@@ -46,7 +46,7 @@ public class EventController {
         return eventService.getAllEvents();
     }
 
-    @CrossOrigin(origins = "http://localhost:4200")
+     
     @GetMapping("/All/{id}")
     public ResponseEntity<Event> getEventById(@PathVariable int id) {
         Event event = eventService.getEventById(id);

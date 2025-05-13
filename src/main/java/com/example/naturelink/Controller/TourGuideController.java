@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/tourguides")
-@CrossOrigin(origins = "http://localhost:4200") // Optional: for frontend testing
+  // Optional: for frontend testing
 public class TourGuideController {
 
     @Autowired

@@ -16,7 +16,7 @@ import java.nio.file.*;
 import java.time.LocalTime;
 import java.util.*;
 
-@CrossOrigin(origins = "http://localhost:4200")
+ 
 @RestController
 @RequestMapping("/restaurants")
 public class RestaurantController {

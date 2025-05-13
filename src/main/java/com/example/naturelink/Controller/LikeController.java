@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")  // Allow CORS for this controller
+   // Allow CORS for this controller
 
 @RequestMapping("/api/likes")
 public class LikeController {

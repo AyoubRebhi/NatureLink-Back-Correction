@@ -13,7 +13,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")  // Allow CORS for this controller
+   // Allow CORS for this controller
 @RequestMapping("/api/reactions")
 public class ReactionController {
 

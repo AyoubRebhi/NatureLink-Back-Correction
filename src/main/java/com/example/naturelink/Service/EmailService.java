@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -27,9 +28,11 @@ public class EmailService {
 
     private static final Logger logger = LoggerFactory.getLogger(EmailService.class);
 
-    private final String backendUrl = "http://localhost:9000"; // Hardcoded backend URL
-    private final String frontendUrl = "http://localhost:4200"; // Hardcoded frontend URL
-
+// ✅ Use injected value instead of hardcoded URL
+    @Value("${app.base.url}")
+    private String backendUrl;    // ✅ Use injected value instead of hardcoded URL
+    @Value("${frontend.url}")
+    private String frontendUrl;
     public void sendApprovalRequestEmail(String adminEmail, String username, String role, String proofDocument, PendingUser pendingUser) {
         // Generate unique approval token
         String approvalToken = UUID.randomUUID().toString();

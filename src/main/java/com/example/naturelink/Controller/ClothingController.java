@@ -13,7 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/clothing")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:4200")  // Allow CORS for this controller
+   // Allow CORS for this controller
 
 public class ClothingController {
     private final ClothingService clothingService;

@@ -13,7 +13,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/images")
-@CrossOrigin(origins = "http://localhost:4200") // adapte si besoin
+  // adapte si besoin
 public class ImageAnalysisController {
 
     // Remove fake detection and add real face verification
