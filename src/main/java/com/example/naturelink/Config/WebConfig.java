@@ -34,7 +34,6 @@ public class WebConfig implements WebMvcConfigurer {
         // ✅ Apply CORS globally to all endpoints (including static)
         registry.addMapping("/**")
                 .allowedOriginPatterns(frontendUrl)
-                .allowedOrigins("*")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowCredentials(false)
 
