@@ -33,7 +33,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         // ✅ Apply CORS globally to all endpoints (including static)
         registry.addMapping("/**")
-                .allowedOrigins(frontendUrl)
+                .allowedOrigins("*")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*");
     }
