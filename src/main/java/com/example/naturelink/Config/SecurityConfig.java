@@ -41,7 +41,6 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        .requestMatchers("/picloud/auth/**").permitAll()
                         .requestMatchers("/picloud/uploads/**").permitAll()
                         .requestMatchers("/picloud/reservations/**").permitAll()
                         .requestMatchers("/picloud/static/**").permitAll()
@@ -59,24 +58,24 @@ public class SecurityConfig {
                         .requestMatchers("/picloud/api/footprints/**").permitAll()
                         .requestMatchers("/picloud/auth/**").permitAll()
 
-                        .requestMatchers("/picloud/api/visits/**").permitAll()
-                        .requestMatchers("/picloud/api/monuments/**").permitAll()
-                        .requestMatchers("/picloud/api/tourguides").permitAll()
-                        .requestMatchers("/picloud/api/menus/**").permitAll()
-                        .requestMatchers("/picloud/event/**").permitAll()
-                        .requestMatchers("/picloud/api/boutiques/**").permitAll()
-                        .requestMatchers("/picloud/favorites/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/picloud/favorites/add/**").permitAll()
-                        .requestMatchers("/picloud/api/auth/**", "/picloud/api/users/approve").permitAll()
-                        .requestMatchers("/picloud/v3/api-docs/**", "/picloud/swagger-ui/**", "/swagger-ui.html").permitAll()
-                        .requestMatchers("/picloud/api/users/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/picloud/admin/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.POST, "/picloud/api/users/{id}/upload-profile-pic").authenticated()
+                        .requestMatchers("/api/visits/**").permitAll()
+                        .requestMatchers("/api/monuments/**").permitAll()
+                        .requestMatchers("/api/tourguides").permitAll()
+                        .requestMatchers("/api/menus/**").permitAll()
+                        .requestMatchers("/event/**").permitAll()
+                        .requestMatchers("/api/boutiques/**").permitAll()
+                        .requestMatchers("/favorites/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/favorites/add/**").permitAll()
+                        .requestMatchers("/api/auth/**", "/api/users/approve").permitAll()
+                        .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
+                        .requestMatchers("/api/users/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/api/users/{id}/upload-profile-pic").authenticated()
                         // Payment endpoints - choose one of the following options:
                         // Option 1: All payment endpoints require authentication
                         //.requestMatchers("/api/payments/**").authenticated()
                         // Option 2: All payment endpoints are public
-                        .requestMatchers("/picloud/api/payments/**").permitAll()
+                        .requestMatchers("/api/payments/**").permitAll()
                         .anyRequest().authenticated() // ⛔ À la fin !
                 )
                 .sessionManagement(session -> session
