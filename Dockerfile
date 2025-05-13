@@ -1,23 +1,18 @@
-# Use a minimal OpenJDK 17 base image
+# Stage 1: Build the application
+FROM maven:3.9.5-eclipse-temurin-17 AS build
 
+WORKDIR /app
+COPY . .
+
+RUN mvn clean package -DskipTests
+
+# Stage 2: Run the application
 FROM openjdk:17-jdk-slim
-
-
-# Optional: Create a writable volume (useful for temp files)
 
 VOLUME /tmp
 
+# Copy the jar from the build stage
+COPY --from=build /app/target/NatureLink-0.0.1-SNAPSHOT.jar app.jar
 
-# Accept the JAR file path as a build argument
-
-ARG JAR_FILE=target/NatureLink-0.0.1-SNAPSHOT.jar
-
-
-# Copy the JAR into the image
-
-COPY ${JAR_FILE} app.jar
-
-
-# Run the Spring Boot app
-
+# Start the Spring Boot app
 ENTRYPOINT ["java", "-jar", "/app.jar"]

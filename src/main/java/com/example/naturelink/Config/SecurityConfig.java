@@ -57,6 +57,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/likes/**").permitAll()
                         .requestMatchers("/api/destinations").permitAll()
                         .requestMatchers("/api/footprints/**").permitAll()
+                        .requestMatchers("/picloud/auth/**").permitAll()
+
                         .requestMatchers("/api/visits/**").permitAll()
                         .requestMatchers("/api/monuments/**").permitAll()
                         .requestMatchers("/api/tourguides").permitAll()
