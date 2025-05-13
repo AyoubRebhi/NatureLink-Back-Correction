@@ -108,7 +108,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowCredentials(true); // needed for JWT/cookies
+        config.setAllowCredentials(false); // needed for JWT/cookies
         config.setAllowedOriginPatterns(List.of("*")); // wildcard accepted as pattern
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
