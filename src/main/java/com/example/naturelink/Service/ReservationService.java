@@ -225,34 +225,10 @@ public class ReservationService implements IReservationService {
     @Override
     @Transactional
     public ReservationDTO addReservation(ReservationDTO reservationDTO) {
-        long startTime = System.currentTimeMillis();
-
         Reservation reservation = convertToEntity(reservationDTO, null);
-        logger.info("convertToEntity took {} ms", System.currentTimeMillis() - startTime);
-        logger.info("Client names to validate: {}", reservation.getClientNames());
-
-        // Validate names
-        startTime = System.currentTimeMillis();
-        boolean areNamesValid = flaskClientService.areNamesValid(reservation.getClientNames());
-        logger.info("Flask validation result: {}, took {} ms", areNamesValid, System.currentTimeMillis() - startTime);
-
-        if (!areNamesValid) {
-            logger.warn("Invalid client name(s) detected: {}", reservation.getClientNames());
-            throw new RuntimeException("🚫 Invalid client name(s) detected by AI model.");
-        }
-
-        startTime = System.currentTimeMillis();
         Reservation savedReservation = reservationRepository.save(reservation);
-        logger.info("reservationRepository.save took {} ms", System.currentTimeMillis() - startTime);
-
-        startTime = System.currentTimeMillis();
         ReservationDTO savedDTO = convertToDTO(savedReservation);
-        logger.info("convertToDTO took {} ms", System.currentTimeMillis() - startTime);
-
-        startTime = System.currentTimeMillis();
         emailService.sendReservationEmail(savedDTO, "added");
-        logger.info("emailService.sendReservationEmail call took {} ms", System.currentTimeMillis() - startTime);
-
         return savedDTO;
     }
 
